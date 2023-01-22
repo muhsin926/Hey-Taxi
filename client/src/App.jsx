@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import Navbar from './components/Navbar';
+import SignUp from './components/SignUp';
 
 function App() {
   return (
-    <div>App</div>
-  )
+    <div className=''>
+     <Navbar/>
+     <SignUp/>
+    </div>
+  );
 }
 
-export default App
+export default App;
