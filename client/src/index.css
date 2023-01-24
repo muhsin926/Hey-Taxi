@@ -12,8 +12,19 @@
   left: 10%;
 
 }
-/* :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+.btmBorder{
+  padding-bottom: 20px;
+  border-bottom: .3rem solid;
+  
+}
+:root {
+  font-family:'poppins', sans-serif;
+}
+.navBottom{
+  background-color: rgba(0, 0, 0, 0.473);
+}
+ /* :root {
+  font-family:'poppins', sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
@@ -81,6 +92,6 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-} */
+}  */
 
 

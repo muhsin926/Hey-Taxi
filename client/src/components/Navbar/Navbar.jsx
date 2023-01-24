@@ -1,8 +1,8 @@
 import React from "react";
-import { logo,logo1 } from "../assets";
+import { logo,logo1 } from "../../assets";
 const Navbar = () => {
   return (
-    <nav className="flex justify-around w-full absolute text-white shadow-lg py-5 ">
+    <nav className="flex justify-around w-full absolute navBottom text-white shadow-lg py-5 ">
       <div className="flex items-center ">
         <img src={logo1} className="w-44" alt="image" />
       </div>
