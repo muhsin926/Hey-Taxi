@@ -1,5 +1,6 @@
 import React from 'react'
-import { Hero, Navbar } from '../components'
+import { Hero, Navbar, WhyRide } from '../components'
+import HowToRide from '../components/Home/HowToRide'
 
 
 const HomePage = () => {
@@ -7,6 +8,8 @@ const HomePage = () => {
         <>
            <Navbar/>
            <Hero/>
+           <WhyRide/>
+           <HowToRide/>
         </>
     )
 }
