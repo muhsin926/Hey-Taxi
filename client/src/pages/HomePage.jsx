@@ -7,7 +7,7 @@ import HowToRide from '../components/Home/HowToRide'
 const HomePage = () => {
     return (
         <>
-           <Navbar/>
+           <Navbar home={true}/>
            <Hero/>
            <WhyRide/>
            <HowToRide/>

@@ -1,10 +1,11 @@
 import React from 'react'
-import { Signup } from '../components'
+import { Navbar, Signup } from '../components'
 
 const SignupPage = () => {
   return (
     <div>
-        <Signup/>
+      <Navbar />
+      <Signup />
     </div>
   )
 }

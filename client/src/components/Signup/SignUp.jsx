@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
-import { background } from '../../assets';
 
 
 const SignUp = () => {

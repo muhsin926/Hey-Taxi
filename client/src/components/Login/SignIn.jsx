@@ -33,7 +33,7 @@ const SignIn = () => {
         <div className="bg-grey-lighter min-h-screen flex flex-col">
             <div className="container w-96 mx-auto flex-1 flex flex-col items-center justify-center px-2">
                 <div className="bg-white px-7 py-8 rounded shadow-md text-black w-full">
-                    <h1 className="mb-8 text-3xl text-center font-mono">Sign up</h1>
+                    <h1 className="mb-8 text-3xl text-center font-mono">Sign In</h1>
                     <form onSubmit={submitHandler}>
                         <div className='w-full flex justify-around mb-6 '>
                             <button
