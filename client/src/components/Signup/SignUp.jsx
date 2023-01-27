@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
+import url from '../../Api'
+import { Link, useNavigate } from 'react-router-dom'
+
 
 
 const SignUp = () => {
-
+    
+    const navigate = useNavigate()
     const [email, setEmail] = useState('');
     const [emailIsValid, setEmailIsValid] = useState(true);
     const [password, setPassword] = useState('');
@@ -23,21 +27,23 @@ const SignUp = () => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        Axios.post(`http://localhost:3001/signUp`, { email, password, name }).then((response) => {
-            const result = response.data.userSignUpp
-            if (result.Status) {
-                console.log("set")
+        Axios.post(`${url}/api/passenger/register`, { email, password, name }).then((response) => {
+            console.log(response);
+            const result = response.data
+            if (result.status) {
+                document.cookie = `token${result.token}`
+                navigate("/")
             } else {
                 console.log("pling");
-                setErrmessage(result.message)
+                setErrmessage(result.msg)
             }
         })
     }
     return (
-        <section className='flex flex-col justify-center items-center ' >
+        <section className='flex flex-col justify-center items-center hovering' >
             <div className='flex flex-col justify-center items-center  w-1/4 h-1/3 rounded-lg'>
                 <div className="bg-grey-lighter min-h-screen flex flex-col">
-                    <div className="container w-96 mx-auto flex-1 flex flex-col items-center justify-center px-2">
+                    <div className="container w-96 hoverBack mx-auto flex-1 flex flex-col items-center  justify-center px-2">
                         <div className="bg-white px-7 py-8 rounded shadow-md text-black w-full">
                             <h1 className="mb-8 text-3xl text-center font-mono">Sign up</h1>
                             <form onSubmit={submitHandler}>
@@ -76,9 +82,9 @@ const SignUp = () => {
                                     name="password"
                                     placeholder="Password" />
                                 <div className='w-full flex justify-between items-center'>
-                                    <a class="no-underline  text-sky-900 font-medium " href="../login/">
+                                    <Link className="no-underline text-sky-900 font-medium" to="/login">
                                         Already have an account
-                                    </a>
+                                    </Link>
                                     <button
                                         disabled={!formIsValid}
                                         type="submit"

@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import  Axios from 'axios';
+import url from '../../Api'
 
 const SignIn = () => {
+    const navigate = useNavigate()
     const [email, setEmail] = useState('');
     const [emailIsValid, setEmailIsValid] = useState(true);
     const [password, setPassword] = useState('');
@@ -17,13 +21,16 @@ const SignIn = () => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        Axios.post(`http://localhost:3001/signIn`, { email, password }).then((response) => {
-            const result = response.data.userSignUpp
-            if (result.Status) {
-                console.log("set")
+        Axios.post(`${url}/api/passenger/login`, { email, password }).then((response) => {
+            const result = response.data
+            if (result.status) {
+                console.log(result.msg);
+                document.cookie = `token=${result.token}`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                navigate('/')
             } else {
+                console.log(result.error);
                 console.log("pling");
-                setErrmessage(result.message)
+                setErrmessage(result.error)
             }
         })
     }
@@ -62,9 +69,9 @@ const SignIn = () => {
                             name="password"
                             placeholder="Password" />
                         <div className='w-full flex justify-between items-center'>
-                            <a class="no-underline  text-sky-900 font-medium " href="../login/">
+                            <Link class="no-underline  text-sky-900 font-medium " to="/signup">
                                 Create an account
-                            </a>
+                            </Link>
                             <button
                                 disabled={!formIsValid}
                                 type="submit"
