@@ -1,5 +1,5 @@
 import Signup from './Signup/SignUp'
-import Login from './Login/SignIn'
+import Login from './Login/Login'
 import Navbar from './Navbar/Navbar'
 import Button from './Button/Button'
 import Hero from './Home/Hero'

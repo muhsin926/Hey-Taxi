@@ -6,23 +6,27 @@ const whyRide = [
     title: "Get doorstep pickup",
     description:
       "No need to go looking for a taxi on the streets. Find a ride at your doorstep at the tap of a button.",
+    delay: .5  
   },
   {
     icon: locatoinIcon,
     title: "Go where you need to",
     description:
       "Tired of taxi drivers refusing to go to your destination? Request hey taxi to go anywhere around your city.",
+    delay: .7  
   },
   {
     icon: bargeringIcon,
     title: "Skip the bargaining",
     description: "Get low-cost rides with estimated prices displayed upfront.",
+    delay:.9
   },
   {
     icon: safeIcon,
     title: "Ride safer at all times",
     description:
       "With industry-leading safety features like live GPS tracking and 24/7 safety support, you can now ride safer.",
+    delay:.11  
   },
 ];
 

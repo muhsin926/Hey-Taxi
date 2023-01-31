@@ -1,5 +1,5 @@
 import e, { RequestHandler } from "express";
-import passengerModel from "../model/user";
+import passengerModel from "../model/passengerModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import env from "../utility/validateEnv";

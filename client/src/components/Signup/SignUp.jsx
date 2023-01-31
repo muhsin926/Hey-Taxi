@@ -1,95 +1,211 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Axios from 'axios'
 import url from '../../Api'
+import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
+const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const EMAIL_REGEX = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 
 const SignUp = () => {
-    
-    const navigate = useNavigate()
-    const [email, setEmail] = useState('');
-    const [emailIsValid, setEmailIsValid] = useState(true);
-    const [password, setPassword] = useState('');
-    const [passwordIsValid, setPasswordIsValid] = useState(true);
-    const [name, setName] = useState('');
-    const [nameIsValid, setnameIsValid] = useState(true);
-    const [formIsValid, setFormIsValid] = useState(false);
-    const [Errmessage, setErrmessage] = useState("")
-    useEffect(() => { setEmailIsValid(email.includes('@')) }, [email])
-    useEffect(() => { setPasswordIsValid(password.trim().length > 5) }, [password])
-    useEffect(() => { setnameIsValid(name.trim().length > 0) }, [name])
-    useEffect(() => { setFormIsValid(emailIsValid && passwordIsValid && nameIsValid) }, [emailIsValid, passwordIsValid, nameIsValid])
 
-    const emailChangeHandler = (event) => { setEmail(event.target.value); };
-    const passwordChangeHandler = (event) => { setPassword(event.target.value); };
-    const nameChangeHandler = (event) => { setName(event.target.value); };
+    const navigate = useNavigate()
+
+    const userRef = useRef();
+    const errRef = useRef();
+
+    const [userType, setUserType] = useState('passenger')
+
+    const [user, setUser] = useState('');
+    const [validName, setValidName] = useState(false);
+    const [userFocus, setUserFocus] = useState(false);
+
+    const [email, setEmail] = useState('');
+    const [validEmail, setValidEmail] = useState(false);
+
+    const [pwd, setPwd] = useState('');
+    const [validPwd, setValidPwd] = useState(false);
+    const [pwdFocus, setPwdFocus] = useState(false);
+
+    const [matchPwd, setMatchPwd] = useState('');
+    const [validMatch, setValidMatch] = useState(false);
+    const [matchFocus, setMatchFocus] = useState(false);
+
+    const [errMsg, setErrMsg] = useState('');
+
+    useEffect(() => {
+        userRef.current.focus();
+    }, [])
+
+    useEffect(() => {
+        setValidName(USER_REGEX.test(user));
+    }, [user])
+
+    useEffect(() => {
+        setValidEmail(EMAIL_REGEX.test(email));
+    }, [email])
+
+    useEffect(() => {
+        setValidPwd(PWD_REGEX.test(pwd));
+        setValidMatch(pwd === matchPwd);
+    }, [pwd, matchPwd])
+
+    useEffect(() => {
+        setErrMsg('');
+    }, [user, email, pwd, matchPwd])
+
 
     const submitHandler = (event) => {
         event.preventDefault();
-        Axios.post(`${url}/api/passenger/register`, { email, password, name }).then((response) => {
-            console.log(response);
+        const v1 = USER_REGEX.test(user);
+        const v2 = PWD_REGEX.test(pwd);
+        const v3 = EMAIL_REGEX.test(email)
+        if (!v1 || !v2 || !v3) {
+            setErrMsg("Invalid Entry");
+            return;
+        }
+        Axios.post(`${url}/api/passenger/register`, { user, email, pwd }).then((response) => {
             const result = response.data
             if (result.status) {
                 document.cookie = `token${result.token}`
                 navigate("/")
             } else {
-                console.log("pling");
-                setErrmessage(result.msg)
+                setErrMsg(result.msg)
             }
+        }).catch(() => {
+            setErrMsg("No server respond")
+            errRef.current.focus();
         })
     }
     return (
-        <section className='flex flex-col justify-center items-center hovering' >
+        <section className='flex flex-col justify-center items-center bg-slate-100 '>
             <div className='flex flex-col justify-center items-center  w-1/4 h-1/3 rounded-lg'>
                 <div className="bg-grey-lighter min-h-screen flex flex-col">
-                    <div className="container w-96 hoverBack mx-auto flex-1 flex flex-col items-center  justify-center px-2">
-                        <div className="bg-white px-7 py-8 rounded shadow-md text-black w-full">
-                            <h1 className="mb-8 text-3xl text-center font-mono">Sign up</h1>
+                    <div className="container w-96  mx-auto flex-1 flex flex-col items-center  justify-center px-2">
+                        <div className="hoverBack px-7 py-8 rounded-lg  text-black w-full">
+                            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                            <h1 className="mb-6 text-3xl text-center font-mono">Sign up</h1>
                             <form onSubmit={submitHandler}>
-                                <div className='w-full flex justify-around mb-6 '>
-                                    <button
+
+                                <div className='w-full flex justify-around mb-4 '>
+                                    <motion.button
+                                           animate={{ backgroundColor: userType == 'passenger' ? "#000" : "#fff" }}
+                                           transition={{ duration: 0.3 }}
+                                        onClick={()=> setUserType("passenger")}
                                         type="button"
-                                        className="w-1/3 text-center py-2 rounded-lg bg-black text-white  my-1"
-                                    >Passenger</button>
-                                    <button
+                                        className={`${userType == 'passenger' ? 'bg-black  text-white ':  'border-solid border-2 border-yellow-400 text-black'  } text-center text-base rounded-lg my-1`}
+                                    >Passenger</motion.button>
+                                    <motion.button
+                                          animate={{ backgroundColor: userType == 'driver' ? "#000" : "#fff" }}
+                                          transition={{ duration: 0.3 }}
+                                        onClick={()=> setUserType('driver')}
                                         type="button"
-                                        class="w-1/3 text-center py-2 rounded-lg border-solid border-2 border-yellow-400  my-1"
-                                    >Driver</button>
+                                        className={`${userType == 'driver' ? 'bg-black  text-white ':  'border-solid border-2 border-yellow-400' } w-1/3 text-center text-base rounded-lg  my-1`}
+                                    >Driver</motion.button>
                                 </div>
-                                <label htmlFor="name">Name</label>
+
+                                <label htmlFor="name">Name
+                                    <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
+                                    <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />
+                                </label>
                                 <input
-                                    value={name}
-                                    onChange={nameChangeHandler}
                                     type="text"
-                                    class="block border border-grey-light w-full p-3 rounded mb-4"
-                                    name="fullname"
-                                    placeholder="Full Name" />
-                                <label htmlFor="email">Email</label>
+                                    className="block border border-gray-300 w-full p-3 rounded mb-2"
+                                    id="name"
+                                    placeholder='Enter your name'
+                                    ref={userRef}
+                                    autoComplete="off"
+                                    onChange={(e) => setUser(e.target.value)}
+                                    value={user}
+                                    required
+                                    aria-invalid={validName ? "false" : "true"}
+                                    aria-describedby="uidnote"
+                                    onFocus={() => setUserFocus(true)}
+                                    onBlur={() => setUserFocus(false)}
+                                />
+                                <p id="uidnote" className={userFocus && user && !validName ? "instructions" : "offscreen"}>
+                                    <FontAwesomeIcon icon={faInfoCircle} />
+                                    4 to 24 characters.<br />
+                                    Must begin with a letter.<br />
+                                    Letters, numbers, underscores, hyphens allowed.
+                                </p>
+
+                                <label htmlFor="email">
+                                    Email
+                                    <FontAwesomeIcon icon={faCheck} className={validEmail ? "valid" : "hide"} />
+                                    <FontAwesomeIcon icon={faTimes} className={validEmail || !email ? "hide" : "invalid"} />
+                                </label>
                                 <input
                                     type="text"
                                     value={email}
-                                    onChange={emailChangeHandler}
-                                    class="block border border-grey-light w-full p-3 rounded mb-4"
+                                    onChange={e => setEmail(e.target.value)}
+                                    className="block border border-grey-300 w-full p-3 rounded mb-2"
                                     name="email"
-                                    placeholder="Email" />
-                                <label htmlFor="password">Password</label>
+                                    required
+                                    aria-invalid={validName ? "false" : "true"}
+                                    placeholder="Enter valid email" />
+
+                                <label htmlFor="password">
+                                    Password:
+                                    <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
+                                    <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
+                                </label>
                                 <input
-                                    value={password}
-                                    onChange={passwordChangeHandler}
                                     type="password"
-                                    class="block border border-grey-light w-full p-3 rounded mb-4"
-                                    name="password"
-                                    placeholder="Password" />
-                                <div className='w-full flex justify-between items-center'>
-                                    <Link className="no-underline text-sky-900 font-medium" to="/login">
+                                    className="block border border-grey-300 w-full p-3 rounded mb-2"
+                                    id="password"
+                                    placeholder='Enter password'
+                                    onChange={(e) => setPwd(e.target.value)}
+                                    value={pwd}
+                                    required
+                                    aria-invalid={validPwd ? "false" : "true"}
+                                    aria-describedby="pwdnote"
+                                    onFocus={() => setPwdFocus(true)}
+                                    onBlur={() => setPwdFocus(false)}
+                                />
+                                <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
+                                    <FontAwesomeIcon icon={faInfoCircle} />
+                                    8 to 24 characters.<br />
+                                    Must include uppercase and lowercase letters, a number and a special character.<br />
+                                    Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+                                </p>
+
+                                <label htmlFor="confirm_pwd">
+                                    Confirm Password:
+                                    <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
+                                    <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
+                                </label>
+                                <input
+                                    type="password"
+                                    className="block border border-grey-300 w-full p-3 rounded mb-2"
+                                    id="confirm_pwd"
+                                    onChange={(e) => setMatchPwd(e.target.value)}
+                                    value={matchPwd}
+                                    required
+                                    aria-invalid={validMatch ? "false" : "true"}
+                                    aria-describedby="confirmnote"
+                                    onFocus={() => setMatchFocus(true)}
+                                    onBlur={() => setMatchFocus(false)}
+                                />
+                                <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
+                                    <FontAwesomeIcon icon={faInfoCircle} />
+                                    Must match the first password input field.
+                                </p>
+
+
+                                <div className='w-full items-center'>
+                                    <button
+                                        disabled={!validName || !validEmail || !validPwd || !validMatch ? false : false}
+                                        type="submit"
+                                        className=" text-center w-full  rounded bg-yellow-400  my-1 text-lg font-semibold"
+                                    >Sign Up</button>
+                                    <Link className="text-sky-900 font-medium" to="/login">
                                         Already have an account
                                     </Link>
-                                    <button
-                                        disabled={!formIsValid}
-                                        type="submit"
-                                        class="w-1/3 text-center py-2 rounded bg-yellow-400  my-1 font-semibold"
-                                    >Next</button>
                                 </div>
                             </form>
                         </div>

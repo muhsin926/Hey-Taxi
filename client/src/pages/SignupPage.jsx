@@ -3,10 +3,10 @@ import { Navbar, Signup } from '../components'
 
 const SignupPage = () => {
   return (
-    <div>
+    <>
       <Navbar />
       <Signup />
-    </div>
+    </>
   )
 }
 

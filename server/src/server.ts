@@ -2,7 +2,7 @@ import "dotenv/config";
 import env from "./utility/validateEnv";
 import express from "express";
 import serv from "./config/config";
-import passRouter from "./router/passenger";
+import passRouter from "./router/passengerRouter";
 import  cors from "cors"
 const app = express();
 
