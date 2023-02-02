@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Axios from 'axios';
-import url from '../../api/Api'
+import url from '../../Api'
 
 const Login = () => {
     const navigate = useNavigate()

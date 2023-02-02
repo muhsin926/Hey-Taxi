@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Axios from 'axios'
-import url from '../../api/Api'
+import url from '../../Api'
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from 'react-router-dom'
@@ -11,7 +11,7 @@ const EMAIL_REGEX = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 
-const SignUp = () => {
+const Signup = () => {
 
     const navigate = useNavigate()
 
@@ -198,4 +198,4 @@ const SignUp = () => {
     )
 }
 
-export default SignUp
+export default Signup
