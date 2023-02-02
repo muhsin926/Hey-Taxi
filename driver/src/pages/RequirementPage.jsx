@@ -1,6 +1,5 @@
 import React from 'react'
-import { Navbar } from '../../../client/src/components'
-import Requirements from '../../components/Driver/Requirements/Requirements'
+import { Navbar, Requirements } from '../components'
 
 const RequirementPage = () => {
   return (

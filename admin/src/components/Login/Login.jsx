@@ -18,19 +18,19 @@ const Login = () => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        Axios.post(`${url}/api/driver/login`, { email, password }).then((response) => {
+        Axios.post(`${url}/api/passenger/login`, { email, password }).then((response) => {
             const result = response.data
-            console.log(result);
             if (result.status) {
                 localStorage.setItem('token', JSON.stringify(result.token));
                 navigate('/')
             } else {
-                setErrmessage(result.msg)
+                console.log(result.error);
+                setErrmessage(result.error)
             }
-        }).catch((error) => setErrmessage(error.message))
+        }).catch(() => setErrmessage("Server not found"))
     }
     return (
-        <section className='flex flex-col h-screen justify-center items-center bg-slate-100 ' >
+        <section className='flex flex-col h-screen justify-center items-center ' >
                     <div className="container w-96 mx-auto flex-1 flex flex-col items-center justify-center px-2">
                         <div className="px-7 hoverBack py-8 rounded  text-black w-full">
                             <h1 className="mb-8 text-3xl text-center font-mono">Sign In</h1>
@@ -53,9 +53,6 @@ const Login = () => {
                                     name="password"
                                     placeholder="Password" />
                                 <div className='w-full flex justify-between items-center'>
-                                    <Link className="no-underline  text-sky-900 font-medium " to="/signup">
-                                        Create an account
-                                    </Link>
                                     <button
                                        disabled={!formIsValid}
                                         type="submit"

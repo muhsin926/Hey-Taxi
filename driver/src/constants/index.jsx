@@ -1,3 +1,5 @@
+import { license, RC, insurance, permit } from "../assets";
+
 // Driver Requirements Steps:
 const requirements = [
     {
@@ -24,7 +26,7 @@ const requirements = [
       title: "Take a photo of your Drivig License-Front",
       description:
         "Driving license verification helps to ensure the safety of passengers and the public, and confirms that drivers are legally authorized to operate a vehicle. It also helps the taxi booking app company with local laws and regulations.",
-      img: license ,
+      img: license,
     },
     {
       title: "Take a photo of your Registration Certificate (RC)",
@@ -35,7 +37,7 @@ const requirements = [
     {
       title: "Take a photo of your Vehicle Insurance",
       description: "Proof of vehicle insurance is required to protect both passengers and drivers in the event of an accident. This helps to ensure a safe and secure transportation experience for everyone involved.",
-      img: insuranse
+      img: insurance
     },
     {
       title: "Take a photo of your Vehicle Permit",
@@ -43,3 +45,8 @@ const requirements = [
       img: permit
     }
   ];
+
+  export{
+    requirements,
+    docUplod
+  }

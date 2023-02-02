@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Axios from 'axios'
-import url from '../../Api'
+import url from '../../api/Api'
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from 'react-router-dom'
@@ -67,13 +67,13 @@ const Signup = () => {
             setErrMsg("Invalid Entry");
             return;
         }
-        Axios.post(`${url}/api/passenger/register`, { user, email, pwd }).then((response) => {
+        Axios.post(`${url}/api/driver/register`, { user, email, pwd }).then((response) => {
             const result = response.data
             if (result.status) {
                 document.cookie = `token${result.token}`
-                navigate("/")
+                navigate("/requirements")
             } else {
-                setErrMsg(result.msg)
+                setErrMsg(result.error)
             }
         }).catch(() => {
             setErrMsg("No server respond")
@@ -185,7 +185,7 @@ const Signup = () => {
                                         type="submit"
                                         className=" text-center w-full  rounded bg-yellow-400  my-1 text-lg font-semibold"
                                     >Sign Up</button>
-                                    <Link className="text-sky-900 font-medium" to="/login">
+                                    <Link className="text-sky-900 font-medium" to='/login'>
                                         Already have an account
                                     </Link>
                                 </div>

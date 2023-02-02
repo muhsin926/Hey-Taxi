@@ -1,20 +1,20 @@
-import e, { RequestHandler } from "express";
+import { RequestHandler } from "express";
 import passengerModel from "../model/passengerModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import env from "../utility/validateEnv";
 import { ObjectId } from "mongoose";
 
+
+// Token Generate Function
 const generateToken = (user: { _id: ObjectId; name: string }) => {
   return jwt.sign({ userId: user._id }, env.JWT_SECRET, { expiresIn: "24h" });
 };
 
+// Passenger Registration Controller
 export const register: RequestHandler = async (req, res) => {
   try {
-    console.log(" ethi ");
-
     const { name, email, password, mobile } = req.body;
-
     const passenger = await passengerModel.findOne({ email });
     if (passenger) {
       return res.status(500).send({ error: "Email already taken" });

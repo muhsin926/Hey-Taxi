@@ -1,5 +1,6 @@
 import React from 'react'
-import DocUploader from '../../components/Driver/Requirements/DocUploader'
+import { DocUploader } from '../components'
+
 
 const DocUploaderPage = () => {
   return (

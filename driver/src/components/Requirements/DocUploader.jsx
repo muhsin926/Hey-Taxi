@@ -1,9 +1,8 @@
 import React, { useRef } from 'react'
 import { faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { RC } from '../../../assets';
 import { Link, useLocation } from 'react-router-dom';
-import { docUplod } from '../../../constants';
+import { docUplod } from '../../constants';
 
 
 const DocUploader = () => {

@@ -3,7 +3,8 @@ import env from "./utility/validateEnv";
 import express from "express";
 import serv from "./config/config";
 import passRouter from "./router/passengerRouter";
-import  cors from "cors"
+import driverRouter from "./router/driverRouter";
+import  cors from "cors";
 const app = express();
 
 app.use(express.json())
@@ -16,6 +17,7 @@ app.use(cors())
 // }))
 
 app.use("/api/passenger", passRouter )
+app.use("/api/driver", driverRouter )
 
 
 

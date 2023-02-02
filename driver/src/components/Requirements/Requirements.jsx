@@ -1,8 +1,8 @@
 import React from 'react'
-import { requirements } from '../../../constants'
 import { faFileInvoice, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from 'react-router-dom';
+import { requirements } from '../../constants';
 
 const Requirements = () => {
   return (
