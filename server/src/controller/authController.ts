@@ -13,17 +13,20 @@ const generateToken = (user: { _id: ObjectId; name: string }) => {
 
 // Passenger Registration Controller
 export const register: RequestHandler = async (req, res) => {
+  console.log(req.body);
+
   try {
-    const { name, email, password, mobile } = req.body;
+    const { name, email, password } = req.body;
     const passenger = await passengerModel.findOne({ email });
     if (passenger) {
+      console.log("fdf");
+      
       return res.status(500).send({ error: "Email already taken" });
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
-      new passengerModel({
+      new passengerModel({    
         name,
         email,
-        mobile,
         password: hashedPassword,
       })
         .save()
@@ -36,6 +39,8 @@ export const register: RequestHandler = async (req, res) => {
         .catch((error) => res.status(500).send({ error, status: false }));
     }
   } catch (error) {
+    console.log(error);
+    
     return res.status(500).send(error);
   }
 };
@@ -65,16 +70,22 @@ export const login: RequestHandler = async (req, res) => {
               status: true,
             });
           })
-          .catch(() =>
+          .catch((error) =>{
+            console.log(error);
+            
             res
               .status(400)
               .send({ status: false, error: "Password does not match" })
-          );
+      });
       })
-      .catch(() =>
+      .catch((error) =>{
+        console.log(error);
+        
         res.status(404).send({ status: false, error: "Email not found" })
-      );
+  });
   } catch (error) {
+    console.log(error);
+    
     console.log(error);
   }
 };
