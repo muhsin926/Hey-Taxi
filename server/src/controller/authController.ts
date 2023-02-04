@@ -16,16 +16,16 @@ export const register: RequestHandler = async (req, res) => {
   console.log(req.body);
 
   try {
-    const { name, email, password } = req.body;
+    const { user, email, pwd } = req.body;
     const passenger = await passengerModel.findOne({ email });
     if (passenger) {
       console.log("fdf");
       
-      return res.status(500).send({ error: "Email already taken" });
+      return res.status(200).send({ error: "Email already taken" });
     } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcrypt.hash(pwd, 10);
       new passengerModel({    
-        name,
+        name:user,
         email,
         password: hashedPassword,
       })
@@ -36,7 +36,7 @@ export const register: RequestHandler = async (req, res) => {
             .status(201)
             .send({ msg: "User Register Successfully", status: true ,token});
         })
-        .catch((error) => res.status(500).send({ error, status: false }));
+        .catch((error) => res.status(200).send({ error, status: false }));
     }
   } catch (error) {
     console.log(error);
@@ -49,6 +49,7 @@ export const register: RequestHandler = async (req, res) => {
 
 export const login: RequestHandler = async (req, res) => {
   const { email, password } = req.body;
+  
   try {
     passengerModel
       .findOne({ email })

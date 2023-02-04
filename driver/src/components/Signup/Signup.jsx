@@ -70,7 +70,7 @@ const Signup = () => {
         Axios.post(`${url}/api/driver/register`, { user, email, pwd }).then((response) => {
             const result = response.data
             if (result.status) {
-                document.cookie = `token${result.token}`
+                localStorage.setItem('token', JSON.stringify(result.token));
                 navigate("/requirements")
             } else {
                 setErrMsg(result.error)

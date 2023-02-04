@@ -81,6 +81,7 @@ const SignUp = () => {
         })
     }
     return (
+        
         <section className='flex flex-col justify-center items-center bg-slate-100 '>
             <div className='flex flex-col justify-center items-center  w-1/4 h-1/3 rounded-lg'>
                 <div className="bg-grey-lighter min-h-screen flex flex-col">
