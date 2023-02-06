@@ -6,7 +6,7 @@ const ProtectedRoute = ({children}) => {
     const authenticated = useAuth();
     const navigete = useNavigate()
     if (!authenticated){
-        navigete('login')
+        navigete('/login')
         return
     }
     return children

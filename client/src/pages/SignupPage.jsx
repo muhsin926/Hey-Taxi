@@ -4,7 +4,8 @@ import ProtectedSignRoute from '../protectedRoute/ProtectedSignRoute'
 
 const SignupPage = () => {
   return (
-    <><ProtectedSignRoute>
+    <>
+    <ProtectedSignRoute>
       <Navbar />
       <Signup />
     </ProtectedSignRoute>
