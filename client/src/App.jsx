@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {  Route, Routes } from 'react-router-dom'
-import { HomePage, LoginPage, SignupPage } from './pages';
+import { HomePage, LoginPage, RideBookingPage, SignupPage } from './pages';
 
 
 function App() {
@@ -11,6 +11,7 @@ function App() {
           <Route path='/' exact={true} element={<HomePage />} />
           <Route path='/signup' element={<SignupPage />} />
           <Route path='/login' element={<LoginPage />} />
+          <Route path='/ride' element={<RideBookingPage />} />
         </Routes>
     </div>
   );

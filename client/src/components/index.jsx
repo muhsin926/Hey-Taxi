@@ -4,6 +4,7 @@ import Navbar from './Navbar/Navbar'
 import Button from './Button/Button'
 import Hero from './Home/Hero'
 import WhyRide from './Home/WhyRide'
+import RideBooking from './RideBooking/RideBooking'
 
 export{
     Signup,
@@ -11,5 +12,6 @@ export{
     Navbar,
     Button,
     Hero,
-    WhyRide
+    WhyRide,
+    RideBooking
 }
