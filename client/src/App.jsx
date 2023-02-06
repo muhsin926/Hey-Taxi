@@ -6,7 +6,6 @@ import { HomePage, LoginPage, SignupPage } from './pages';
 function App() {
   return (
     <div>
-
       <Router>
         <Routes>
           <Route path='/' exact={true} element={<HomePage />} />
