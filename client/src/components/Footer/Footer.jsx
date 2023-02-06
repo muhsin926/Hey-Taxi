@@ -1,6 +1,6 @@
 import React from 'react'
 import { logo1 } from '../../assets'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 const Footer = () => {
     return (
@@ -16,13 +16,13 @@ const Footer = () => {
                 </div>
                 <div className='flex flex-col'>
                     <div className="text-2xl">Company</div>
-                    <NavLink className={'mt-5 mb-3'} to={'/'}>About us</NavLink>
-                    <NavLink to={'/'}>Privacy & Policy</NavLink>
+                    <Link className={'mt-5 mb-3'} to='/'>About us</Link>
+                    <Link to='/'>Privacy & Policy</Link>
                 </div>
                 <div className='flex flex-col'>
                     <div className="text-2xl">Service</div>
-                    <NavLink  className={'mt-5 mb-3'} to={'/'}>Ride</NavLink>
-                    <NavLink to={'/'}>Driver</NavLink>
+                    <Link  className={'mt-5 mb-3'} to='/'>Ride</Link>
+                    <Link to='/'>Driver</Link>
                 </div>
             </div>
         </footer>

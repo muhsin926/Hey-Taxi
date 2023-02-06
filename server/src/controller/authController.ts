@@ -13,17 +13,20 @@ const generateToken = (user: { _id: ObjectId; name: string }) => {
 
 // Passenger Registration Controller
 export const register: RequestHandler = async (req, res) => {
+  console.log(req.body);
+
   try {
-    const { name, email, password, mobile } = req.body;
+    const { user, email, pwd } = req.body;
     const passenger = await passengerModel.findOne({ email });
     if (passenger) {
-      return res.status(500).send({ error: "Email already taken" });
+      console.log("fdf");
+      
+      return res.status(200).send({ error: "Email already taken" });
     } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      new passengerModel({
-        name,
+      const hashedPassword = await bcrypt.hash(pwd, 10);
+      new passengerModel({    
+        name:user,
         email,
-        mobile,
         password: hashedPassword,
       })
         .save()
@@ -33,9 +36,11 @@ export const register: RequestHandler = async (req, res) => {
             .status(201)
             .send({ msg: "User Register Successfully", status: true ,token});
         })
-        .catch((error) => res.status(500).send({ error, status: false }));
+        .catch((error) => res.status(200).send({ error, status: false }));
     }
   } catch (error) {
+    console.log(error);
+    
     return res.status(500).send(error);
   }
 };
@@ -44,6 +49,7 @@ export const register: RequestHandler = async (req, res) => {
 
 export const login: RequestHandler = async (req, res) => {
   const { email, password } = req.body;
+  
   try {
     passengerModel
       .findOne({ email })
@@ -65,16 +71,22 @@ export const login: RequestHandler = async (req, res) => {
               status: true,
             });
           })
-          .catch(() =>
+          .catch((error) =>{
+            console.log(error);
+            
             res
               .status(400)
               .send({ status: false, error: "Password does not match" })
-          );
+      });
       })
-      .catch(() =>
+      .catch((error) =>{
+        console.log(error);
+        
         res.status(404).send({ status: false, error: "Email not found" })
-      );
+  });
   } catch (error) {
+    console.log(error);
+    
     console.log(error);
   }
 };
