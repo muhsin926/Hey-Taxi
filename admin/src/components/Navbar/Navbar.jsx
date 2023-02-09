@@ -17,7 +17,7 @@ function classNames(...classes) {
 
 export default function Navbar() {
   return (
-    <Disclosure as="nav" className="bg-black ">
+    <Disclosure as="nav" className="bg-black  ">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -32,7 +32,7 @@ export default function Navbar() {
                 </div>
               <div className="flex flex-1 items-center justify-end sm:items-stretch ">
                 <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
+                  {/* <div className="flex space-x-4">
                     {navigation.map((item) => (
                       <Link
                         key={item.name}
@@ -46,7 +46,7 @@ export default function Navbar() {
                         {item.name}
                       </Link>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="absolute  inset-y-0 right-8 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
