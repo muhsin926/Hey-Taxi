@@ -1,10 +1,12 @@
 import React from 'react'
-import { RideBooking } from '../components'
+import { Footer, Navbar, RideBooking } from '../components'
 
 const RideBookingPage = () => {
   return (
    <>
+   <Navbar/>
    <RideBooking/>
+   <Footer/>
    </>
   )
 }

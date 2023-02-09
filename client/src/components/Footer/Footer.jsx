@@ -1,6 +1,6 @@
 import React from 'react'
 import { logo1 } from '../../assets'
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
     return (

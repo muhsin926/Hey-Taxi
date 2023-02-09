@@ -5,6 +5,7 @@ import Button from './Button/Button'
 import Hero from './Home/Hero'
 import WhyRide from './Home/WhyRide'
 import RideBooking from './RideBooking/RideBooking'
+import Footer from './Footer/Footer'
 
 export{
     Signup,
@@ -13,5 +14,6 @@ export{
     Button,
     Hero,
     WhyRide,
-    RideBooking
+    RideBooking,
+    Footer,
 }
