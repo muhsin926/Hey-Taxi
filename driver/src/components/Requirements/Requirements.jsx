@@ -11,26 +11,26 @@ const Requirements = () => {
         <h1 className='my-8 text-3xl font-bold'>Welcome muhsin</h1>
         <h1 className='text-xl font-medium'>Rmaining steps</h1>
         <p className='text-slate-600 mt-2 mb-4 text-md'>Here's what you need do to set up your account</p>
-        {requirements.map((data,i) => (
+        {requirements.map((data, i) => (
           <>
-          <Link to={{pathname:'/requirements/upload',search: `?param=${i}`}} className='flex flex-row '>
-            <div className='flex items-center mr-6'>
-              <FontAwesomeIcon className='' icon={faFileInvoice} />
-            </div>
-            <div className="flex justify-between w-full">
-              <div className='mt-4 '>
-                <h1 className='text-lg font-medium '>{data.head}</h1>
-                <p>{data.title}</p>
+            <Link to={{ pathname: '/requirements/docUpload', search: `?param=${i}` }} className='flex flex-row '>
+              <div className='flex items-center mr-6'>
+                <FontAwesomeIcon className='' icon={faFileInvoice} />
               </div>
-              <div className='flex items-center  '>
-                <FontAwesomeIcon className='' icon={faChevronRight} />
+              <div className="flex justify-between w-full">
+                <div className='mt-4 '>
+                  <h1 className='text-lg font-medium '>{data.head}</h1>
+                  <p>{data.title}</p>
+                </div>
+                <div className='flex items-center  '>
+                  <FontAwesomeIcon className='' icon={faChevronRight} />
+                </div>
               </div>
+            </Link>
+            <div className='pl-7'>
+              <hr className='mt-4 w-full ' />
             </div>
-          </Link>
-             <div className='pl-7'>
-             <hr className='mt-4 w-full '/>
-             </div>
-              </>
+          </>
         ))}
       </div>
     </section>
