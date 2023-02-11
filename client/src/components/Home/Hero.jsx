@@ -20,7 +20,7 @@ const Hero = () => {
         initial={{ x: "-10vw", opacity: 0 }}
         animate={{ x: 1, opacity: 1 }}
         transition={{ type: "spring", stiffness: 50, delay: 0.4 }}
-        className="mainCard w-96 p-10 bg-white  rounded"
+        className="mainCard xs:w-96 mr-10 xs:mr-0 p-10 bg-white  rounded"
       >
         <motion.div
           initial={{ y: "-10vw", opacity: 0 }}
