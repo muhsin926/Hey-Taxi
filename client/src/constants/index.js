@@ -48,5 +48,4 @@ const howToRide = [
   },
 ];
 
-
 export { whyRide, howToRide };

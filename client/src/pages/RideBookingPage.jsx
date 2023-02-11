@@ -1,12 +1,12 @@
-import React from 'react'
-import { RideBooking } from '../components'
+import React from "react";
+import { RideBooking } from "../components";
 
 const RideBookingPage = () => {
   return (
-   <>
-   <RideBooking/>
-   </>
-  )
-}
+    <>
+      <RideBooking />
+    </>
+  );
+};
 
-export default RideBookingPage
+export default RideBookingPage;
