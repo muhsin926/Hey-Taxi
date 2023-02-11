@@ -22,7 +22,7 @@ const LeafletRouting = () => {
         ],
       },
       routeWhileDragging: false,
-      geocoder: L.control.Geocoder.nominatim(),
+     // geocoder: L.control.Geocoder.nominatim(),
       addWaypoints: true,
       draggbleWaypoint: false,
       fitSelectedRoutes: false,

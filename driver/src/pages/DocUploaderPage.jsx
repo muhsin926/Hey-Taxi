@@ -1,13 +1,12 @@
-import React from 'react'
-import { DocUploader } from '../components'
-
+import React from "react";
+import { DocUploader } from "../components";
 
 const DocUploaderPage = () => {
   return (
     <>
-    <DocUploader/>
+      <DocUploader />
     </>
-  )
-}
+  );
+};
 
-export default DocUploaderPage
+export default DocUploaderPage;

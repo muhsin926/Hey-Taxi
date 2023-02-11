@@ -4,9 +4,9 @@ import useAuth from "../customHooks/useAuth";
 
 const ProtectedRoute = ({ children }) => {
   const authenticated = useAuth();
-  const navigete = useNavigate();
+  const navigate = useNavigate();
   if (!authenticated) {
-    navigete("/login");
+    navigate("/login");
     return;
   }
   return children;

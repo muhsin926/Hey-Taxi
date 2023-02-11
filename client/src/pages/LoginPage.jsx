@@ -4,10 +4,12 @@ import ProtectedSignRoute from "../protectedRoute/ProtectedSignRoute";
 
 const LoginPage = () => {
   return (
-    <div>
-      <Navbar home={false} li={"Sign Up"} />
-      <Login />
-    </div>
+    <>
+      <ProtectedSignRoute>
+        <Navbar home={false} li={"Sign Up"} />
+        <Login />
+      </ProtectedSignRoute>
+    </>
   );
 };
 

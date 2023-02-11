@@ -8,13 +8,11 @@ import ProtectedRoute from "../protectedRoute/ProtectedRoute";
 const HomePage = () => {
   return (
     <>
-      <ProtectedRoute>
         <Navbar />
         <Hero />
         <WhyRide />
         <HowToRide />
         <Footer />
-      </ProtectedRoute>
     </>
   );
 };

@@ -2,8 +2,11 @@ import React from "react";
 import { backgroundVideo } from "../../assets";
 import Button from "../Button/Button";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate()
+  
   return (
     <div className="h-screen">
       <video
@@ -58,12 +61,10 @@ const Hero = () => {
           animate={{ y: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 60, delay: 1 }}
         >
-          <Button
-            stlye={
-              " text-center py-2 px-3 rounded bg-yellow-400  my-1 font-semibold"
-            }
-            title={"Request Now"}
-          />
+          <button
+            className="text-center py-2 px-3 rounded bg-yellow-400  my-1 font-semibold"
+            onClick={() => navigate('/ride')}
+          >Request Now</button>
         </motion.div>
       </motion.div>
     </div>

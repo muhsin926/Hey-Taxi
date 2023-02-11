@@ -1,13 +1,13 @@
-import React from 'react'
-import { Navbar, Requirements } from '../components'
+import React from "react";
+import { Navbar, Requirements } from "../components";
 
 const RequirementPage = () => {
   return (
     <>
-    <Navbar/>
-    <Requirements/>
+      <Navbar />
+      <Requirements />
     </>
-  )
-}
+  );
+};
 
-export default RequirementPage
+export default RequirementPage;

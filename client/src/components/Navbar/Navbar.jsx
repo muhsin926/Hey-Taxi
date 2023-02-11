@@ -5,14 +5,18 @@ import { logo1 } from "../../assets";
 import { Link } from "react-router-dom";
 
 const navigation = [
-  { name: "Home", href: "#", current: true },
-  { name: "Ride", href: "#", current: false },
+  { name: "Home", href: "/", current: true },
+  { name: "Ride", href: "/login", current: false },
   { name: "Drive", href: "#", current: false },
 ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
+const handleSignOut = () => {
+  localStorage.removeItem("token");
+};
 
 export default function Navbar() {
   return (
@@ -106,15 +110,15 @@ export default function Navbar() {
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
-                          <Link
-                            to={"/login"}
+                          <h1
+                            onClick={handleSignOut}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
                             Sign out
-                          </Link>
+                          </h1>
                         )}
                       </Menu.Item>
                     </Menu.Items>
