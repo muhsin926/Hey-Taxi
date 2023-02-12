@@ -6,8 +6,9 @@ import Hero from './Home/Hero'
 import WhyRide from './Home/WhyRide'
 import RideBooking from './RideBooking/RideBooking'
 import Footer from './Footer/Footer'
+import Map from './Map/Map'
 
-export{
+export {
     Signup,
     Login,
     Navbar,
@@ -16,4 +17,5 @@ export{
     WhyRide,
     RideBooking,
     Footer,
+    Map,
 }

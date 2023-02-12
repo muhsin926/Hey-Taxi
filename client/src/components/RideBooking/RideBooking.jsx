@@ -1,117 +1,140 @@
-import React from "react";
-import { useJsApiLoader, GoogleMap, Marker, Autocomplete } from '@react-google-maps/api';
-import { motion } from 'framer-motion'
+import React, { useState } from "react";
+import "mapbox-gl/dist/mapbox-gl.css";
+import mapboxgl from "mapbox-gl";
+import { motion } from "framer-motion";
 import Button from "../Button/Button";
 
+mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
+
 const RideBooking = () => {
+    const [startPoint, setStartPoint] = useState();
+    const [endPoint, setEndPoint] = useState();
+    const [startSuggestion, setStartSuggestion] = useState([]);
+    const [endSuggestion, setEndSuggestion] = useState([]);
 
-    const center = { lat: 48.8584, lng: 2.2945 }
+    const handleStartInput = async (e) => {
+        const quary = e.target.value;
+        if (!quary) {
+            setStartSuggestion([]);
+            return;
+        }
+        const url = `${import.meta.env.VITE_MAPBOX_GEOCODING_URL
+            }/${encodeURIComponent(quary)}
+        .json?access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        setStartSuggestion(data.features.map((f) => f.place_name));
+    };
 
-    const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAP_API_KEY,
-        libraries: ['places'],
-    })
+    const handleStartLocation = (location) => {
+        setStartPoint(location);
+        setStartSuggestion([]);
+    };
 
-    if (!isLoaded) {
-        return <div>Loading</div>
-    }
+    const handleEndInput = async (e) => {
+        const quary = e.target.value;
+        if (!quary) {
+            setEndSuggestion([]);
+            return;
+        }
+        const url = `${import.meta.env.VITE_MAPBOX_GEOCODING_URL
+            }/${encodeURIComponent(quary)}
+        .json?access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        setEndSuggestion(data.features.map((f) => f.place_name));
+    };
+
+    const handleEndLocation = (location) => {
+        setEndPoint(location);
+        setEndSuggestion([]);
+    };
+
     return (
-        <section >
-            <GoogleMap
-                center={center}
-                zoom={13}
-                mapContainerStyle={{ width: '100%', height: '100vh' }}
-                options={{
-                    zoomControl: false,
-                    streetViewControl: false,
-                    mapTypeControl: false,
-                    fullscreenControl: false,
-                }}
-            >
-                <Marker position={center} />
-            </GoogleMap>
-
+        <>
             <motion.div
-                initial={{ x: '-10vw', opacity: 0 }}
+                initial={{ x: "-10vw", opacity: 0 }}
                 animate={{ x: 1, opacity: 1 }}
-                transition={{ type: "spring", stiffness: 50, delay: .4 }}
-
-
-                className='mainCard xs:w-96 p-10 bg-white  rounded'>
+                transition={{ type: "spring", stiffness: 50, delay: 0.4 }}
+                className="mainCard xs:w-96 p-10 bg-white  rounded"
+            >
                 <motion.div
-                    initial={{ y: '-10vw', opacity: 0 }}
+                    initial={{ y: "-10vw", opacity: 0 }}
                     animate={{ y: 1, opacity: 1 }}
-                    transition={{ type: "Tween", stiffness: 1, delay: .6 }}
-                    className='flex justify-around  '>
-                    <h1 className='text-2xl btmBorder'>Ride</h1>
-                    <h1 className='text-2xl'>Drive</h1>
+                    transition={{ type: "spring", stiffness: 60, delay: 0.6 }}
+                    className="flex justify-center align-middle mt-10"
+                >
+                    <h1 className="text-3xl font-semibold">Request a ride now</h1>
                 </motion.div>
-                <motion.div
-                    initial={{ y: '-10vw', opacity: 0 }}
-                    animate={{ y: 1, opacity: 1 }}
-                    transition={{ type: "spring", stiffness: 60, delay: .6 }}
-                    className='flex justify-center align-middle mt-10'>
-                    <h1 className='text-3xl font-semibold'>Request a ride now</h1>
-                </motion.div>
-                <motion.div
-                    initial={{ y: '-10vw', opacity: 0 }}
-                    animate={{ y: 1, opacity: 1 }}
-                    transition={{ type: "spring", stiffness: 60, delay: .9 }}
-                    className='mt-10'>
-                    <Autocomplete>
-                        <input
-                            type="text"
-                            className=" border border-grey bg-slate-200 w-full p-3 rounded mb-4"
-                            placeholder='Enter you start in location' />
-                    </Autocomplete>
-                    <Autocomplete>
 
-                        <input
-                            type="text"
-                            className=" border border-grey bg-slate-200 w-full p-3 rounded mb-4"
-                            placeholder='Enter your destination' />
-                    </Autocomplete>
-                </motion.div>
                 <motion.div
-                    initial={{ y: '-10vw', opacity: 0 }}
+                    initial={{ y: "-10vw", opacity: 0 }}
                     animate={{ y: 1, opacity: 1 }}
-                    transition={{ type: "spring", stiffness: 60, delay: 1 }} >
-                    <Button stlye={" text-center py-2 px-3 rounded bg-yellow-400  my-1 font-semibold"} title={"Request Now"} />
+                    transition={{ type: "spring", stiffness: 60, delay: 0.9 }}
+                    className="mt-10"
+                >
+                    <input
+                        type="text"
+                        className={
+                            "border border-grey bg-slate-200 w-full p-3 mb-4 rounded"
+                        }
+                        placeholder="Enter you start in location"
+                        value={startPoint}
+                        onChange={(e) => setStartPoint(e.target.value)}
+                        onInput={handleStartInput}
+                    />
+                    {startSuggestion.length > 0 && (
+                        <ul className="mb-2 z-10 bg-white border border-gray-400 w-full max-h-48 overflow-y-scroll rounded shadow-md">
+                            {startSuggestion.map((suggestion, index) => (
+                                <li
+                                    key={index}
+                                    onClick={() => handleStartLocation(suggestion)}
+                                    className="cursor-pointer hover:bg-gray-200 p-2 border-b border-gray-400"
+                                >
+                                    {suggestion}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+
+                    <input
+                        type="text"
+                        className=" border border-grey bg-slate-200 w-full p-3 rounded mb-4"
+                        placeholder="Enter your destination"
+                        value={endPoint}
+                        onChange={(e) => setEndPoint(e.target.value)}
+                        onInput={handleEndInput}
+                    />
+                    {endSuggestion.length > 0 && (
+                        <ul className="mb-2 z-10 bg-white border border-gray-400 w-full max-h-48 overflow-y-scroll rounded shadow-md">
+                            {endSuggestion.map((suggestion, index) => (
+                                <li
+                                    key={index}
+                                    onClick={() => handleEndLocation(suggestion)}
+                                    className="cursor-pointer hover:bg-gray-200 p-2 border-b border-gray-400"
+                                >
+                                    {suggestion}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </motion.div>
+
+                <motion.div
+                    initial={{ y: "-10vw", opacity: 0 }}
+                    animate={{ y: 1, opacity: 1 }}
+                    transition={{ type: "spring", stiffness: 60, delay: 1 }}
+                >
+                    <Button
+                        stlye={
+                            " text-center py-2 px-3 rounded bg-yellow-400  my-1 font-semibold"
+                        }
+                        title={"Request Now"}
+                    />
                 </motion.div>
             </motion.div>
-        </section>
+        </>
+    );
+};
 
-    )
-}
-
-export default RideBooking
-
-
-
-// import React from "react";
-// import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-// import "leaflet-control-geocoder/dist/Control.Geocoder.css";
-// import "leaflet-control-geocoder/dist/Control.Geocoder.js";
-// import LeafletRouting from "./leafletRouting";
-
-// const RideBooking = () => {
-//     const position = [51.505, -0.09]
-//     return (
-//         <MapContainer  center={position} zoom={13} scrollWheelZoom={false}>
-//             <TileLayer
-//                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-//                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-//             />
-//             {/* <Marker position={position}>
-//                 <Popup>
-//                     A pretty CSS3 popup. <br /> Easily customizable.
-//                 </Popup>
-//             </Marker> */}
-//             <LeafletRouting/>
-//         </MapContainer>
-//     )
-// }
-
-
-
-// export default RideBooking
+export default RideBooking;
