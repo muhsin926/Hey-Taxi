@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from 'react-router-dom'
 
 
-const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const USER_REGEX = /^[A-z][A-z0-9-_]{2,23}$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
@@ -112,7 +112,7 @@ const SignUp = () => {
                                 />
                                 <p id="uidnote" className={userFocus && user && !validName ? "instructions" : "offscreen"}>
                                     <FontAwesomeIcon icon={faInfoCircle} />
-                                    4 to 24 characters.<br />
+                                    3 to 24 characters.<br />
                                     Must begin with a letter.<br />
                                     Letters, numbers, underscores, hyphens allowed.
                                 </p>

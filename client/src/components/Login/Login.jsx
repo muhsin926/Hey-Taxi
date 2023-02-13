@@ -24,7 +24,6 @@ const Login = () => {
                 localStorage.setItem('token', JSON.stringify(result.token));
                 navigate('/')
             } else {
-                console.log(result.error);
                 setErrmessage(result.error)
             }
         }).catch(() => setErrmessage("Server not found"))
