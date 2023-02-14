@@ -5,9 +5,11 @@ import { logo1 } from "../../assets";
 import { Link } from "react-router-dom";
 
 const navigation = [
-  { name: "Home", href: "/", current: true },
-  { name: "Ride", href: "#", current: false },
-  { name: "Drive", href: "/login", current: false },
+  { name: "Dashboard", href: "/", current: true },
+  { name: "Vehicles", href: "/vehicles", current: false },
+  { name: "Inbox", href: "#", current: false },
+  { name: "Earnings", href: "#", current: false },
+  { name: "Trip Management", href: "#", current: false },
 ];
 
 function classNames(...classes) {
@@ -31,7 +33,7 @@ export default function Navbar() {
                   alt="Hey taxi logo"
                 />
               </div>
-              <div className="flex flex-1 items-center justify-end sm:items-stretch ">
+              {/* <div className="flex flex-1 items-center justify-end sm:items-stretch ">
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
@@ -49,7 +51,7 @@ export default function Navbar() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="absolute  inset-y-0 right-8 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <button
                   type="button"
