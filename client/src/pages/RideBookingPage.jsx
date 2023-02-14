@@ -7,7 +7,6 @@ const RideBookingPage = () => {
    <Navbar/>
    <Map/>
    <RideBooking/>
-   <Footer/>
    </>
   )
 }

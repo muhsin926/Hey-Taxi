@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import { motion } from "framer-motion";
 import Button from "../Button/Button";
+import { LocationContext } from "../../context/LocationContext";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
 const RideBooking = () => {
+    const { setStarting, setDestination } = useContext(LocationContext) 
     const [startPoint, setStartPoint] = useState();
     const [endPoint, setEndPoint] = useState();
     const [startSuggestion, setStartSuggestion] = useState([]);
@@ -27,6 +29,7 @@ const RideBooking = () => {
     };
 
     const handleStartLocation = (location) => {
+        setStarting(location)
         setStartPoint(location);
         setStartSuggestion([]);
     };
@@ -46,6 +49,7 @@ const RideBooking = () => {
     };
 
     const handleEndLocation = (location) => {
+        setDestination(location);
         setEndPoint(location);
         setEndSuggestion([]);
     };
