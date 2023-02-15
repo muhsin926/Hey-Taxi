@@ -8,6 +8,7 @@ export const LocationProvider = ({ children }) => {
   const [startingCoordinates, setStartingCoordinates] = useState();
   const [destinationCoordinates, setDestinationCoordinates] = useState();
   const [distance, setDistance] = useState();
+  const [duration, setDuration] = useState()
 
   const createLocationCoordinate = (locationName, locationType) => {
     return new Promise(async (resolve, reject) => {
@@ -64,6 +65,8 @@ export const LocationProvider = ({ children }) => {
         destinationCoordinates,
         distance,
         setDistance,
+        duration,
+        setDuration
       }}
     >
       {children}

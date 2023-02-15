@@ -7,7 +7,7 @@ import { LocationContext } from '../../context/LocationContext';
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
 const Map = () => {
-    const { startingCoordinates, destinationCoordinates } = useContext(LocationContext)
+    const { startingCoordinates, destinationCoordinates, setDistance, setDuration } = useContext(LocationContext)
     useEffect(() => {
         const map = new mapboxgl.Map({
             container: 'map',
@@ -57,6 +57,24 @@ const Map = () => {
             }
             addBoundsToMap(map, bounds);
         });
+
+        
+    const tripDetails = async () => {
+        const response = await getDirection(
+            startingCoordinates,
+            destinationCoordinates
+        );
+  
+        const data = response.data.waypoints[0].distance;
+        let distance = Math.floor(data);
+        let inSecond = Math.floor(response.data.routes[0].duration);
+        let inMinute =  inSecond/2
+         setDistance(distance);
+        setDuration(inMinute)
+        console.log(distance);
+      };
+  
+      tripDetails();
     }, [startingCoordinates, destinationCoordinates]);
 
     const addToMap = (map, coordinates) => {

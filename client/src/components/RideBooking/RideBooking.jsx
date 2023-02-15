@@ -2,13 +2,14 @@ import React, { useContext, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import { motion } from "framer-motion";
-import Button from "../Button/Button";
 import { LocationContext } from "../../context/LocationContext";
+import Button from "../Button/Button";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
 const RideBooking = () => {
-  const { setStarting, setDestination, distance } = useContext(LocationContext);
+  const { startingCoordinates, destinationCoordinates } = useContext(LocationContext)
+  const { setStarting, setDestination, distance, duration } = useContext(LocationContext);
   const [startPoint, setStartPoint] = useState();
   const [endPoint, setEndPoint] = useState();
   const [startSuggestion, setStartSuggestion] = useState([]);
@@ -20,9 +21,8 @@ const RideBooking = () => {
       setStartSuggestion([]);
       return;
     }
-    const url = `${
-      import.meta.env.VITE_MAPBOX_GEOCODING_URL
-    }/${encodeURIComponent(quary)}
+    const url = `${import.meta.env.VITE_MAPBOX_GEOCODING_URL
+      }/${encodeURIComponent(quary)}
         .json?access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -41,9 +41,8 @@ const RideBooking = () => {
       setEndSuggestion([]);
       return;
     }
-    const url = `${
-      import.meta.env.VITE_MAPBOX_GEOCODING_URL
-    }/${encodeURIComponent(quary)}
+    const url = `${import.meta.env.VITE_MAPBOX_GEOCODING_URL
+      }/${encodeURIComponent(quary)}
         .json?access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -125,20 +124,26 @@ const RideBooking = () => {
             </ul>
           )}
         </motion.div>
-        <div></div>
-        {/* 
-                <motion.div
-                    initial={{ y: "-10vw", opacity: 0 }}
-                    animate={{ y: 1, opacity: 1 }}
-                    transition={{ type: "spring", stiffness: 60, delay: 1 }}
-                >
-                    <Button
-                        stlye={
-                            " text-center py-2 px-3 rounded bg-yellow-400  my-1 font-semibold"
-                        }
-                        title={"Request Now"}
-                    />
-                </motion.div> */}
+        {
+          <div className="flex flex-col justify-center">
+            <h1>Distance : {distance} KM</h1>
+            <h1>Duration : {duration} minutes</h1>
+            <div>
+              <Button
+                stlye={
+                  " text-center py-2 px-3 rounded bg-yellow-400  my-1 font-semibold"
+                }
+                title={"Request Now"}
+              />
+              <Button
+                stlye={
+                  " text-center py-2 px-3 rounded bg-gray-300  my-1 font-medium"
+                }
+                title={"Schdule for later"}
+              />
+            </div>
+          </div>
+        }
       </motion.div>
     </>
   );
