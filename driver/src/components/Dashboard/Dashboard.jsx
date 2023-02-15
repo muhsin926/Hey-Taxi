@@ -1,4 +1,6 @@
+import axios from "axios";
 import React, { useState } from "react";
+import url from '../../api/Api'
 
 const upcomingTrip = [
   { name: "Steve jobs", pickup: "Mumbai", droppoff: "Delhi", date: "25/2/23" },
@@ -8,7 +10,15 @@ const upcomingTrip = [
 
 const Dashboard = () => {
   const [underline, setUnderline] = useState("request");
-  const [ava, setAva] = useState(false);
+  const [available, setAvailable] = useState(false);
+
+  const handleAvailable = () => {
+    axios.post(`${url}/api/driver/available`)
+    .then(() => {
+      setAvailable(!available)
+    })
+  }
+   
   return (
     <>
       <div className=" grid grid-cols-12 relative">
@@ -22,9 +32,9 @@ const Dashboard = () => {
               </select>
             </div>
             <button
-              className={` text-base  ${ava ? "bg-green-400" : "bg-red-500"
+              className={` text-base  ${available ? "bg-green-400" : "bg-red-500"
                 } text-white py-2 px-3 shadow-2xl`}
-              onClick={() => setAva(!ava)}
+              onClick={handleAvailable}
             >
               Available
             </button>
@@ -61,9 +71,9 @@ const Dashboard = () => {
             </div>
 
             <button
-              className={` text-base  ${ava ? "bg-green-400" : "bg-red-500"
+              className={` text-base  ${available ? "bg-green-400" : "bg-red-500"
                 } text-white py-2 px-3 shadow-2xl`}
-              onClick={() => setAva(!ava)}
+              onClick={handleAvailable}
             >
               Available
             </button>

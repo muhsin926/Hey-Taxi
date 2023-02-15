@@ -16,3 +16,7 @@ export const addVehicle: RequestHandler = async (req,res) => {
         res.status(400).json({status: false})
     })
 }
+
+export const available: RequestHandler = (req,res) => {
+    res.status(200).json({status:true})
+}
