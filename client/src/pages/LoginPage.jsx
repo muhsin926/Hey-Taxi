@@ -1,14 +1,16 @@
-import React from 'react'
-import { Login, Navbar } from '../components'
-import ProtectedSignRoute from '../protectedRoute/ProtectedSignRoute'
+import React from "react";
+import { Login, Navbar } from "../components";
+import ProtectedSignRoute from "../protectedRoute/ProtectedSignRoute";
 
 const LoginPage = () => {
   return (
-    <div>
+    <>
+      <ProtectedSignRoute>
         <Navbar home={false} li={"Sign Up"} />
         <Login />
-    </div>
-  )
-}
+      </ProtectedSignRoute>
+    </>
+  );
+};
 
-export default LoginPage
+export default LoginPage;

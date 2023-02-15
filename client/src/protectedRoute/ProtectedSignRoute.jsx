@@ -7,7 +7,7 @@ const ProtectedSignRoute = ({ children }) => {
         window.history.back();
         return
     }
-    return children
+   return children
 }
 
 export default ProtectedSignRoute

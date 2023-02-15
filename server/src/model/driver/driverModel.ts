@@ -6,6 +6,7 @@ interface Driver extends Document {
   password:string;
   mobile:number;
   profile: string;
+  available: boolean;
   vehicle: mongoose.Types.ObjectId;
 }
 
@@ -29,7 +30,8 @@ const driverSchema = new Schema(
     vehicle: [{
         type: mongoose.Types.ObjectId,
         ref: 'Vehicle'
-    }]
+    }],
+    available: {type: Boolean, default: false}
   },
   { timestamps: true }
 );

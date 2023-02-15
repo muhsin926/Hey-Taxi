@@ -1,16 +1,14 @@
-import React from 'react'
-import { Navbar, Signup } from '../components'
-import ProtectedSignRoute from '../protectedRoute/ProtectedSignRoute'
+import React from "react";
+import { Navbar, Signup } from "../components";
+import ProtectedSignRoute from "../protectedRoute/ProtectedSignRoute";
 
 const SignupPage = () => {
   return (
     <>
-    <ProtectedSignRoute>
-    <Navbar/>
-    <Signup/>
-    </ProtectedSignRoute>
+        <Navbar />
+        <Signup />
     </>
-  )
-}
+  );
+};
 
-export default SignupPage
+export default SignupPage;

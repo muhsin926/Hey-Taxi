@@ -11,4 +11,4 @@ const RideBookingPage = () => {
   )
 }
 
-export default RideBookingPage
+export default RideBookingPage;

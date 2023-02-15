@@ -1,20 +1,26 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Axios from 'axios';
-import url from '../../api/Api'
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Axios from "axios";
+import url from "../../api/Api";
 
 const Login = () => {
-    const navigate = useNavigate()
-    const [email, setEmail] = useState('');
-    const [emailIsValid, setEmailIsValid] = useState(true);
-    const [password, setPassword] = useState('');
-    const [passwordIsValid, setPasswordIsValid] = useState(true);
-    const [formIsValid, setFormIsValid] = useState(false);
-    const [errMsg, setErrmessage] = useState("")
-    useEffect(() => { setEmailIsValid(email.includes('@')) }, [email])
-    useEffect(() => { setPasswordIsValid(password.trim().length > 7) }, [password])
-    useEffect(() => { setFormIsValid(emailIsValid && passwordIsValid) }, [emailIsValid, passwordIsValid,])
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [emailIsValid, setEmailIsValid] = useState(true);
+  const [password, setPassword] = useState("");
+  const [passwordIsValid, setPasswordIsValid] = useState(true);
+  const [formIsValid, setFormIsValid] = useState(false);
+  const [errMsg, setErrmessage] = useState("");
+  useEffect(() => {
+    setEmailIsValid(email.includes("@"));
+  }, [email]);
+  useEffect(() => {
+    setPasswordIsValid(password.trim().length > 7);
+  }, [password]);
+  useEffect(() => {
+    setFormIsValid(emailIsValid && passwordIsValid);
+  }, [emailIsValid, passwordIsValid]);
 
     const submitHandler = (event) => {
         event.preventDefault();
@@ -68,4 +74,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Login;
