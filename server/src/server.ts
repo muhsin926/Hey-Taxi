@@ -4,6 +4,7 @@ import express from "express";
 import serv from "./config/config";
 import passRouter from "./router/passengerRouter";
 import driverRouter from "./router/driverRouter";
+import adminVehicle from './router/admin/vehicle'
 import  cors from "cors";
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors())
 
 app.use("/api/passenger", passRouter )
 app.use("/api/driver", driverRouter )
+app.use('/api/admin/vehicle', adminVehicle)
 
 
 

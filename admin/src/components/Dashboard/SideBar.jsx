@@ -8,7 +8,7 @@ const navigation = [
     { name: 'Dashboard', href: '/', current: false },
     { name: 'Driver Manage', href: '/driver', current: false },
     { name: 'User Manage', href: '#', current: false },
-    { name: 'Vehicles', href: '#', current: true },
+    { name: 'Vehicles', href: '/vehicle', current: true },
     { name: 'Earnings', href: '#', current: false },
     
   ]

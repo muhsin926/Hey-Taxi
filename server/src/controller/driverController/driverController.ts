@@ -1,6 +1,6 @@
 import vehicleModel from "../../model/driver/vehicleModel";
 import { RequestHandler } from "express";
-import fileUploader from "./fileUploader";
+import fileUploader from "../../cloudinery/fileUploader";
 
 export const addVehicle: RequestHandler = async (req,res) => {
     const {image} = req.body

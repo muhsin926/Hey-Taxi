@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
-import env from "../../utility/validateEnv";
+import env from "../utility/validateEnv";
 
 interface UploadApiOptions {
   resource_type?: "auto" | "image" | "video" | "raw";
