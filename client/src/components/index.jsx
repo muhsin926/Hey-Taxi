@@ -7,6 +7,8 @@ import WhyRide from './Home/WhyRide'
 import RideBooking from './RideBooking/RideBooking'
 import Footer from './Footer/Footer'
 import Map from './Map/Map'
+import ScheduleRide from './ScheduleRide/ScheduleRide'
+
 
 export {
     Signup,
@@ -18,4 +20,5 @@ export {
     RideBooking,
     Footer,
     Map,
+    ScheduleRide
 }

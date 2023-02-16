@@ -4,6 +4,7 @@ import mapboxgl from "mapbox-gl";
 import { motion } from "framer-motion";
 import { LocationContext } from "../../context/LocationContext";
 import Button from "../Button/Button";
+import { useNavigate } from "react-router-dom";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
@@ -14,6 +15,11 @@ const RideBooking = () => {
   const [endPoint, setEndPoint] = useState();
   const [startSuggestion, setStartSuggestion] = useState([]);
   const [endSuggestion, setEndSuggestion] = useState([]);
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate('/schedule_ride')
+  }
 
   const handleStartInput = async (e) => {
     const quary = e.target.value;
@@ -67,7 +73,7 @@ const RideBooking = () => {
           initial={{ y: "-10vw", opacity: 0 }}
           animate={{ y: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 60, delay: 0.6 }}
-          className="flex justify-center align-middle mt-10"
+          className="flex justify-center align-middle "
         >
           <h1 className="text-3xl font-semibold">Request a ride now</h1>
         </motion.div>
@@ -140,6 +146,7 @@ const RideBooking = () => {
                   " text-center py-2 px-3 rounded bg-gray-300  my-1 font-medium"
                 }
                 title={"Schdule for later"}
+                handleClick={handleClick}
               />
             </div>
           </div>
