@@ -1,5 +1,6 @@
 import { license, RC, insurance, permit } from "../assets";
 
+
 // Driver Requirements Steps:
 const requirements = [
   {
