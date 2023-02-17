@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import passengerModel from "../model/passengerModel";
+import vehicleCategoryModel from "../model/admin/vehicleCategoryModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import env from "../utility/validateEnv";
@@ -90,3 +91,8 @@ export const login: RequestHandler = async (req, res) => {
     console.log(error);
   }
 };
+
+export const getCategory: RequestHandler = async(req,res) => {
+  const categories = await vehicleCategoryModel.find({})
+  return res.status(200).json({cat:categories})
+}

@@ -1,9 +1,10 @@
 import React from "react";
-import { DocUploader } from "../components";
+import { DocUploader, Navbar } from "../components";
 
 const DocUploaderPage = () => {
   return (
     <>
+    <Navbar/>
       <DocUploader />
     </>
   );

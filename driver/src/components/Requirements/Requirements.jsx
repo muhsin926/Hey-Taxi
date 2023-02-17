@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   faFileInvoice,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { requirements } from "../../constants";
+import { useSelector } from "react-redux";
 
 const Requirements = () => {
+  const { DL, RC, insurance, other } = useSelector(
+    (state) => state.vehicleInformations
+  );
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (DL && RC && insurance && other) {
+      navigate("/");
+    }
+  }, [DL, RC, insurance, other]);
   return (
     <section className="flex items-center justify-center">
       <div className="flex my-5 flex-col sm:w-3/6">
@@ -32,6 +42,7 @@ const Requirements = () => {
                 <div className="mt-4 ">
                   <h1 className="text-lg font-medium ">{data.head}</h1>
                   <p>{data.title}</p>
+                  {data.state}
                 </div>
                 <div className="flex items-center  ">
                   <FontAwesomeIcon className="" icon={faChevronRight} />

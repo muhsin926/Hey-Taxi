@@ -12,6 +12,15 @@
   left: 10%;
 
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  /* For Webkit-based browsers (Chrome, Safari and Opera) */
+  display: none;
+  /* For IE, Edge and Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .btmBorder{
   padding-bottom: 20px;
   border-bottom: .3rem solid;

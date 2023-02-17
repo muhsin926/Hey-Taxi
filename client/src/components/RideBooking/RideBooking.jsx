@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import { LocationContext } from "../../context/LocationContext";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import url from '../../api/Api'
+import { capacity } from "../../assets";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
@@ -16,6 +19,7 @@ const RideBooking = () => {
   const [startSuggestion, setStartSuggestion] = useState([]);
   const [endSuggestion, setEndSuggestion] = useState([]);
   const navigate = useNavigate()
+  const [category, setCategory] = useState([])
 
   const handleClick = () => {
     navigate('/schedule_ride')
@@ -61,13 +65,20 @@ const RideBooking = () => {
     setEndSuggestion([]);
   };
 
+  const getCategory = async () => {
+    const response = await axios.get(`${url}/api/passenger/carCategory`)
+    setCategory(response.data.cat)
+  }
+
+  getCategory()
+
   return (
     <>
       <motion.div
         initial={{ x: "-10vw", opacity: 0 }}
         animate={{ x: 1, opacity: 1 }}
         transition={{ type: "spring", stiffness: 50, delay: 0.4 }}
-        className="mainCard xs:w-96 p-10 bg-white  rounded"
+        className="mainCard xs:w-96 p-10 bg-white  rounded "
       >
         <motion.div
           initial={{ y: "-10vw", opacity: 0 }}
@@ -130,7 +141,7 @@ const RideBooking = () => {
             </ul>
           )}
         </motion.div>
-        {
+        {/* {
           <div className="flex flex-col justify-center">
             <h1>Distance : {distance} KM</h1>
             <h1>Duration : {duration} minutes</h1>
@@ -150,7 +161,32 @@ const RideBooking = () => {
               />
             </div>
           </div>
-        }
+        } */}
+        <div className="max-h-52 scrollbar-hide overflow-y-auto">
+          {startingCoordinates && destinationCoordinates &&
+            category.map((car) => (
+              <div className="grid grid-cols-12 border border-gray-300 rounded-md my-1 ">
+                <div className="col-span-4">
+                  <img className="w-full object-cover" src={car.image} alt="car image" />
+                </div>
+                <div className="col-span-8 flex flex-col pt-2 ">
+                  <div className="flex  ">
+                    <div className="flex ">
+                      <h1 className="font-medium">{car.name}</h1>
+                      <svg width="20" height="20" viewBox="0 0 35 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24.0104 25.5859C19.5619 25.5859 16.341 25.5859 14.2499 22.7223C12.1588 19.8587 19.5619 17.7109 24.0104 17.7109C28.4588 17.7109 35.8631 19.8587 33.7714 22.7222C31.6798 25.5858 28.4588 25.5859 24.0104 25.5859Z" fill="black" />
+                        <circle cx="24.0107" cy="8.71094" r="5.625" fill="black" />
+                      </svg>
+                      <h1>{car.capacity}</h1>
+                      <h1 className="ml-5">₹{car.rate * distance}</h1>
+                    </div>
+                  </div>
+                  <p className="text-base text-zinc-500">{car.discription}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
       </motion.div>
     </>
   );
