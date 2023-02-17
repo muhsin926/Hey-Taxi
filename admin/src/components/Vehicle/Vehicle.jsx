@@ -5,7 +5,8 @@ import url from '../../api/Api'
 const Vehicle = () => {
     const [showModal, setShowModal] = useState(false);
     const [name, setName] = useState('');
-    const [capacity, setCapacity] = useState('');
+    const [capacity, setCapacity] = useState();
+    const [rate, setRate] = useState()
     const [discription, setDiscription] = useState('')
     const [img, setImage] = useState()
 
@@ -84,6 +85,10 @@ const Vehicle = () => {
                                             value={capacity}
                                             onChange={e => setCapacity(e.target.value)}
                                             className='border border-grey-light w-full p-3 rounded mb-4' type="number" placeholder='capacity' />
+                                        <input
+                                            value={rate}
+                                            onChange={e => setRate(e.target.value)}
+                                            className='border border-grey-light w-full p-3 rounded mb-4' type="number" placeholder='rate per KM' />
                                         <input
                                             value={discription}
                                             onChange={e => setDiscription(e.target.value)}

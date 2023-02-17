@@ -3,7 +3,7 @@ import categoryModel from '../../model/admin/vehicleCategoryModel';
 import fileUploader from "../../cloudinery/fileUploader";
 
 export const addCategory: RequestHandler = async(req,res) => {
-    const {name,capacity,discription,img} = req.body;
+    const {name,capacity,discription,img,rate} = req.body;
     try{
     fileUploader(img)
     .then(async(image) => {
@@ -11,6 +11,7 @@ export const addCategory: RequestHandler = async(req,res) => {
             name,
             capacity,
             discription,
+            rate,
             image,
         }).save()
         console.log(categories);

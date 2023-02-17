@@ -5,6 +5,7 @@ interface VehicleCategory extends Document {
   name: string;
   capacity: number;
   discription: string;
+  rate: number;
   image: string;
   VehicleId: string;
 }
@@ -14,6 +15,7 @@ const categorySchema = new Schema(
         name: {type: String},
         capacity: {type: Number},
         discription: {type: String},
+        rate: {type: Number},
         image: {type: String},
         vehicleId: [{
             type: mongoose.Types.ObjectId,
