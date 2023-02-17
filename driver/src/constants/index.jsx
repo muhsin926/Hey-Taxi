@@ -15,7 +15,7 @@ const requirements = [
     title: "Get started",
   },
   {
-    head: "Vehicle Permit",
+    head: "Other Information",
     title: "Get started",
   },
 ];
@@ -39,11 +39,7 @@ const docUplod = [
     description: "Proof of vehicle insurance is required to protect both passengers and drivers in the event of an accident. This helps to ensure a safe and secure transportation experience for everyone involved.",
     img: insurance
   },
-  {
-    title: "Take a photo of your Vehicle Permit",
-    description: "A valid vehicle permit is required to confirm that the vehicle used for transportation is registered and meets local safety and emissions standards. This helps to ensure a safe and reliable transportation experience for passengers.",
-    img: permit
-  }
+ 
 ];
 
 export {
