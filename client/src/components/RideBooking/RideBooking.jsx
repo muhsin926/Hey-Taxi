@@ -141,27 +141,27 @@ const RideBooking = () => {
             </ul>
           )}
         </motion.div>
-        {/* {
+        {
           <div className="flex flex-col justify-center">
-            <h1>Distance : {distance} KM</h1>
-            <h1>Duration : {duration} minutes</h1>
+            {/* <h1>Distance : {distance} KM</h1>
+            <h1>Duration : {duration} minutes</h1> */}
             <div>
-              <Button
+              {/* <Button
                 stlye={
                   " text-center py-2 px-3 rounded bg-yellow-400  my-1 font-semibold"
                 }
                 title={"Request Now"}
-              />
+              /> */}
               <Button
                 stlye={
-                  " text-center py-2 px-3 rounded bg-gray-300  my-1 font-medium"
+                  " text-center py-1 px-3 rounded bg-gray-900 text-white mb-3 my-1 text-base"
                 }
                 title={"Schdule for later"}
                 handleClick={handleClick}
               />
             </div>
           </div>
-        } */}
+        }
         <div className="max-h-52 scrollbar-hide overflow-y-auto">
           {startingCoordinates && destinationCoordinates &&
             category.map((car) => (
