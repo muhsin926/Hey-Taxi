@@ -25,6 +25,7 @@ const Requirements = () => {
               }}
               className="flex flex-row "
             >
+           
               <div className="flex items-center mr-6">
                 <FontAwesomeIcon className="" icon={faFileInvoice} />
               </div>
