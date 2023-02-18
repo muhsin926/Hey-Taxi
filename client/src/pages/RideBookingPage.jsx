@@ -5,7 +5,7 @@ const RideBookingPage = () => {
   return (
    <>
    <Navbar/>
-   <Map/>
+   {/* <Map/> */}
    <RideBooking/>
    </>
   )

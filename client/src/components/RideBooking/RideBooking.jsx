@@ -7,11 +7,19 @@ import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import url from '../../api/Api'
-import { capacity } from "../../assets";
+import { useDispatch, useSelector } from "react-redux";
+import { setShowModal } from "../../redux/slices/ModalSlice";
+import Modal from "./Modal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { cash, paypal } from "../../assets";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
 const RideBooking = () => {
+  const {scheduleDate, scheduleTime} = useSelector((state) => state.scheduleRide)
+ // const { showModal} = useSelector((state) => state.modal)
+  const dispatch = useDispatch()
   const { startingCoordinates, destinationCoordinates } = useContext(LocationContext)
   const { setStarting, setDestination, distance, duration } = useContext(LocationContext);
   const [startPoint, setStartPoint] = useState();
@@ -20,6 +28,7 @@ const RideBooking = () => {
   const [endSuggestion, setEndSuggestion] = useState([]);
   const navigate = useNavigate()
   const [category, setCategory] = useState([])
+  const [showModal, setShowModal] = useState(true)
 
   const handleClick = () => {
     navigate('/schedule_ride')
@@ -156,7 +165,7 @@ const RideBooking = () => {
                 stlye={
                   " text-center py-1 px-3 rounded bg-gray-900 text-white mb-3 my-1 text-base"
                 }
-                title={"Schdule for later"}
+                title={`${scheduleDate && scheduleTime ? 'scheduled for '+scheduleDate +','+ scheduleTime : "Schdule for later"}`}
                 handleClick={handleClick}
               />
             </div>
@@ -165,7 +174,7 @@ const RideBooking = () => {
         <div className="max-h-52 scrollbar-hide overflow-y-auto">
           {startingCoordinates && destinationCoordinates &&
             category.map((car) => (
-              <div className="grid grid-cols-12 border border-gray-300 rounded-md my-1 ">
+              <div onClick={() => setShowModal(true)} className="grid grid-cols-12 border border-gray-300 rounded-md my-1 cursor-pointer">
                 <div className="col-span-4">
                   <img className="w-full object-cover" src={car.image} alt="car image" />
                 </div>
@@ -187,7 +196,60 @@ const RideBooking = () => {
             ))
           }
         </div>
+        
       </motion.div>
+      {
+          showModal && 
+          <>
+          <div
+              className=" justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+          >
+              <div className="relative   my-6 mx-auto w-1/3 ">
+                  {/*content*/}
+                  <div className="border-0 rounded-lg shadow-lg relative flex text-black flex-col w-full bg-white outline-none focus:outline-none">
+                      {/*header*/}
+                          <div className="flex items-start bg-black justify-between border-b border-solid border-slate-200 rounded-t">
+                              <h3 className="text-xl font-base ml-6 py-4 text-white">
+                                  Payment Methode
+                              </h3>
+                              <button
+                                  className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                                  onClick={() => setShowModal(false)}
+                              >
+                                  <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                      ×
+                                  </span>
+                              </button>
+                          </div>
+                          {/*body*/}
+                          <div className="relative p-6 flex flex-col ">
+                              <div className=" w-full h-52 ">
+                                <div className="-mt-8 cursor-pointer border-b border-solid border-slate-200 ">
+                                  <img className="w-24" src={paypal} alt="" />
+                                </div>
+                                <div className="flex cursor-pointer ">
+                                {/* <FontAwesomeIcon className="" icon={faChevronRight} /> */}
+                                <img className="w-6 mr-2" src={cash} alt="" />
+                                <h1 className="text-xl">Cash</h1>
+                                </div>
+                              </div>
+                             <div className="flex justify-end">
+                             <button
+                                  className="text-red-500 hover:bg-gray-200 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                  type="button"
+                                  onClick={() => setShowModal(false)}
+                              >
+                                  Close
+                              </button>
+                            
+                             </div>
+                          </div>
+                  </div>
+              </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+      </>
+        }
     </>
   );
 };

@@ -100,7 +100,7 @@ const DocUploader = () => {
         reg,
         index,
       });
-      res.data.status && alert("succesful upload");
+      res.data.status && toast.success("succesful upload");
     } catch (err) {
       toast.error(err);
     }

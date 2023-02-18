@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setScheduleDate, setScheduleTime } from '../../redux/slices/scheduleSlice';
 
 const ScheduleRide = () => {
+    const dispatch = useDispatch();
+    const {scheduleDate, scheduleTime} = useSelector((state) => state.scheduleRide)
     const navigate = useNavigate();
     const today = new Date();
     const date = today.setDate(today.getDate());
@@ -43,11 +47,15 @@ const ScheduleRide = () => {
                     className=" border border-grey bg-slate-200 w-full p-3 rounded mb-4"
                     placeholder=""
                     defaultValue={defaultValue}
+                    value={scheduleDate}
+                    onChange={e => dispatch(setScheduleDate(e.target.value))}
                 />
                 <input
                     type="time"
                     className=" border border-grey bg-slate-200 w-full p-3 rounded mb-4"
                     defaultValue={time}
+                    value={scheduleTime}
+                    onChange={e => dispatch(setScheduleTime(e.target.value))}
                 />
             </motion.div>
             <motion.div

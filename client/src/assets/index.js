@@ -10,6 +10,8 @@ import loginGif from "./1725-exit-sign-flat.gif";
 import signupBackground from "./background.jpg";
 import car from './Intercity-150X150p4x.webp';
 import capacity from './capacity svg.svg';
+import paypal from './1156727_finance_payment_paypal_icon.svg';
+import cash from './cash.png'
 
 
 export {
@@ -24,5 +26,7 @@ export {
   loginGif,
   signupBackground,
   car,
-  capacity
+  capacity,
+  paypal,
+  cash
 };
