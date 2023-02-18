@@ -1,6 +1,6 @@
 import express from 'express';
-import * as driverAuthController from '../controller/driverController/authController'
-import * as driverController from '../controller/driverController/driverController'
+import * as driverAuthController from '../../controller/driverController/authController'
+import * as driverController from '../../controller/driverController/driverController'
 const router = express.Router();
 
 

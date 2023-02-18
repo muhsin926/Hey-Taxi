@@ -1,9 +1,9 @@
 import { RequestHandler } from "express";
-import passengerModel from "../model/passengerModel";
-import vehicleCategoryModel from "../model/admin/vehicleCategoryModel";
+import passengerModel from "../../model/passengerModel";
+import vehicleCategoryModel from "../../model/admin/vehicleCategoryModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import env from "../utility/validateEnv";
+import env from "../../utility/validateEnv";
 import { ObjectId } from "mongoose";
 
 

@@ -2,8 +2,8 @@ import "dotenv/config";
 import env from "./utility/validateEnv";
 import express from "express";
 import serv from "./config/config";
-import passRouter from "./router/passengerRouter";
-import driverRouter from "./router/driverRouter";
+import passRouter from "./router/passenger/passengerRouter";
+import driverRouter from "./router/driver/driverRouter";
 import adminVehicle from './router/admin/vehicle'
 import  cors from "cors";
 const app = express();
