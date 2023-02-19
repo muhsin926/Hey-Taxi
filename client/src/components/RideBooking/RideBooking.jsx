@@ -6,7 +6,7 @@ import { LocationContext } from "../../context/LocationContext";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import url from '../../api/Api'
+import url from "../../api/Api";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowModal } from "../../redux/slices/ModalSlice";
 import Modal from "./Modal";
@@ -18,23 +18,27 @@ import Paypal from "./Paypal";
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
 const RideBooking = () => {
-  const [fare,setFare] = useState()
-  const { scheduleDate, scheduleTime } = useSelector((state) => state.scheduleRide)
+  const [fare, setFare] = useState();
+  const { scheduleDate, scheduleTime } = useSelector(
+    (state) => state.scheduleRide
+  );
   // const { showModal} = useSelector((state) => state.modal)
-  const dispatch = useDispatch()
-  const { startingCoordinates, destinationCoordinates } = useContext(LocationContext)
-  const { setStarting, setDestination, distance, duration } = useContext(LocationContext);
+  const dispatch = useDispatch();
+  const { startingCoordinates, destinationCoordinates } =
+    useContext(LocationContext);
+  const { setStarting, setDestination, distance, duration } =
+    useContext(LocationContext);
   const [startPoint, setStartPoint] = useState();
   const [endPoint, setEndPoint] = useState();
   const [startSuggestion, setStartSuggestion] = useState([]);
   const [endSuggestion, setEndSuggestion] = useState([]);
-  const navigate = useNavigate()
-  const [category, setCategory] = useState([])
-  const [showModal, setShowModal] = useState(false)
+  const navigate = useNavigate();
+  const [category, setCategory] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const handleClick = () => {
-    navigate('/schedule_ride')
-  }
+    navigate("/schedule_ride");
+  };
 
   const handleStartInput = async (e) => {
     const quary = e.target.value;
@@ -42,8 +46,9 @@ const RideBooking = () => {
       setStartSuggestion([]);
       return;
     }
-    const url = `${import.meta.env.VITE_MAPBOX_GEOCODING_URL
-      }/${encodeURIComponent(quary)}
+    const url = `${
+      import.meta.env.VITE_MAPBOX_GEOCODING_URL
+    }/${encodeURIComponent(quary)}
         .json?access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -62,8 +67,9 @@ const RideBooking = () => {
       setEndSuggestion([]);
       return;
     }
-    const url = `${import.meta.env.VITE_MAPBOX_GEOCODING_URL
-      }/${encodeURIComponent(quary)}
+    const url = `${
+      import.meta.env.VITE_MAPBOX_GEOCODING_URL
+    }/${encodeURIComponent(quary)}
         .json?access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -77,11 +83,11 @@ const RideBooking = () => {
   };
 
   const getCategory = async () => {
-    const response = await axios.get(`${url}/api/passenger/carCategory`)
-    setCategory(response.data.cat)
-  }
+    const response = await axios.get(`${url}/api/passenger/carCategory`);
+    setCategory(response.data.cat);
+  };
 
-  getCategory()
+  getCategory();
 
   return (
     <>
@@ -167,46 +173,70 @@ const RideBooking = () => {
                 stlye={
                   " text-center py-1 px-3 rounded bg-gray-900 text-white mb-3 my-1 text-base"
                 }
-                title={`${scheduleDate && scheduleTime ? 'scheduled for ' + scheduleDate + ',' + scheduleTime : "Schdule for later"}`}
+                title={`${
+                  scheduleDate && scheduleTime
+                    ? "scheduled for " + scheduleDate + "," + scheduleTime
+                    : "Schdule for later"
+                }`}
                 handleClick={handleClick}
               />
             </div>
           </div>
         }
         <div className="max-h-52 scrollbar-hide overflow-y-auto">
-          {startingCoordinates && destinationCoordinates &&
+          {startingCoordinates &&
+            destinationCoordinates &&
             category.map((car) => (
-              <div onClick={() => setShowModal(true)} className="grid grid-cols-12 border border-gray-300 rounded-md my-1 cursor-pointer">
+              <div
+                onClick={() => {
+                  setShowModal(true);
+                  setFare(car.rate);
+                }}
+                className="grid grid-cols-12 border border-gray-300 rounded-md my-1 cursor-pointer"
+              >
                 <div className="col-span-4">
-                  <img className="w-full object-cover" src={car.image} alt="car image" />
+                  <img
+                    className="w-full object-cover"
+                    src={car.image}
+                    alt="car image"
+                  />
                 </div>
                 <div className="col-span-8 flex flex-col pt-2 ">
                   <div className="flex  ">
                     <div className="flex ">
                       <h1 className="font-medium">{car.name}</h1>
-                      <svg width="20" height="20" viewBox="0 0 35 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M24.0104 25.5859C19.5619 25.5859 16.341 25.5859 14.2499 22.7223C12.1588 19.8587 19.5619 17.7109 24.0104 17.7109C28.4588 17.7109 35.8631 19.8587 33.7714 22.7222C31.6798 25.5858 28.4588 25.5859 24.0104 25.5859Z" fill="black" />
-                        <circle cx="24.0107" cy="8.71094" r="5.625" fill="black" />
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 35 27"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M24.0104 25.5859C19.5619 25.5859 16.341 25.5859 14.2499 22.7223C12.1588 19.8587 19.5619 17.7109 24.0104 17.7109C28.4588 17.7109 35.8631 19.8587 33.7714 22.7222C31.6798 25.5858 28.4588 25.5859 24.0104 25.5859Z"
+                          fill="black"
+                        />
+                        <circle
+                          cx="24.0107"
+                          cy="8.71094"
+                          r="5.625"
+                          fill="black"
+                        />
                       </svg>
                       <h1>{car.capacity}</h1>
-                      {setFare(car.rate * distance)}
+                      {/* {setFare(car.rate * distance)} */}
                       <h1 className="ml-5">₹{car.rate * distance}</h1>
                     </div>
                   </div>
                   <p className="text-base text-zinc-500">{car.discription}</p>
                 </div>
               </div>
-            ))
-          }
+            ))}
         </div>
-
       </motion.div>
-      {
-        showModal &&
+      {showModal && (
         <>
-          <div
-            className=" justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-          >
+          <div className=" justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative   my-6 mx-auto md:w-1/3  ">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex text-black flex-col w-full bg-white outline-none focus:outline-none">
@@ -226,8 +256,8 @@ const RideBooking = () => {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex flex-col ">
-                  <div className="relative  w-full min-h-fi  ">
-                    <Paypal fare={fare}/>
+                  <div className="relative  w-full min-h-fit  ">
+                    <Paypal fare={fare} />
                   </div>
                   <div className="flex justify-end">
                     <button
@@ -237,7 +267,6 @@ const RideBooking = () => {
                     >
                       Close
                     </button>
-
                   </div>
                 </div>
               </div>
@@ -245,7 +274,7 @@ const RideBooking = () => {
           </div>
           <div className="opacity-25 fixed inset-0 z-40  bg-black"></div>
         </>
-      }
+      )}
     </>
   );
 };

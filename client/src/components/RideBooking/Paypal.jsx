@@ -1,10 +1,12 @@
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { LocationContext } from '../../context/LocationContext';
 
 
-const Paypal = ({fare}) => {
+const Paypal = ({ fare }) => {
     const [orderId, setOrderId] = useState()
+    const { distance } = useContext(LocationContext);
 
     const createOrder = async (data, actions) => {
         return await actions.order.create({
@@ -13,7 +15,7 @@ const Paypal = ({fare}) => {
                     description: "Taxi booking",
                     amount: {
                         currency_code: "USD",
-                        value: `${fare}`,
+                        value: `${fare * distance}`,
                     },
                 },
             ],
