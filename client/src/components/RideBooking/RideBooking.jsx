@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import { motion } from "framer-motion";
@@ -82,12 +82,15 @@ const RideBooking = () => {
     setEndSuggestion([]);
   };
 
-  const getCategory = async () => {
+  const getCategory =useCallback(async () => {
     const response = await axios.get(`${url}/api/passenger/carCategory`);
     setCategory(response.data.cat);
-  };
+  },[])
+  useEffect(() => {
+    getCategory()
+  },[getCategory])
 
-  getCategory();
+
 
   return (
     <>
