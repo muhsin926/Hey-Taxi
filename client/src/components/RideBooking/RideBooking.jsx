@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 import { motion } from "framer-motion";
@@ -6,19 +6,20 @@ import { LocationContext } from "../../context/LocationContext";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import url from "../../api/Api";
+
 import { useDispatch, useSelector } from "react-redux";
-import { setShowModal } from "../../redux/slices/ModalSlice";
+import { setShowModal, setUnShowModal } from "../../redux/slices/ModalSlice";
 import Modal from "./Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { cash, paypal } from "../../assets";
 import Paypal from "./Paypal";
+import TaxiCategories from "./TaxiCategories";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
 const RideBooking = () => {
-  const [fare, setFare] = useState();
+  const {fare, showModal, payment } = useSelector((state) => state.modal)
   const { scheduleDate, scheduleTime } = useSelector(
     (state) => state.scheduleRide
   );
@@ -33,8 +34,6 @@ const RideBooking = () => {
   const [startSuggestion, setStartSuggestion] = useState([]);
   const [endSuggestion, setEndSuggestion] = useState([]);
   const navigate = useNavigate();
-  const [category, setCategory] = useState([]);
-  const [showModal, setShowModal] = useState(false);
 
   const handleClick = () => {
     navigate("/schedule_ride");
@@ -82,12 +81,6 @@ const RideBooking = () => {
     setEndSuggestion([]);
   };
 
-  const getCategory = async () => {
-    const response = await axios.get(`${url}/api/passenger/carCategory`);
-    setCategory(response.data.cat);
-  };
-
-  getCategory();
 
   return (
     <>
@@ -183,56 +176,7 @@ const RideBooking = () => {
             </div>
           </div>
         }
-        <div className="max-h-52 scrollbar-hide overflow-y-auto">
-          {startingCoordinates &&
-            destinationCoordinates &&
-            category.map((car) => (
-              <div
-                onClick={() => {
-                  setShowModal(true);
-                  setFare(car.rate);
-                }}
-                className="grid grid-cols-12 border border-gray-300 rounded-md my-1 cursor-pointer"
-              >
-                <div className="col-span-4">
-                  <img
-                    className="w-full object-cover"
-                    src={car.image}
-                    alt="car image"
-                  />
-                </div>
-                <div className="col-span-8 flex flex-col pt-2 ">
-                  <div className="flex  ">
-                    <div className="flex ">
-                      <h1 className="font-medium">{car.name}</h1>
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 35 27"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M24.0104 25.5859C19.5619 25.5859 16.341 25.5859 14.2499 22.7223C12.1588 19.8587 19.5619 17.7109 24.0104 17.7109C28.4588 17.7109 35.8631 19.8587 33.7714 22.7222C31.6798 25.5858 28.4588 25.5859 24.0104 25.5859Z"
-                          fill="black"
-                        />
-                        <circle
-                          cx="24.0107"
-                          cy="8.71094"
-                          r="5.625"
-                          fill="black"
-                        />
-                      </svg>
-                      <h1>{car.capacity}</h1>
-                      {/* {setFare(car.rate * distance)} */}
-                      <h1 className="ml-5">₹{car.rate * distance}</h1>
-                    </div>
-                  </div>
-                  <p className="text-base text-zinc-500">{car.discription}</p>
-                </div>
-              </div>
-            ))}
-        </div>
+        {startingCoordinates && destinationCoordinates && <TaxiCategories/> }
       </motion.div>
       {showModal && (
         <>
@@ -247,7 +191,7 @@ const RideBooking = () => {
                   </h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => dispatch(setUnShowModal())}
                   >
                     <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
                       ×
@@ -256,14 +200,20 @@ const RideBooking = () => {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex flex-col ">
+                  {payment ? (
+                    <div className="relative p-6 w-full min-h-fit  ">
+                    <h1>Your booking has been requested please wait for accept</h1>
+                  </div>
+                    ):(
                   <div className="relative  w-full min-h-fit  ">
                     <Paypal fare={fare} />
                   </div>
+                    )}
                   <div className="flex justify-end">
                     <button
                       className="text-red-500 hover:bg-gray-200 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
-                      onClick={() => setShowModal(false)}
+                      onClick={() => dispatch(setUnShowModal())}
                     >
                       Close
                     </button>
