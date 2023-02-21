@@ -7,7 +7,7 @@ interface Vehicle extends Document {
   RC: string;
   reg_no: string;
   category: string;
-  insurence: string;
+  insurance: string;
   driverId: string;
 }
 
@@ -18,7 +18,7 @@ const vehicleSchema = new Schema(
         RC: {type: String},
         reg_no: {type: String},
         category: {type: String},
-        insurence: {type: String},
+        insurance: {type: String},
         driverId: [{
             type: mongoose.Types.ObjectId,
             ref: 'driver'

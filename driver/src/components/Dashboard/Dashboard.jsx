@@ -24,13 +24,6 @@ const Dashboard = () => {
       <div className=" grid grid-cols-12 relative">
         <div className="block md:hidden col-span-12 ">
           <div className="  mb-2 flex justify-end">
-            {/* <div className="relative  lg:max-w-sm">
-              <select className=" p-2.5 mr-3 text-gray-60000 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-gray-200">
-                <option className="hidden">Schedule duty time</option>
-                <option>Day shift 6 AM to 6 PM</option>
-                <option>Night shift 6 PM to 6 AM</option>
-              </select>
-            </div> */}
             <button
               className={` text-base  ${available ? "bg-green-400" : "bg-red-500"
                 } text-white py-2 px-3 shadow-2xl`}
@@ -62,13 +55,6 @@ const Dashboard = () => {
         </div>
         <div className="md:block hidden col-span-7 ">
           <div className=" p-3 flex justify-end">
-            {/* <div className="relative  lg:max-w-sm">
-              <select className=" p-2.5 mr-3 text-gray-60000 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-gray-200">
-                <option className="hidden">Schedule duty time</option>
-                <option>Day shift 6 AM to 6 PM</option>
-                <option>Night shift 6 PM to 6 AM</option>
-              </select>
-            </div> */}
 
             <button
               className={` text-base  ${available ? "bg-green-400" : "bg-red-500"
