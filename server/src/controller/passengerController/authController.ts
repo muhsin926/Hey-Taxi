@@ -14,15 +14,11 @@ const generateToken = (user: { _id: ObjectId; name: string }) => {
 
 // Passenger Registration Controller
 export const register: RequestHandler = async (req, res) => {
-  console.log(req.body);
-
   try {
     const { user, email, pwd } = req.body;
     const passenger = await passengerModel.findOne({ email });
     if (passenger) {
-      console.log("fdf");
-      
-      return res.status(200).send({ error: "Email already taken" });
+      return res.status(401).send({ error: "Email already taken" });
     } else {
       const hashedPassword = await bcrypt.hash(pwd, 10);
       new passengerModel({    

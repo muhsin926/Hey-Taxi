@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    showModal: true,
+    showModal: false,
+    fare: '',
+    payment: false,
 };
 
 const modalSlice = createSlice({
@@ -12,10 +14,16 @@ const modalSlice = createSlice({
       state.showModal = true;
     },
     setUnShowModal : (state) => {
-        state.showModal = true;
+        state.showModal = false;
+    },
+    setFare: (state, data) => {
+      state.fare = data.payload
+    },
+    setPayment: (state) => {
+      state.payment = true
     }
   },
 });
 
-export const { setShowModal,setUnShowModal } = modalSlice.actions;
+export const { setShowModal,setUnShowModal, setFare, setPayment } = modalSlice.actions;
 export default modalSlice.reducer;

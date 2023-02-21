@@ -1,12 +1,15 @@
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import React, { useContext, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 import { LocationContext } from '../../context/LocationContext';
+import { setPayment } from '../../redux/slices/ModalSlice';
 
 
 const Paypal = ({ fare }) => {
     const [orderId, setOrderId] = useState()
     const { distance } = useContext(LocationContext);
+    const dispatch =  useDispatch()
 
     const createOrder = async (data, actions) => {
         return await actions.order.create({
@@ -32,6 +35,7 @@ const Paypal = ({ fare }) => {
         return await actions.order.capture().then((details) => {
             const { payer } = details
             toast.success(`Transaction completed by ${payer}`);
+            dispatch(setPayment())
         });
     }
 
