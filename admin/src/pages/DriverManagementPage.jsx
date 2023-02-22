@@ -1,6 +1,7 @@
 import React from 'react'
-import SideBar from '../components/Dashboard/SideBar'
+import SideBar from '../components/SideBar/SideBar'
 import Navbar from '../components/Navbar/Navbar'
+import DriverManage from '../components/DriverManage/DriverManage'
 
 const DriverManagementPage = () => {
   return (
@@ -11,7 +12,7 @@ const DriverManagementPage = () => {
         <SideBar />
       </aside>
       <section className='col-span-10 ml-12 w-11/12 bg-zinc-800  rounded-xl p-10'>
-        
+        <DriverManage/>
       </section>
     </section>
   </main>

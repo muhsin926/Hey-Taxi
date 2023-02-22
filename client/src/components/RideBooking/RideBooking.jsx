@@ -31,8 +31,7 @@ useEffect(() => {
   const token = localStorage.getItem('token')
   axios.post(`${url}/api/passenger/ride-request`,{startPoint,endPoint}, {
         headers: { Authorization: `Bearer ${token}` }})
-},[payment])
-
+},[payment])       
 
   const handleClick = () => {
     navigate("/schedule_ride");
