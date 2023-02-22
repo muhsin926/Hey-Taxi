@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '../components/Navbar/Navbar'
-import Passenger from '../components/Passenger/Passenger'
+import Passenger from '../components/PassengerManage/PassengerManage'
 import SideBar from '../components/SideBar/SideBar'
 
 const PassangerPage = () => {

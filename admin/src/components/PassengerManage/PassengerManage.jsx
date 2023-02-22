@@ -1,40 +1,35 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import url from '../../api/Api'
-import { setShowModal } from '../../redux/Slices/ModalSlice'
-import Modal from './Modal'
+import { setPassModal } from '../../redux/Slices/ModalSlice'
 
-const DriverManage = () => {
-    const dispatch = useDispatch()
-    const {showModal} = useSelector((state) => state.modal)
+const Passenger = () => {
 
-    const [drivers, setDrivers] = useState([])
-    const [driver,setDriver] =useState({})
-    
-    const getDrivers = async () => {
-        const { data } = await axios.get(`${url}/api/admin/driver`)
-        setDrivers(data.drivers)
-    }
+  const [passengers, setPassengers] = useState()
+  const [passenger, setPassenger] = useState({})
 
-    useEffect(() => {
-        getDrivers()
-    }, [])
+  const getPassengers = async () => {
+    const { data } = await axios.get(`${url}/api/admin/passenger`)
+    setPassengers(data.passengers)
+    debugger
+}
 
-    const onClickHandler = (driver) => {
-        dispatch(setShowModal())
-        setDriver(driver)
-    }
+useEffect(() => {
+  getPassengers()
+}, [])
 
-    const deleteAcc = async(id) => {
-        debugger
-        const {data} = await axios.delete(`${url}/api/admin/driver?id=${id}`,)
-        data.status && alert("successfully deleted")
-    }
+const onClickHandler = (passenger) => {
+  dispatch(setPassModal())
+  setPassenger(passenger)
+}
 
-    return (
-        <section>
-            {showModal && <Modal driver={driver} />}
+const deleteAcc = async(id) => {
+  const {data} = await axios.delete(`${url}/api/admin/passenger?id=${id}`,)
+  data.status && alert("successfully deleted")
+}
+
+  return (
+    <section>
             <div className="flex flex-col">
                 <div className="overflow-x-auto">
                     <div className="flex justify-between py-3 pl-2">
@@ -115,19 +110,7 @@ const DriverManage = () => {
                                         >
                                             Email
                                         </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-xs font-bold text-right text-white uppercase "
-                                        >
-                                            Vehicle
-                                        </th>
-
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-xs font-bold text-right text-white uppercase "
-                                        >
-                                            Avialable
-                                        </th>
+                                    
                                         <th
                                             scope="col"
                                             className="px-6 py-3 text-xs font-bold text-right text-white uppercase "
@@ -144,31 +127,25 @@ const DriverManage = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-black">
-                                    {drivers.map((driver) => (
-                                        <tr className='hover:bg-gray-900' onClick={() => onClickHandler(driver)}>
+                                    {passengers.map((passenger) => (
+                                        <tr className='hover:bg-gray-900' onClick={() => onClickHandler(passenger)}>
                                             <td className="px-6 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                                {driver.name}
+                                                {passenger.name}
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                                                {driver.mobile}
+                                                {passenger.mobile}
                                             </td>
                                             <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                                                {driver.email}
+                                                {passenger.email}
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                                                {driver.vehicle.length}
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                                                {driver.available ? "Available" : "Unavailable"}
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+                                          <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
                                                 {driver.type}
                                             </td>
                                             <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                                 <a
                                                     className="text-red-500 hover:text-red-700"
                                                     href="#"
-                                                    onClick={() => deleteAcc(driver._id)}
+                                                    onClick={() => deleteAcc(passenger._id)}
                                                 >
                                                     Delete
                                                 </a>
@@ -182,7 +159,7 @@ const DriverManage = () => {
                 </div>
             </div>
         </section>
-    )
+  )
 }
 
-export default DriverManage
+export default Passenger
