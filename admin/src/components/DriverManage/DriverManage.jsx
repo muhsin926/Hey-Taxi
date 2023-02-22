@@ -1,11 +1,16 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import url from '../../api/Api'
+import { setShowModal } from '../../redux/Slices/ModalSlice'
+import Modal from './Modal'
 
 const DriverManage = () => {
+    const dispatch = useDispatch()
+    const {showModal} = useSelector((state) => state.modal)
 
     const [drivers, setDrivers] = useState([])
-
+    const [driver,setDriver] =useState({})
     const getDrivers = async () => {
         const { data } = await axios.get(`${url}/api/admin/driver`)
         setDrivers(data.drivers)
@@ -15,8 +20,20 @@ const DriverManage = () => {
         getDrivers()
     }, [])
 
+    const onClickHandler = (driver) => {
+        dispatch(setShowModal())
+        setDriver(driver)
+    }
+
+    const deleteAcc = async(id) => {
+        debugger
+        const {data} = await axios.delete(`${url}/api/admin/driver?id=${id}`,)
+        data.status && alert("successfully deleted")
+    }
+
     return (
         <section>
+            {showModal && <Modal driver={driver} />}
             <div className="flex flex-col">
                 <div className="overflow-x-auto">
                     <div className="flex justify-between py-3 pl-2">
@@ -116,12 +133,7 @@ const DriverManage = () => {
                                         >
                                             Type
                                         </th>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3 text-xs font-bold text-right text-white uppercase "
-                                        >
-                                            Edit
-                                        </th>
+
                                         <th
                                             scope="col"
                                             className="px-6 py-3 text-xs font-bold text-right text-white uppercase "
@@ -132,7 +144,7 @@ const DriverManage = () => {
                                 </thead>
                                 <tbody className="divide-y divide-black">
                                     {drivers.map((driver) => (
-                                        <tr>
+                                        <tr className='hover:bg-gray-900' onClick={() => onClickHandler(driver)}>
                                             <td className="px-6 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
                                                 {driver.name}
                                             </td>
@@ -153,16 +165,9 @@ const DriverManage = () => {
                                             </td>
                                             <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                                 <a
-                                                    className="text-green-500 hover:text-green-700"
-                                                    href="#"
-                                                >
-                                                    Edit
-                                                </a>
-                                            </td>
-                                            <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                                                <a
                                                     className="text-red-500 hover:text-red-700"
                                                     href="#"
+                                                    onClick={() => deleteAcc(driver._id)}
                                                 >
                                                     Delete
                                                 </a>
