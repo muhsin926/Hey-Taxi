@@ -1,32 +1,39 @@
-import axios from 'axios'
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import Modal from './Modal';
 import url from '../../api/Api'
+import toast, { Toaster } from 'react-hot-toast';
 
-const Passenger = () => {
-
-    const [passengers, setPassengers] = useState([])
+const VehicleCategory = () => {
+    const [showModal, setShowModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
-    
-    const getPassengers = async () => {
-        const { data } = await axios.get(`${url}/api/admin/passenger`)
-        setPassengers(data.passenger)
+    const [categories, setCategories] = useState([])
+
+    const getCategory = async () => {
+        const { data } = await axios.get(`${url}/api/admin/vehicle_category`)
+        setCategories(data.categories)
     }
 
     useEffect(() => {
-        getPassengers()
+        getCategory()
     }, [isLoading])
 
-  
 
-    const deleteAcc = async (id) => {
+
+    const deleteCategory = async (id) => {
         setIsLoading(true)
-        const { data } = await axios.delete(`${url}/api/admin/passenger?id=${id}`,)
+        const { data } = await axios.delete(`${url}/api/admin/vehicle_category?id=${id}`,)
         setIsLoading(false)
-        data.status && alert("successfully deleted")
+        data.status && toast.success("category deleted")
     }
 
     return (
         <section>
+            <Toaster />
+            {showModal && <Modal setIsLoading={setIsLoading} setShowModal={setShowModal} />}
+            <button className='bg-yellow-400 text-black font-semibold py-1 px-3 rounded hover:bg-yellow-600'
+                onClick={() => setShowModal(true)}>Add Category</button>
+
             <div className="flex flex-col">
                 <div className="overflow-x-auto">
                     <div className="flex justify-between py-3 pl-2">
@@ -99,57 +106,66 @@ const Passenger = () => {
                                                         scope="col"
                                                         className="px-6 py-3 text-xs font-bold text-left text-white uppercase "
                                                     >
+                                                        Demo Picter
+                                                    </th>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-6 py-3 text-xs font-bold text-left text-white uppercase "
+                                                    >
                                                         Name
                                                     </th>
                                                     <th
                                                         scope="col"
                                                         className="px-6 py-3 text-xs font-bold text-left text-white uppercase "
                                                     >
-                                                        Mobile
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-6 py-3 text-xs font-bold text-left text-white uppercase "
-                                                    >
-                                                        Email
+                                                        Capacity
                                                     </th>
 
                                                     <th
                                                         scope="col"
                                                         className="px-6 py-3 text-xs font-bold text-right text-white uppercase "
                                                     >
-                                                        Type
+                                                        Rate/KM
                                                     </th>
 
                                                     <th
                                                         scope="col"
                                                         className="px-6 py-3 text-xs font-bold text-right text-white uppercase "
                                                     >
-                                                        delte
+                                                        Discription
+                                                    </th>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-6 py-3 text-xs font-bold text-right text-white uppercase "
+                                                    >
+                                                        Delete
                                                     </th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-black">
 
-                                                {passengers.map((passenger) => (
+                                                {categories?.map((cat) => (
                                                     <tr className='hover:bg-gray-900' >
+                                                        <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+                                                            <img src={cat.image} className="w-16" alt="" />
+                                                        </td>
                                                         <td className="px-6 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                                            {passenger.name}
+                                                            {cat.name}
                                                         </td>
                                                         <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                                                            {passenger.mobile}
+                                                            {cat.capacity}
                                                         </td>
                                                         <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                                                            {passenger.email}
+                                                            {cat.rate}
                                                         </td>
                                                         <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                                                            {passenger.type}
+                                                            {cat.discription}
                                                         </td>
                                                         <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                                             <a
                                                                 className="text-red-500 hover:text-red-700"
                                                                 href="#"
-                                                                onClick={() => deleteAcc(passenger._id)}
+                                                                onClick={() => deleteCategory(cat._id)}
                                                             >
                                                                 Delete
                                                             </a>
@@ -168,4 +184,4 @@ const Passenger = () => {
     )
 }
 
-export default Passenger
+export default VehicleCategory

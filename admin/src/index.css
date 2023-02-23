@@ -1,4 +1,3 @@
-
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap");
 
 
@@ -6,21 +5,50 @@
 @tailwind components;
 @tailwind utilities;
 
-.mainCard{
+
+.arc:before {
+  -webkit-animation: spin 0.5s infinite linear;
+  animation: spin 0.5s infinite linear;
+  border-radius: 100%;
+  border-top: 6px solid var(--primary, #fff);
+  content: '';
+  display: block;
+  height: 50px;
+  width: 50px;
+}
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.mainCard {
   position: absolute;
   top: 20%;
   left: 10%;
 
 }
-.btmBorder{
+
+.btmBorder {
   padding-bottom: 20px;
   border-bottom: .3rem solid;
-  
+
 }
+
 :root {
-  font-family:'poppins', sans-serif;
+  font-family: 'poppins', sans-serif;
 }
-.hoverBack:hover{
+
+.hoverBack:hover {
   background-color: rgb(255, 255, 255);
   @apply shadow-lg
 }
@@ -33,10 +61,12 @@
   margin-bottom: 0.5rem;
   border-radius: 0.5rem;
 }
+
 .offscreen {
   position: absolute;
   left: -9999px;
 }
+
 .hide {
   display: none;
 }
@@ -50,6 +80,7 @@
   color: red;
   margin-left: 0.25rem;
 }
+
 .instructions {
   font-size: 0.75rem;
   border-radius: 0.5rem;
@@ -60,9 +91,10 @@
   bottom: -10px;
 }
 
-.instructions > svg {
+.instructions>svg {
   margin-right: 0.25rem;
 }
+
 form {
   display: flex;
   flex-direction: column;
@@ -77,17 +109,17 @@ input[type="password"],
 input::-webkit-input-placeholder {
   font-size: medium;
 }
+
 button,
 textarea {
-font-family: 'Nunito', sans-serif;
-font-size: 19px;
-padding: 0.30rem;
-border-radius: 0.5rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 19px;
+  padding: 0.30rem;
+  border-radius: 0.5rem;
 }
 
 
 
 button {
-padding: 0.5rem;
+  padding: 0.5rem;
 }
-

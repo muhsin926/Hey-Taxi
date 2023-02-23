@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import categoryModel from '../../model/admin/vehicleCategoryModel';
 import fileUploader from "../../cloudinery/fileUploader";
-import driverModel from "../../model/driver/driverModel";
+import vehicleModel from "../../model/driver/vehicleModel";
 
 export const addCategory: RequestHandler = async(req,res) => {
     const {name,capacity,discription,img,rate} = req.body;
@@ -32,12 +32,15 @@ export const addCategory: RequestHandler = async(req,res) => {
 }
 }
 
-export const deleteDriver: RequestHandler =async (req,res) => {
-    try{
-        const { id } = req.query;
-        await driverModel.deleteOne({_id:id})
-        return res.status(200).json({status: true})
-    }catch (err) {
-        console.log(err)
+export const getVehicles: RequestHandler = async (req, res) => {
+    const allVehicle = await vehicleModel.find({});
+    if (allVehicle) {
+      return res.status(200).json({ vehicles: allVehicle });
     }
-} 
+  };
+  
+  export const deleteVehicle: RequestHandler = async (req, res) => {
+    const { id } = req.query;
+    await vehicleModel.deleteOne({ _id: id });
+    return res.status(200).json({ status: true });
+  };

@@ -1,126 +1,179 @@
 import axios from 'axios';
-import React, { useState } from 'react';
-import url from '../../api/Api'
+import React, { useEffect, useState } from 'react';
+import url from '../../api/Api';
+
+
 
 const Vehicle = () => {
-    const [showModal, setShowModal] = useState(false);
-    const [name, setName] = useState('');
-    const [capacity, setCapacity] = useState();
-    const [rate, setRate] = useState()
-    const [discription, setDiscription] = useState('')
-    const [img, setImage] = useState()
 
-    const convertBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
+    const [isLoading, setIsLoading] = useState(false)
+    const [vehicles, setVehicles] = useState([])
 
-            fileReader.onload = () => {
-                resolve(fileReader.result);
-            };
-
-            fileReader.onerror = (error) => {
-                reject(error);
-            };
-        });
-    };
-
-    const fileUpload = async (e) => {
-        const file = e.target.files[0];
-        console.log(file);
-        const base64 = await convertBase64(file);
-        setImage(base64)
+    const getVehicles = async () => {
+        const { data } = await axios.get(`${url}/api/admin/vehicle`)
+        setVehicles(data.vehicles)
     }
 
-    const submitHandler = (event) => {
-        event.preventDefault();
-        axios.post(`${url}/api/admin/vehicle`, { name, capacity, discription, img })
-            .then((res) => {
-                if (res.data.status) {
-                    setShowModal(false)
-                } else {
-                    alert(res.data.err)
-                }
-            })
-            .catch((err) => {
-                alert(err)
-            })
+    useEffect(() => {
+        getVehicles()
+    }, [isLoading])
+
+
+
+    const deleteAcc = async (id) => {
+        setIsLoading(true)
+        const { data } = await axios.delete(`${url}/api/admin/vehicle?id=${id}`,)
+        setIsLoading(false)
+        data.status && alert("successfully deleted")
     }
+
     return (
         <div>
-            <button className='bg-zinc-900 text-white py-1 px-3 rounded hover:bg-zinc-700'
-                onClick={() => setShowModal(true)}>Vehicle Category Management</button>
-            {showModal ? (
-                <>
-                    <div
-                        className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-                    >
-                        <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                            {/*content*/}
-                            <div className="border-0 rounded-lg shadow-lg relative flex text-black flex-col w-full bg-white outline-none focus:outline-none">
-                                {/*header*/}
-                                <form onSubmit={submitHandler}>
-                                    <div className="flex items-start justify-between  rounded-t">
-                                        <h3 className="text-xl font-base ml-6 mt-6">
-                                            Add Categories
-                                        </h3>
-                                        <button
-                                            className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                            onClick={() => setShowModal(false)}
-                                        >
-                                            <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                                                ×
-                                            </span>
-                                        </button>
-                                    </div>
-                                    {/*body*/}
-                                    <div className="relative p-6 flex flex-col">
-                                        <input type="text"
-                                            placeholder='category name'
-                                            className='border border-grey-light w-full p-3 rounded mb-4'
-                                            value={name}
-                                            onChange={(e) => setName(e.target.value)}
-                                        />
-                                        <input
-                                            value={capacity}
-                                            onChange={e => setCapacity(e.target.value)}
-                                            className='border border-grey-light w-full p-3 rounded mb-4' type="number" placeholder='capacity' />
-                                        <input
-                                            value={rate}
-                                            onChange={e => setRate(e.target.value)}
-                                            className='border border-grey-light w-full p-3 rounded mb-4' type="number" placeholder='rate per KM' />
-                                        <input
-                                            value={discription}
-                                            onChange={e => setDiscription(e.target.value)}
-                                            className='border border-grey-light w-full p-3 rounded mb-4' type="text " placeholder='discription' />
-                                        <input
-                                            onChange={fileUpload}
-                                            className='border border-grey-light w-full p-3 rounded mb-4' type="file" />
-                                    </div>
-                                    {/*footer*/}
-                                    <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                                        <button
-                                            className="text-red-500 hover:bg-gray-200 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                            type="button"
-                                            onClick={() => setShowModal(false)}
-                                        >
-                                            Close
-                                        </button>
-                                        <button
-                                            className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                            type="submit"
-                                        >
-                                            Save
-                                        </button>
-                                    </div>
-                                </form>
+
+
+
+
+            <section>
+                <div className="flex flex-col">
+                    <div className="overflow-x-auto">
+                        <div className="flex justify-between py-3 pl-2">
+                            <div className="relative max-w-xs">
+                                <label htmlFor="hs-table-search" className="sr-only">
+                                    Search
+                                </label>
+                                <input
+                                    type="text"
+                                    name="hs-table-search"
+                                    id="hs-table-search"
+                                    className="block w-full p-3 pl-10 text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                                    placeholder="Search..."
+                                />
+                                <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                                    <svg
+                                        className="h-3.5 w-3.5 text-gray-400"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        fill="currentColor"
+                                        viewBox="0 0 16 16"
+                                    >
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center space-x-2">
+                                <div className="relative">
+                                    <button className="relative z-0 inline-flex text-sm rounded-md shadow-sm focus:ring-accent-500 focus:border-accent-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1">
+                                        <span className="relative inline-flex items-center px-3 py-3 space-x-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md sm:py-2">
+                                            <div>
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="w-3 h-3"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                    strokeWidth={2}
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <div className="hidden sm:block">
+                                                Filters
+                                            </div>
+                                        </span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                        {
+                            isLoading ?
+                                <div className="flex justify-center items-center">
+                                    <div className=" arc"></div>
+                                </div> :
+                                <>
+
+                                    <div className="p-1.5 w-full inline-block align-middle">
+                                        <div className="overflow-auto border rounded-lg">
+                                            <table className="min-w-full divide-y divide-black">
+                                                <thead className="bg-black">
+                                                    <tr>
+                                                        <th
+                                                            scope="col"
+                                                            className="px-6 py-3 text-xs font-bold text-left text-white uppercase "
+                                                        >
+                                                            Category
+                                                        </th>
+                                                        <th
+                                                            scope="col"
+                                                            className="px-6 py-3 text-xs font-bold text-left text-white uppercase "
+                                                        >
+                                                            Model
+                                                        </th>
+                                                        <th
+                                                            scope="col"
+                                                            className="px-6 py-3 text-xs font-bold text-left text-white uppercase "
+                                                        >
+                                                            Registration
+                                                        </th>
+
+                                                        <th
+                                                            scope="col"
+                                                            className="px-6 py-3 text-xs font-bold text-right text-white uppercase "
+                                                        >
+                                                            Owner
+                                                        </th>
+
+                                                        <th
+                                                            scope="col"
+                                                            className="px-6 py-3 text-xs font-bold text-right text-white uppercase "
+                                                        >
+                                                            delte
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y divide-black">
+
+                                                    {vehicles?.map((vehicle) => (
+                                                        <tr className='hover:bg-gray-900' >
+                                                            <td className="px-6 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
+                                                                {vehicle.category}
+                                                            </td>
+                                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+                                                                {vehicle.model}
+                                                            </td>
+                                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+                                                                {vehicle.reg_no}
+                                                            </td>
+                                                            <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+                                                                {vehicle.driverId.name}
+                                                            </td>
+                                                            <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                                                                <a
+                                                                    className="text-red-500 hover:text-red-700"
+                                                                    href="#"
+                                                                    onClick={() => deleteAcc(vehicle._id)}
+                                                                >
+                                                                    Delete
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </>
+                        }
                     </div>
-                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-                </>
-            ) : null}
+                </div>
+            </section>
         </div>
+
     )
 }
 

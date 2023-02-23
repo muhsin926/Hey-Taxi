@@ -4,6 +4,7 @@ import DashboardPage from './pages/DashboardPage'
 import DriverManagementPage from './pages/DriverManagementPage'
 import LoginPage from './pages/LoginPage'
 import PassangerPage from './pages/PassangerPage'
+import VehicleCategoryPage from './pages/VehicleCategoryPage'
 import VehiclePage from './pages/VehiclePage'
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
           <Route path='/driver'  element={<DriverManagementPage />} />
           <Route path='/vehicle'  element={<VehiclePage />} />
           <Route path='/passenger'  element={<PassangerPage />} />
+          <Route path='/vehicle_category'  element={<VehicleCategoryPage />} />
         </Routes>
       </Router>
     </div>
