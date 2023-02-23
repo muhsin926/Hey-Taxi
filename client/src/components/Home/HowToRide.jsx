@@ -1,10 +1,18 @@
 import React from "react";
 import { howToRide } from "../../constants";
 
+import { useSelector } from "react-redux";
+
+
 const HowToRide = () => {
+ 
+  const socketEmit = () => {
+    
+      alert("send")
+  }
   return (
     <section className="md:ml-12 md:mr-12 md:mb-12 md:p-10 ml-6 mr-6  p-5 ">
-      <h1 className="md:text-3xl sm:text-3xl font-semibold">
+      <h1 onClick={() => socketEmit()} className="md:text-3xl sm:text-3xl font-semibold">
         How to ride with hey taxi
       </h1>
       <div className="flex flex-col mt-10">

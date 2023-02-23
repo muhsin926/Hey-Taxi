@@ -1,12 +1,14 @@
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import React, { useContext, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LocationContext } from '../../context/LocationContext';
 import { setPayment } from '../../redux/slices/ModalSlice';
+import {io} from "socket.io-client";
 
 
 const Paypal = ({ fare }) => {
+    const { socket } =useSelector((state) => state.socket)
     const [orderId, setOrderId] = useState()
     const { distance } = useContext(LocationContext);
     const dispatch =  useDispatch()
@@ -34,8 +36,17 @@ const Paypal = ({ fare }) => {
     const onApprove = async (data, actions) => {
         return await actions.order.capture().then((details) => {
             const { payer } = details
+            socket.emit('send-request',{
+                message: {
+                    pickup: "pattambi",
+                    droppoff: "calicut",
+                    user_name: "Passenger",
+                    profile: "image"
+                }
+              })
             toast.success(`Transaction completed by ${payer}`);
             dispatch(setPayment())
+
         });
     }
 

@@ -7,7 +7,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, useNavigate } from "react-router-dom";
+import { json, Link, useNavigate } from "react-router-dom";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{2,23}$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -71,12 +71,14 @@ const SignUp = () => {
         const result = response.data;
         if (result.status) {
           localStorage.setItem("token", JSON.stringify(result.token));
+          localStorage.setItem("userId", json.stringify(result.user))
           navigate("/");
         } else {
           setErrMsg(result.msg);
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         setErrMsg("No server respond");
         errRef.current.focus();
       });

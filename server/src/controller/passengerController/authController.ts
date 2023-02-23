@@ -18,7 +18,7 @@ export const register: RequestHandler = async (req, res) => {
     const { user, email, pwd } = req.body;
     const passenger = await passengerModel.findOne({ email });
     if (passenger) {
-      return res.status(401).send({ error: "Email already taken" });
+      return res.status(200).send({ error: "Email already taken" });
     } else {
       const hashedPassword = await bcrypt.hash(pwd, 10);
       new passengerModel({    
@@ -31,7 +31,7 @@ export const register: RequestHandler = async (req, res) => {
           const token = generateToken(user);
           res
             .status(201)
-            .send({ msg: "User Register Successfully", status: true ,token});
+            .send({ msg: "User Register Successfully", status: true ,token, user:user._id});
         })
         .catch((error) => res.status(200).send({ error, status: false }));
     }
