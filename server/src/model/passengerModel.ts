@@ -16,7 +16,9 @@ const passengerSchema = new Schema(
       required: [ true, "Please provide a strong password" ]
     },
     mobile: { type: Number },
-    profile: { type: String },
+    profile: { 
+      type: String, 
+    },
   },
   { timestamps: true }
 );

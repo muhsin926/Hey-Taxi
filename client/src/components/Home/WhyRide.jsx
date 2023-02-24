@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import { whyRide } from "../../constants";
 import { useAnimation, motion, delay } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useSelector } from "react-redux";
+
+
 
 const squareVariants = {
   visible: { opacity: 1, y: 1, transition: { duration: 0.5 } },
@@ -13,6 +16,7 @@ const squareVariants1 = {
   hidden: { opacity: 0, y: "-4vw" },
 };
 const WhyRide = () => {
+  const { socket } =useSelector((state) => state.socket)
   const controls = useAnimation();
   const [ref, inView] = useInView();
   useEffect(() => {
@@ -20,6 +24,18 @@ const WhyRide = () => {
       controls.start("visible");
     }
   }, [controls, inView]);
+
+  const socketCall = ()=> {
+    socket.emit("send-request",{
+      message: {
+          pickup: "pattambi",
+          droppoff: "calicut",
+          user_name: "Passenger",
+          profile: "image"
+      }})
+  }
+
+
   return (
     <section className="md:m-12 md:p-10 m-6 p-5  bg-white">
       <motion.h1
@@ -28,6 +44,7 @@ const WhyRide = () => {
         initial="hidden"
         variants={squareVariants}
         className="md:text-3xl sm:text-3xl font-semibold "
+        onClick={() =>socketCall()}
       >
         Why ride with hey taxi
       </motion.h1>

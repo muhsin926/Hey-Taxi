@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./auth";
+import authReducer from "./slices/auth";
 import scheduleRide from './slices/ScheduleSlice';
 import modal from './slices/ModalSlice';
 import socket from './slices/SocketSlice'

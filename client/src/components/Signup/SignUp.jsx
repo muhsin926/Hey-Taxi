@@ -8,9 +8,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { json, Link, useNavigate } from "react-router-dom";
+import toast,{  Toaster } from "react-hot-toast";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{2,23}$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+const MOBILE_REGEX = /^[6-9]\d{9}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const SignUp = () => {
@@ -25,6 +27,9 @@ const SignUp = () => {
 
   const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(false);
+
+  const [mob, setMob] = useState("");
+  const [validMob, setValidMob] = useState(false);
 
   const [pwd, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
@@ -47,6 +52,10 @@ const SignUp = () => {
   useEffect(() => {
     setValidEmail(EMAIL_REGEX.test(email));
   }, [email]);
+  
+  useEffect(() => {
+    setValidMob(MOBILE_REGEX.test(mob));
+  }, [mob]);
 
   useEffect(() => {
     setValidPwd(PWD_REGEX.test(pwd));
@@ -66,12 +75,12 @@ const SignUp = () => {
       setErrMsg("Invalid Entry");
       return;
     }
-    Axios.post(`${url}/api/passenger/register`, { user, email, pwd })
+    Axios.post(`${url}/api/passenger/register`, { user, email, pwd, mob })
       .then((response) => {
         const result = response.data;
         if (result.status) {
           localStorage.setItem("token", JSON.stringify(result.token));
-          localStorage.setItem("userId", json.stringify(result.user))
+          toast.success(result.msg)
           navigate("/");
         } else {
           setErrMsg(result.msg);
@@ -85,10 +94,11 @@ const SignUp = () => {
   };
   return (
     <section className="flex flex-col justify-center items-center bg-slate-100 ">
+      <Toaster/>
       <div className="flex flex-col justify-center items-center  w-1/4 h-1/3 rounded-lg">
-        <div className="bg-grey-lighter min-h-screen flex flex-col">
+        <div className="bg-grey-lighter min-h-screen md:min-h-[35rem] flex flex-col">
           <div className="container w-96  mx-auto flex-1 flex flex-col items-center  justify-center px-2">
-            <div className="hoverBack px-7 py-8 rounded-lg  text-black w-full">
+            <div className="hoverBack px-7 py-8 rounded-lg md:h-[28rem]  overflow-auto border border-gray-300 scrollbar-hide  text-black w-full">
               <p
                 ref={errRef}
                 className={errMsg ? "errmsg" : "offscreen"}
@@ -162,6 +172,29 @@ const SignUp = () => {
                   placeholder="Enter valid email"
                 />
 
+                <label htmlFor="name">
+                  Mobile
+                  <FontAwesomeIcon
+                    icon={faCheck}
+                    className={validMob ? "valid" : "hide"}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                    className={validMob || !mob ? "hide" : "invalid"}
+                  />
+                </label>
+                <input
+                  type="number"
+                  className="block border border-gray-300 w-full p-3 rounded mb-4"
+                  id="name"
+                  placeholder="Enter your mobile number"
+                  autoComplete="off"
+                  onChange={(e) => setMob(e.target.value)}
+                  value={mob}
+                  required
+                  aria-invalid={validMob ? "false" : "true"}
+                />
+
                 <label htmlFor="password">
                   Password:
                   <FontAwesomeIcon
@@ -219,6 +252,7 @@ const SignUp = () => {
                 </label>
                 <input
                   type="password"
+                  placeholder="confirm password"
                   className="block border border-grey-300 w-full p-3 rounded mb-4"
                   id="confirm_pwd"
                   onChange={(e) => setMatchPwd(e.target.value)}
@@ -251,12 +285,12 @@ const SignUp = () => {
                   >
                     Sign Up
                   </button>
-                  <Link className="text-sky-900 font-medium" to="/login">
-                    Already have an account
-                  </Link>
                 </div>
               </form>
             </div>
+                  <Link className="mt-3 text-sky-900 font-medium" to="/login">
+                    Already have an account
+                  </Link>
           </div>
         </div>
       </div>

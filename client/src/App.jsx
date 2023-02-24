@@ -5,6 +5,7 @@ import RideSchedulePage from "./pages/RideSchedulePage";
 import { io } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { setSocket } from "./redux/slices/SocketSlice";
+import ProfilePage from "./pages/ProfilePage";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/ride" element={<RideBookingPage />} />
         <Route path="/schedule_ride" element={<RideSchedulePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </div>
   );

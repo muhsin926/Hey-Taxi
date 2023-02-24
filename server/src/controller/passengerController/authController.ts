@@ -15,7 +15,7 @@ const generateToken = (user: { _id: ObjectId; name: string }) => {
 // Passenger Registration Controller
 export const register: RequestHandler = async (req, res) => {
   try {
-    const { user, email, pwd } = req.body;
+    const { user, email, pwd, mob } = req.body;
     const passenger = await passengerModel.findOne({ email });
     if (passenger) {
       return res.status(200).send({ error: "Email already taken" });
@@ -24,10 +24,11 @@ export const register: RequestHandler = async (req, res) => {
       new passengerModel({    
         name:user,
         email,
+        mobile: mob,
         password: hashedPassword,
       })
         .save()
-        .then((user: any) => {
+        .then((user:any) => {
           const token = generateToken(user);
           res
             .status(201)

@@ -1,6 +1,9 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import url from '../../api/Api'
+import {io} from 'socket.io-client'
+import { setSocket } from "../../redux/slices/SocketSlice";
 
 const upcomingTrip = [
   { name: "Steve jobs", pickup: "Mumbai", droppoff: "Delhi", date: "25/2/23" },
@@ -9,11 +12,34 @@ const upcomingTrip = [
 ];
 
 const Dashboard = () => {
+  const dispatch = useDispatch()
+  const {socket} = useSelector((state) => state.socket)
   const [underline, setUnderline] = useState("request");
   const [available, setAvailable] = useState(false);
+  const[notification,setNotification] =useState({})
 
+
+  socket &&  socket.on("request-receive",(data) => {
+    debugger
+      setNotification(data.messsage)
+      console.log(data.message);
+      console.log(data);
+    })
+
+
+  useEffect(() => {
+  socket &&  socket.on("request-receive",(data) => {
+      setNotification(data.messsage)
+      console.log(data.message);
+      console.log(data);
+    })
+  },[socket])
   const handleAvailable = () => {
-    axios.post(`${url}/api/driver/available`)
+    const token = localStorage.getItem("token")
+    console.log(token);
+    axios.post(`${url}/api/driver/available`,{},{
+      headers: { Authorization: `Bearer ${token}` }
+    })
     .then(() => {
       setAvailable(!available)
     })
@@ -21,6 +47,7 @@ const Dashboard = () => {
    
   return (
     <>
+<p></p>
       <div className=" grid grid-cols-12 relative">
         <div className="block md:hidden col-span-12 ">
           <div className="  mb-2 flex justify-end">

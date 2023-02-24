@@ -37,16 +37,23 @@ const onlineDriver =new Map()
 io.on("connection", (socket) => {
   // add user to onlineUsers if not already exist
   socket.on("addUser", (id) => {
+    console.log("passenger");    
     !onlineUsers.get(id) && onlineUsers.set(id, socket.id);
   });
 
   socket.on("addDriver", (id) => {
+    console.log("driver");
+    
     !onlineDriver.get(id) && onlineDriver.set(id, socket.id);
   });
 
   // send message to the client
   socket.on("send-request", (data) => {
   console.log(data.message);
+
+   socket.broadcast.emit("request-receive", {
+    message: data.message
+   })
   
   });
 });
