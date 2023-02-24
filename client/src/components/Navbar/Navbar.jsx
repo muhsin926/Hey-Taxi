@@ -1,15 +1,22 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { logo1 } from "../../assets";
+import { blankProfile, logo1 } from "../../assets";
 import { Link } from "react-router-dom";
 import useAuth from "../../customHooks/useAuth";
+import { useSelector } from "react-redux";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "Ride", href: "/login", current: false },
   { name: "Drive", href: "#", current: false },
 ];
+
+const demmi = [
+  { profile: "" , name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut'},
+    { profile: "" , name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut'},
+  { profile: "" , name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut'},
+]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -20,7 +27,17 @@ const handleSignOut = () => {
 };
 
 export default function Navbar() {
+  const [notification,setNotification] = useState(demmi)
+  const { socket } = useSelector((state) => state.socket)
   const auth = useAuth()
+
+  useEffect(()=> {
+    socket && socket.on("ride-accept",(data)=>{
+      console.log(data);
+      setNotification(data)
+    })
+  },[socket])
+
   return (
     <Disclosure as="nav" className="bg-black ">
       {({ open }) => (
@@ -55,13 +72,53 @@ export default function Navbar() {
               </div>
               {auth ? (
               <div className="absolute  inset-y-0 right-8 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
-                  type="button"
-                  className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+                <Menu as="div" className="relative ml-3 ">
+                  <div>
+                    <Menu.Button  className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <span className="sr-only">View notifications</span>
+                    <BellIcon className="h-6 w-6" aria-hidden="true" />
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                      <Menu.Items className="absolute right-0 z-10 mt-2 w-96 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                       {notification.map((d) => (
+                        <Menu.Item>
+                          {({ active }) => (
+                            <Link
+                              to={'#'}
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              <div className="flex py-3">
+                                <img className="w-10 h-10" src={blankProfile} alt="" />
+                                <div>
+                                <h1>{d.name}</h1>
+                                <h1>{d.pickup}</h1>
+                                <h1>{d.droppoff}</h1>
+                                </div>
+                                <div>
+                                <button className="bg-green-100 ">Accept</button>
+
+                                </div>
+                              </div>
+                            </Link>
+                          )}
+                        </Menu.Item>
+                        ))}
+                        
+                      </Menu.Items>
+                  </Transition>
+                </Menu>
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3 ">

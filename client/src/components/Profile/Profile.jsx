@@ -175,12 +175,12 @@ const Profile = () => {
                             <label htmlFor="profile">{user.profile ? "Update your profile photo" : 'Add profile photo'}</label>
                         </div>
                         <input type="file" className="hidden" onChange={e => fileUpload(e)} name="profile" id='profile' />
-                        <button
+                        {/* <button
                         type="submit"
                                 className="bg-gradient-to-b hover:bg-gradient-to-t from-gray-400 rounded-md to-black text-white py-1 px-5"
                             >
                                 Save
-                            </button>
+                            </button> */}
                     </div>
                 </form>
             </div>}

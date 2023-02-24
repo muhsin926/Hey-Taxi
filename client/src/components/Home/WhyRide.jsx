@@ -27,12 +27,11 @@ const WhyRide = () => {
 
   const socketCall = ()=> {
     socket.emit("send-request",{
-      message: {
           pickup: "pattambi",
           droppoff: "calicut",
           user_name: "Passenger",
           profile: "image"
-      }})
+      })
   }
 
 

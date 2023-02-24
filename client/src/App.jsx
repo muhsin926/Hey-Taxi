@@ -9,10 +9,10 @@ import ProfilePage from "./pages/ProfilePage";
 
 
 function App() {
+  const {userId} = useSelector((state) => state.auth)
   const { socket } = useSelector((state) => state.socket)
   const dispatch = useDispatch()
   useEffect(() => {
-    const userId = localStorage.getItem("userId")
     const data = io(import.meta.env.VITE_SERVER_DOMAIN)
     dispatch(setSocket(data))
     socket && socket.emit("addUser", userId);

@@ -7,7 +7,8 @@ import passRouter from "./router/passenger/passengerRouter";
 import driverRouter from "./router/driver/driverRouter";
 import adminRouter from "./router/admin/adminRouter";
 import cors from "cors";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
 
 const app = express();
 const server = http.createServer(app);
@@ -34,6 +35,7 @@ app.use("/api/admin", adminRouter);
 
 const onlineUsers = new Map();
 const onlineDriver =new Map()
+let passengerSocket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
 io.on("connection", (socket) => {
   // add user to onlineUsers if not already exist
   socket.on("addUser", (id) => {
@@ -49,13 +51,20 @@ io.on("connection", (socket) => {
 
   // send message to the client
   socket.on("send-request", (data) => {
-  console.log(data.message);
-
-   socket.broadcast.emit("request-receive", {
-    message: data.message
-   })
+  console.log(data, "passenger");
+ passengerSocket = socket
+   socket.broadcast.emit("send-request", { data })
   
   });
+
+  socket.on("ride-accept", (data)=>{
+    console.log(data,"Driver");
+    
+    if (passengerSocket) {
+      // Emit a ride-accepted event to the specific passenger
+      passengerSocket.emit('ride-accept', data);
+    }
+  })
 });
 
 const port = env.PORT;

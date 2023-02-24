@@ -11,15 +11,21 @@ import SignupPage from "./pages/SignupPage";
 import VehiclesPage from "./pages/VehiclesPage";
 import {io} from "socket.io-client";
 import { setSocket } from "./redux/slices/SocketSlice";
+import jwt_decode from "jwt-decode";
+import { setUserId } from "./redux/slices/AuthSlice";
 
 const App = () => {
+  const { userId } = useSelector((state) => state.auth)
   const { socket } = useSelector((state) => state.socket)
   const dispatch = useDispatch()
   useEffect(() => {
-    const userId = localStorage.getItem("userId")
+    const token = JSON.parse(localStorage.getItem("token"));
+    const decoded = jwt_decode(token);
+    dispatch(setUserId(decoded.userId))
     const data = io(import.meta.env.VITE_SERVER_DOMAIN)
     dispatch(setSocket(data))
-    socket && socket.emit("addDriver", 1);
+    console.log(userId);
+    socket && socket.emit("addDriver", userId);
   }, [])
   return (
     <>
