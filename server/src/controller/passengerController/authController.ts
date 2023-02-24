@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 import env from "../../utility/validateEnv";
 import { ObjectId } from "mongoose";
 
-
 // Token Generate Function
 const generateToken = (user: { _id: ObjectId; name: string }) => {
   return jwt.sign({ userId: user._id }, env.JWT_SECRET, { expiresIn: "24h" });
@@ -16,29 +15,35 @@ const generateToken = (user: { _id: ObjectId; name: string }) => {
 export const register: RequestHandler = async (req, res) => {
   try {
     const { user, email, pwd, mob } = req.body;
+
     const passenger = await passengerModel.findOne({ email });
     if (passenger) {
       return res.status(200).send({ error: "Email already taken" });
     } else {
       const hashedPassword = await bcrypt.hash(pwd, 10);
-      new passengerModel({    
-        name:user,
+      new passengerModel({
+        name: user,
         email,
         mobile: mob,
         password: hashedPassword,
       })
         .save()
-        .then((user:any) => {
+        .then((user: any) => {
           const token = generateToken(user);
           res
             .status(201)
-            .send({ msg: "User Register Successfully", status: true ,token, user:user._id});
+            .send({
+              msg: "User Register Successfully",
+              status: true,
+              token,
+              user: user._id,
+            });
         })
         .catch((error) => res.status(200).send({ error, status: false }));
     }
   } catch (error) {
     console.log(error);
-    
+
     return res.status(500).send(error);
   }
 };
@@ -47,7 +52,7 @@ export const register: RequestHandler = async (req, res) => {
 
 export const login: RequestHandler = async (req, res) => {
   const { email, password } = req.body;
-  
+
   try {
     passengerModel
       .findOne({ email })
@@ -69,27 +74,27 @@ export const login: RequestHandler = async (req, res) => {
               status: true,
             });
           })
-          .catch((error) =>{
+          .catch((error) => {
             console.log(error);
-            
+
             res
               .status(400)
-              .send({ status: false, error: "Password does not match" })
-      });
+              .send({ status: false, error: "Password does not match" });
+          });
       })
-      .catch((error) =>{
+      .catch((error) => {
         console.log(error);
-        
-        res.status(404).send({ status: false, error: "Email not found" })
-  });
+
+        res.status(404).send({ status: false, error: "Email not found" });
+      });
   } catch (error) {
     console.log(error);
-    
+
     console.log(error);
   }
 };
 
-export const getCategory: RequestHandler = async(req,res) => {
-  const categories = await vehicleCategoryModel.find({})
-  return res.status(200).json({cat:categories})
-}
+export const getCategory: RequestHandler = async (req, res) => {
+  const categories = await vehicleCategoryModel.find({});
+  return res.status(200).json({ cat: categories });
+};

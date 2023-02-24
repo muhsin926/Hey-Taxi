@@ -64,14 +64,15 @@ const SignUp = () => {
 
   useEffect(() => {
     setErrMsg("");
-  }, [user, email, pwd, matchPwd]);
+  }, [user, email, pwd, matchPwd, mob]);
 
   const submitHandler = (event) => {
     event.preventDefault();
     const v1 = USER_REGEX.test(user);
     const v2 = PWD_REGEX.test(pwd);
     const v3 = EMAIL_REGEX.test(email);
-    if (!v1 || !v2 || !v3) {
+    const v4 = MOBILE_REGEX.test(mob)
+    if (!v1 || !v2 || !v3 || !v4) {
       setErrMsg("Invalid Entry");
       return;
     }
@@ -83,7 +84,7 @@ const SignUp = () => {
           toast.success(result.msg)
           navigate("/");
         } else {
-          setErrMsg(result.msg);
+          setErrMsg(result.error);
         }
       })
       .catch((err) => {

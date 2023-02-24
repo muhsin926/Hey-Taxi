@@ -7,10 +7,10 @@ import url from "../../api/Api";
 import { useDispatch } from "react-redux";
 import { setUnShowModal } from "../../redux/slices/ModalSlice";
 import { toast, Toaster } from "react-hot-toast";
-  
+
 const schema = yup.object().shape({
   category: yup.string().required(),
-  model: yup.string().required(),
+  model: yup.string().required().matches(/^\s*\S.*$/, 'Whitespace is not allowed'),
   reg_no: yup.string().required(),
   RC: yup.mixed().test("required", "please select a file", (value) => {
     return value && value.length;
