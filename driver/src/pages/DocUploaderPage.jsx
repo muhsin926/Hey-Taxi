@@ -4,7 +4,7 @@ import { DocUploader, Navbar } from "../components";
 const DocUploaderPage = () => {
   return (
     <>
-    <Navbar/>
+      <Navbar />
       <DocUploader />
     </>
   );

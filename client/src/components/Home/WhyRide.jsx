@@ -16,7 +16,7 @@ const squareVariants1 = {
   hidden: { opacity: 0, y: "-4vw" },
 };
 const WhyRide = () => {
-  const { socket } =useSelector((state) => state.socket)
+  const { socket } = useSelector((state) => state.socket)
   const controls = useAnimation();
   const [ref, inView] = useInView();
   useEffect(() => {
@@ -25,13 +25,13 @@ const WhyRide = () => {
     }
   }, [controls, inView]);
 
-  const socketCall = ()=> {
-    socket.emit("send-request",{
-          pickup: "pattambi",
-          droppoff: "calicut",
-          user_name: "Passenger",
-          profile: "image"
-      })
+  const socketCall = () => {
+    socket.emit("send-request", {
+      pickup: "pattambi",
+      droppoff: "calicut",
+      user_name: "Passenger",
+      profile: "image"
+    })
   }
 
 
@@ -43,7 +43,7 @@ const WhyRide = () => {
         initial="hidden"
         variants={squareVariants}
         className="md:text-3xl sm:text-3xl font-semibold "
-        onClick={() =>socketCall()}
+        onClick={() => socketCall()}
       >
         Why ride with hey taxi
       </motion.h1>

@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { json, Link, useNavigate } from "react-router-dom";
-import toast,{  Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{2,23}$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -52,7 +52,7 @@ const SignUp = () => {
   useEffect(() => {
     setValidEmail(EMAIL_REGEX.test(email));
   }, [email]);
-  
+
   useEffect(() => {
     setValidMob(MOBILE_REGEX.test(mob));
   }, [mob]);
@@ -95,7 +95,7 @@ const SignUp = () => {
   };
   return (
     <section className="flex flex-col justify-center items-center bg-slate-100 ">
-      <Toaster/>
+      <Toaster />
       <div className="flex flex-col justify-center items-center  w-1/4 h-1/3 rounded-lg">
         <div className="bg-grey-lighter min-h-screen md:min-h-[35rem] flex flex-col">
           <div className="container w-96  mx-auto flex-1 flex flex-col items-center  justify-center px-2">
@@ -289,9 +289,9 @@ const SignUp = () => {
                 </div>
               </form>
             </div>
-                  <Link className="mt-3 text-sky-900 font-medium" to="/login">
-                    Already have an account
-                  </Link>
+            <Link className="mt-3 text-sky-900 font-medium" to="/login">
+              Already have an account
+            </Link>
           </div>
         </div>
       </div>

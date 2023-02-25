@@ -6,14 +6,14 @@ import { setScheduleDate, setScheduleTime } from '../../redux/slices/scheduleSli
 
 const ScheduleRide = () => {
     const dispatch = useDispatch();
-    const {scheduleDate, scheduleTime} = useSelector((state) => state.scheduleRide)
+    const { scheduleDate, scheduleTime } = useSelector((state) => state.scheduleRide)
     const navigate = useNavigate();
     const today = new Date();
     const date = today.setDate(today.getDate());
     const defaultValue = new Date(date).toISOString().split('T')[0]
 
     const currentTime = new Date(),
-    time = currentTime.getHours() + ':' + (currentTime.getMinutes()+20) 
+        time = currentTime.getHours() + ':' + (currentTime.getMinutes() + 20)
     return (
         <div> <motion.div
             initial={{ x: "-10vw", opacity: 0 }}

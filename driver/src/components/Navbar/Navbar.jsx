@@ -15,9 +15,9 @@ const navigation = [
 ];
 
 const demmi = [
-  { profile: "" , name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut'},
-    { profile: "" , name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut'},
-  { profile: "" , name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut'},
+  { profile: "", name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut' },
+  { profile: "", name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut' },
+  { profile: "", name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut' },
 ]
 
 function classNames(...classes) {
@@ -29,23 +29,23 @@ const handleSignOut = () => {
 
 export default function Navbar() {
   const [noti, setNoti] = useState(demmi)
-  const { socket} = useSelector((state) => state.socket)
+  const { socket } = useSelector((state) => state.socket)
 
   useEffect(() => {
-    socket && socket.on("send-request", (data)=> {
+    socket && socket.on("send-request", (data) => {
       console.log(data);
-      setNoti([...noti,data])
-      
-    })
-  },[socket])
+      setNoti([...noti, data])
 
-  const socketCall = ()=> {
-    socket.emit("send-request",{
-          pickup: "pattambi",
-          droppoff: "calicut",
-          user_name: "Passenger",
-          profile: "image"
-      })
+    })
+  }, [socket])
+
+  const socketCall = () => {
+    socket.emit("send-request", {
+      pickup: "pattambi",
+      droppoff: "calicut",
+      user_name: "Passenger",
+      profile: "image"
+    })
   }
   return (
     <Disclosure as="nav" className="bg-black ">
@@ -83,9 +83,9 @@ export default function Navbar() {
 
                 <Menu as="div" className="relative ml-3 ">
                   <div>
-                    <Menu.Button  className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                    <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
+                    <Menu.Button className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                      <span className="sr-only">View notifications</span>
+                      <BellIcon className="h-6 w-6" aria-hidden="true" />
                     </Menu.Button>
                   </div>
                   <Transition
@@ -97,8 +97,8 @@ export default function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                      <Menu.Items className="absolute right-0 z-10 mt-2 w-96 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                       {noti.map((d) => (
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-96 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      {noti.map((d) => (
                         <Menu.Item>
                           {({ active }) => (
                             <Link
@@ -111,21 +111,21 @@ export default function Navbar() {
                               <div className="flex py-3">
                                 <img className="w-10 h-10" src={blankProfile} alt="" />
                                 <div>
-                                <h1>{d.name}</h1>
-                                <h1>{d.pickup}</h1>
-                                <h1>{d.droppoff}</h1>
+                                  <h1>{d.name}</h1>
+                                  <h1>{d.pickup}</h1>
+                                  <h1>{d.droppoff}</h1>
                                 </div>
                                 <div>
-                                <button onClick={()=> socketCall()} className="bg-green-100 ">Accept</button>
+                                  <button onClick={() => socketCall()} className="bg-green-100 ">Accept</button>
 
                                 </div>
                               </div>
                             </Link>
                           )}
                         </Menu.Item>
-                        ))}
-                        
-                      </Menu.Items>
+                      ))}
+
+                    </Menu.Items>
                   </Transition>
                 </Menu>
 
@@ -150,47 +150,47 @@ export default function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
-                              )}
-                            >
-                              Your Profile
-                            </a>
-                          )}
-                        </Menu.Item>
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
-                              )}
-                            >
-                              Settings
-                            </a>
-                          )}
-                        </Menu.Item>
-                        <Menu.Item>
-                          {({ active }) => (
-                            <h1
-                              onClick={handleSignOut}
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
-                              )}
-                            >
-                              Sign out
-                            </h1>
-                          )}
-                        </Menu.Item>
-                      </Menu.Items>
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
+                          >
+                            Your Profile
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
+                          >
+                            Settings
+                          </a>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <h1
+                            onClick={handleSignOut}
+                            className={classNames(
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
+                            )}
+                          >
+                            Sign out
+                          </h1>
+                        )}
+                      </Menu.Item>
+                    </Menu.Items>
                   </Transition>
                 </Menu>
               </div>

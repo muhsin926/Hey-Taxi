@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    showModal: false,
-    passengerModal: false,
+  showModal: false,
+  passengerModal: false,
 };
 
 const modalSlice = createSlice({
@@ -12,17 +12,18 @@ const modalSlice = createSlice({
     setShowModal: (state) => {
       state.showModal = true;
     },
-    setUnShowModal : (state) => {
-        state.showModal = false;
+    setUnShowModal: (state) => {
+      state.showModal = false;
     },
     setPassModal: (state) => {
-      state.passengerModal =true
+      state.passengerModal = true;
     },
-    setUnPassModal : (state) => {
+    setUnPassModal: (state) => {
       state.passengerModal = false;
-    }
+    },
   },
 });
 
-export const { setShowModal,setUnShowModal,setPassModal, setUnPassModal } = modalSlice.actions;
+export const { setShowModal, setUnShowModal, setPassModal, setUnPassModal } =
+  modalSlice.actions;
 export default modalSlice.reducer;

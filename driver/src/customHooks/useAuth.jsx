@@ -12,7 +12,7 @@ const useAuth = () => {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (!token) {
-      
+
       return;
     }
     const decoded = jwt_decode(token);

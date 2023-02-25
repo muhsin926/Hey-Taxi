@@ -13,11 +13,9 @@ export const LocationProvider = ({ children }) => {
   const createLocationCoordinate = (locationName, locationType) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const mapboxUrl = `${
-          import.meta.env.VITE_MAPBOX_PLACE_API_URL
-        }/${locationName}.json?access_token=${
-          import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
-        }`;
+        const mapboxUrl = `${import.meta.env.VITE_MAPBOX_PLACE_API_URL
+          }/${locationName}.json?access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
+          }`;
         const response = await fetch(mapboxUrl);
         const data = await response.json();
         const location = data.features[0].center;

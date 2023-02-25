@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import url from '../../api/Api'
-import {io} from 'socket.io-client'
+import { io } from 'socket.io-client'
 import { setSocket } from "../../redux/slices/SocketSlice";
 
 const upcomingTrip = [
@@ -13,40 +13,40 @@ const upcomingTrip = [
 
 const Dashboard = () => {
   const dispatch = useDispatch()
-  const {socket} = useSelector((state) => state.socket)
+  const { socket } = useSelector((state) => state.socket)
   const [underline, setUnderline] = useState("request");
   const [available, setAvailable] = useState(false);
-  const[notification,setNotification] =useState({})
+  const [notification, setNotification] = useState({})
 
 
-  socket &&  socket.on("request-receive",(data) => {
-      setNotification(data.messsage)
-      console.log(data.message);
-      console.log(data);
-    })
+  socket && socket.on("request-receive", (data) => {
+    setNotification(data.messsage)
+    console.log(data.message);
+    console.log(data);
+  })
 
 
   useEffect(() => {
-  socket &&  socket.on("request-receive",(data) => {
+    socket && socket.on("request-receive", (data) => {
       setNotification(data.messsage)
       console.log(data.message);
       console.log(data);
     })
-  },[socket])
+  }, [socket])
   const handleAvailable = () => {
     const token = localStorage.getItem("token")
     console.log(token);
-    axios.post(`${url}/api/driver/available`,{},{
+    axios.post(`${url}/api/driver/available`, {}, {
       headers: { Authorization: `Bearer ${token}` }
     })
-    .then(() => {
-      setAvailable(!available)
-    })
+      .then(() => {
+        setAvailable(!available)
+      })
   }
-   
+
   return (
     <>
-<p></p>
+      <p></p>
       <div className=" grid grid-cols-12 relative">
         <div className="block md:hidden col-span-12 ">
           <div className="  mb-2 flex justify-end">
@@ -63,8 +63,8 @@ const Dashboard = () => {
           <h1
             onClick={() => setUnderline("request")}
             className={`cursor-pointer text-semibold  text-xs sm:text-base md:text-lg ${underline == "request"
-                ? "underline underline-offset-[2rem] decoration-yellow-400 decoration-2"
-                : ""
+              ? "underline underline-offset-[2rem] decoration-yellow-400 decoration-2"
+              : ""
               }`}
           >
             Pending Request
@@ -72,8 +72,8 @@ const Dashboard = () => {
           <h1
             onClick={() => setUnderline("trip")}
             className={`cursor-pointer text-semibold text-xs sm:text-base md:text-lg ${underline == "request"
-                ? ""
-                : "underline underline-offset-[2rem] decoration-yellow-400 decoration-2"
+              ? ""
+              : "underline underline-offset-[2rem] decoration-yellow-400 decoration-2"
               }`}
           >
             Upcoming Trips

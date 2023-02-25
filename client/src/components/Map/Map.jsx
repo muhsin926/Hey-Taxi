@@ -58,23 +58,23 @@ const Map = () => {
             addBoundsToMap(map, bounds);
         });
 
-        
-    const tripDetails = async () => {
-        const response = await getDirection(
-            startingCoordinates,
-            destinationCoordinates
-        );
-  
-        const data = response.data.waypoints[0].distance;
-        let distance = Math.floor(data);
-        let inSecond = Math.floor(response.data.routes[0].duration);
-        let inMinute =  inSecond/2
-         setDistance(distance);
-        setDuration(inMinute)
-        console.log(distance);
-      };
-  
-      tripDetails();
+
+        const tripDetails = async () => {
+            const response = await getDirection(
+                startingCoordinates,
+                destinationCoordinates
+            );
+
+            const data = response.data.waypoints[0].distance;
+            let distance = Math.floor(data);
+            let inSecond = Math.floor(response.data.routes[0].duration);
+            let inMinute = inSecond / 2
+            setDistance(distance);
+            setDuration(inMinute)
+            console.log(distance);
+        };
+
+        tripDetails();
     }, [startingCoordinates, destinationCoordinates]);
 
     const addToMap = (map, coordinates) => {

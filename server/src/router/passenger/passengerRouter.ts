@@ -12,5 +12,6 @@ router
   .route("/profile")
   .get(authCheck, passController.getPassenger)
   .patch(authCheck, passController.patchPassenger);
+  router.route('/ride-request').post()
 
 export default router;

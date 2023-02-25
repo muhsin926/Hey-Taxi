@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import fileUploader from "../../cloudinery/fileUploader";
 import passengerModel from "../../model/passengerModel";
+import requestModel from "../../model/requestModel";
 
 export const rideRequest: RequestHandler = (req, res) => {
   try {
@@ -22,19 +23,38 @@ export const getPassenger: RequestHandler = async (req, res) => {
   }
 };
 
-export const patchPassenger : RequestHandler = async(req,res) => {
-    try{
-        const { name, email, mob } = req.body.values
-        const { dp } = req.body
-        const { userId } = res.locals.decodedToken;
-        // const profilePicter = fileUploader(dp)
-        await passengerModel.updateOne({_id:userId},{
-            name,
-            email,
-            mobile: mob,
-        })
-        res.status(200)
-    }catch(err){
-        console.log(err)
-    }
-}
+export const patchPassenger: RequestHandler = async (req, res) => {
+  try {
+    const { name, email, mob } = req.body.values;
+    const { dp } = req.body;
+    const { userId } = res.locals.decodedToken;
+    // const profilePicter = fileUploader(dp)
+    await passengerModel.updateOne(
+      { _id: userId },
+      {
+        name,
+        email,
+        mobile: mob,
+      }
+    );
+    res.status(200);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const sendRequest: RequestHandler = async (req, res) => {
+  try {
+    const { pickup, dropOff } = req.body;
+    const { userId } = res.locals.decodedToken;
+
+    await new requestModel({
+      pickupLocation: pickup,
+      destination: dropOff,
+      sender: userId,
+    }).save();
+    res.status(200).json({ status: true });
+  } catch (err) {
+    console.log(err);
+  }
+};

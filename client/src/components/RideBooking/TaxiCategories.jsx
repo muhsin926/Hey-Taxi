@@ -9,15 +9,15 @@ const TaxiCategories = () => {
     const { distance } = useContext(LocationContext);
     const [category, setCategory] = useState([]);
     const dispatch = useDispatch()
-    
-  const getCategory = useCallback(async () => {
-    const response = await axios.get(`${url}/api/passenger/carCategory`);
-    setCategory(response.data.cat);
-  },[])
 
- useEffect(() => {
-  getCategory();
- },[ getCategory])
+    const getCategory = useCallback(async () => {
+        const response = await axios.get(`${url}/api/passenger/carCategory`);
+        setCategory(response.data.cat);
+    }, [])
+
+    useEffect(() => {
+        getCategory();
+    }, [getCategory])
 
     return (
         <div>

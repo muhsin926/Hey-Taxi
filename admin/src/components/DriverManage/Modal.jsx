@@ -6,7 +6,6 @@ const Modal = ({ driver }) => {
   const dispatch = useDispatch();
 
   return (
-
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
         <div className="relative my-6 mx-auto w-1/3">
@@ -15,7 +14,9 @@ const Modal = ({ driver }) => {
             {/*header*/}
             <form>
               <div className="flex items-start  justify-between bg-yellow-300  rounded-t">
-                <h3 className="text-2xl font-base ml-6 py-6 text-black font-semibold">Driver Details</h3>
+                <h3 className="text-2xl font-base ml-6 py-6 text-black font-semibold">
+                  Driver Details
+                </h3>
                 <button
                   className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                   onClick={() => dispatch(setUnShowModal())}
