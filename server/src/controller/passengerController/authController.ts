@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import passengerModel from "../../model/passengerModel";
+import passengerModel from "../../model/passenger/passengerModel";
 import vehicleCategoryModel from "../../model/admin/vehicleCategoryModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";

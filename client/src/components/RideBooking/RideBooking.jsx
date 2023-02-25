@@ -29,13 +29,12 @@ const RideBooking = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token")
     axios.post(`${url}/api/passenger/ride-request`, { startPoint, endPoint }, {
       headers: { Authorization: `Bearer ${token}` }
     })
   }, [payment])
-  console.log(startPoint)
-  console.log(endPoint)
+
   const handleClick = () => {
     navigate("/schedule_ride");
   };

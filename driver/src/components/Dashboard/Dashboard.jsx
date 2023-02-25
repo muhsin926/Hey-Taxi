@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import url from '../../api/Api'
 import { io } from 'socket.io-client'
 import { setSocket } from "../../redux/slices/SocketSlice";
+import { blankProfile } from "../../assets";
 
 const upcomingTrip = [
   { name: "Steve jobs", pickup: "Mumbai", droppoff: "Delhi", date: "25/2/23" },
@@ -16,7 +17,7 @@ const Dashboard = () => {
   const { socket } = useSelector((state) => state.socket)
   const [underline, setUnderline] = useState("request");
   const [available, setAvailable] = useState(false);
-  const [notification, setNotification] = useState({})
+  const [notification, setNotification] = useState([]);
 
 
   socket && socket.on("request-receive", (data) => {
@@ -25,6 +26,14 @@ const Dashboard = () => {
     console.log(data);
   })
 
+  const getNotification = async () => {
+    const { data } = await axios.get(`${url}/api/driver/requests`)
+    setNotification(data.requests)
+  }
+
+  useEffect(() => {
+    getNotification()
+  }, [])
 
   useEffect(() => {
     socket && socket.on("request-receive", (data) => {
@@ -94,17 +103,22 @@ const Dashboard = () => {
       </div>
       <div className="grid grid-cols-12">
         {underline == "request" ? (
-          <div className="col-span-7 mt-12">
+          <div className="col-span-12 mt-12">
             <div class="relative overflow-x-auto">
               <table class="w-full text-sm text-left">
                 <tbody>
-                  {upcomingTrip.map((trip) => (
+                  {notification.map((noti) => (
                     <tr class="bg-white border-b">
-                      <td class="px-6 py-4">{trip.name}</td>
-                      <td class="px-6 py-4">{trip.pickup}</td>
-                      <td class="px-6 py-4">{trip.droppoff}</td>
-                      <td class="px-6 py-4">
-                        <button className="bg-green-500 p-1 rounded text-base text-white">
+                      <td class="px-6 py-4 flex items-center">
+                        <img className="w-14 h-14 rounded-full" src={blankProfile} alt="profile" />
+                        <td class="px-6 py-6 whitespace-nowrap">{noti.sender?.name}</td>
+                      </td>
+                      <td class="px-6 py-6 whitespace-nowrap">{noti?.schedule}</td>
+                      <td class="px-6 py-6 whitespace-nowrap">{noti?.pickupLocation}</td>
+                      <td class="px-6 py-6 whitespace-nowrap">To</td>
+                      <td class="px-6 py-6 whitespace-nowrap">{noti?.destination}</td>
+                      <td class="px-6 py-6 whitespace-nowrap">
+                        <button className="bg-green-500 py-1 px-3 rounded text-base text-white">
                           Accept
                         </button>
                       </td>

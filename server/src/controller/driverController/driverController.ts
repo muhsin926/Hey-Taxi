@@ -2,6 +2,7 @@ import vehicleModel from "../../model/driver/vehicleModel";
 import driverModel from "../../model/driver/driverModel";
 import { RequestHandler } from "express";
 import fileUploader from "../../cloudinery/fileUploader";
+import requestModel from "../../model/passenger/requestModel";
 
 export const addVehicle: RequestHandler = async (req, res) => {
   const { image, index, vehicleCategory, model, reg } = req.body;
@@ -134,3 +135,14 @@ export const updateVehicle: RequestHandler = async (req, res) => {
     console.log(err);
   }
 };
+
+
+export const getRequest : RequestHandler = async( req, res ) => {
+  try{
+    const requests = await requestModel.find({}).populate("sender")
+    res.status(200).json({requests})
+  }catch(err){
+    console.log(err);
+    
+  } 
+}

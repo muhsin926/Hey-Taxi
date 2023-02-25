@@ -15,4 +15,6 @@ router
   .patch(driverController.updateVehicle)
   .delete(driverController.deleteVehicle);
 
+  router.route('/requests').get(driverController.getRequest)
+
 export default router;

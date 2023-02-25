@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import passengerModel from "../../model/passengerModel";
+import passengerModel from "../../model/passenger/passengerModel";
 
 export const getPassenger: RequestHandler = async (req, res) => {
   const allPassenger = await passengerModel.find({});

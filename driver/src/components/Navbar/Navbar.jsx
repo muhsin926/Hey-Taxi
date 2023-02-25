@@ -4,6 +4,8 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { blankProfile, logo1 } from "../../assets";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import url from '../../api/Api'
 
 
 const navigation = [
@@ -14,11 +16,6 @@ const navigation = [
   { name: "Trip Management", href: "#", current: false },
 ];
 
-const demmi = [
-  { profile: "", name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut' },
-  { profile: "", name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut' },
-  { profile: "", name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut' },
-]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -28,8 +25,17 @@ const handleSignOut = () => {
 };
 
 export default function Navbar() {
-  const [noti, setNoti] = useState(demmi)
+  const [notification, setNotification] = useState([])
   const { socket } = useSelector((state) => state.socket)
+
+  const getNotification = async () => {
+    const { data } = await axios.get(`${url}/api/driver/requests`)
+    setNotification(data.requests)
+  }
+
+  useEffect(() => {
+    getNotification()
+  }, [])
 
   useEffect(() => {
     socket && socket.on("send-request", (data) => {
@@ -60,27 +66,7 @@ export default function Navbar() {
                   alt="Hey taxi logo"
                 />
               </div>
-              {/* <div className="flex flex-1 items-center justify-end sm:items-stretch ">
-                <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className={classNames(
-                          "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "px-3 py-2 rounded-md text-sm font-medium"
-                        )}
-                        aria-current={item.current ? "page" : undefined}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div> */}
               <div className="absolute  inset-y-0 right-8 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-
                 <Menu as="div" className="relative ml-3 ">
                   <div>
                     <Menu.Button className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -98,7 +84,7 @@ export default function Navbar() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-96 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {noti.map((d) => (
+                      {notification.map((noti) => (
                         <Menu.Item>
                           {({ active }) => (
                             <Link
@@ -108,16 +94,20 @@ export default function Navbar() {
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
-                              <div className="flex py-3">
-                                <img className="w-10 h-10" src={blankProfile} alt="" />
-                                <div>
-                                  <h1>{d.name}</h1>
-                                  <h1>{d.pickup}</h1>
-                                  <h1>{d.droppoff}</h1>
-                                </div>
-                                <div>
-                                  <button onClick={() => socketCall()} className="bg-green-100 ">Accept</button>
-
+                              <div className="flex py-3 border-b border-gray-100">
+                                <img className="w-14 h-14 rounded-full" src={blankProfile} alt="profile" />
+                                <div className="flex justify-between">
+                                  <div className="flex flex-col">
+                                    <h1 className="text-lg ml-1 font-medium">{noti.sender.name}</h1>
+                                    <div className="mx-2 flex ">
+                                      <h1>{noti.pickupLocation.split(',')[0]}</h1>
+                                      <h1 className="mx-3">to</h1>
+                                      <h1>{noti.destination.split(',')[0]}</h1>
+                                    </div>
+                                  </div>
+                                  <div className="flex  items-center">
+                                    <button onClick={() => socketCall()} className="rounded  font-semibold  px-3 text-base bg-green-400 text-white py-1 ml-4">Accept</button>
+                                  </div>
                                 </div>
                               </div>
                             </Link>

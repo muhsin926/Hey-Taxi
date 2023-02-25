@@ -1,17 +1,8 @@
 import { RequestHandler } from "express";
 import fileUploader from "../../cloudinery/fileUploader";
-import passengerModel from "../../model/passengerModel";
-import requestModel from "../../model/requestModel";
+import passengerModel from "../../model/passenger/passengerModel";
+import requestModel from "../../model/passenger/requestModel";
 
-export const rideRequest: RequestHandler = (req, res) => {
-  try {
-    const { pickup, dropoff } = req.body;
-    const { userId } = res.locals.decodedToken;
-    console.log(userId);
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 export const getPassenger: RequestHandler = async (req, res) => {
   try {
@@ -44,9 +35,11 @@ export const patchPassenger: RequestHandler = async (req, res) => {
 };
 
 export const sendRequest: RequestHandler = async (req, res) => {
+  console.log("requested");
+  
   try {
-    const { pickup, dropOff } = req.body;
-    const { userId } = res.locals.decodedToken;
+    const { pickup, dropOff, userId } = req.body;
+    // const { userId } = res.locals.decodedToken;
 
     await new requestModel({
       pickupLocation: pickup,
