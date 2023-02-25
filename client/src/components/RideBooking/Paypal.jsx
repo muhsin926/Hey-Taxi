@@ -6,6 +6,7 @@ import { LocationContext } from "../../context/LocationContext";
 import { setPayment } from "../../redux/slices/ModalSlice";
 import { io } from "socket.io-client";
 import axios from "axios";
+import url from '../../api/Api'
 
 const Paypal = ({ fare }) => {
   const { socket } = useSelector((state) => state.socket);
@@ -36,31 +37,29 @@ const Paypal = ({ fare }) => {
       });
   };
 
-  const onApprove = async (data, actions) => {
-    return await actions.order.capture().then(async (details) => {
+  const onApprove = async(data, actions) => {
+    return await actions.order.capture().then((details) => {
       const { payer } = details;
-      const token = localStorage.getItem("token");
-      await axios.post(
-        `${url}/api/passenger/ride-request`,
-        { pickup: startPoint, dropOff: endPoint },
-        { headers: { Autherization: `Bearer ${token}` } }
-      );
-      socket.emit("send-request", {
-        message: {
-          pickup: "pattambi",
-          droppoff: "calicut",
-          user_name: "Passenger",
-          profile: "image",
-        },
-      });
+      // const token = localStorage.getItem("token");
+      // await axios.post(
+      //   `${url}/api/passenger/ride-request`,
+      //   { pickup: startPoint, dropOff: endPoint },
+      //   { headers: { Autherization: `Bearer ${token}` } }
+      // );
+      // socket.emit("send-request", {
+      //   message: {
+      //     pickup: "pattambi",
+      //     droppoff: "calicut",
+      //     user_name: "Passenger",
+      //     profile: "image",
+      //   },
+      // });
       toast.success(`Transaction completed by ${payer}`);
       dispatch(setPayment());
     });
   };
 
-  const onError = (data, actions) => {
-    console.log(data);
-    console.log(actions);
+  const onError = () => {
     toast.error("An error occured with your payment");
   };
 

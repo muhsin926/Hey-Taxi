@@ -70,6 +70,7 @@ const Profile = () => {
     } = useForm({ resolver: yupResolver(schema) });
 
     const submitForm = async (values) => {
+        setEdit(false)
         const token = localStorage.getItem("token")
         await axios.patch(`${url}/api/passenger/profile`, { values, dp: dp }, {
             headers: { Authorization: `Bearer ${token}` }
@@ -79,57 +80,57 @@ const Profile = () => {
 
     return (
         <section>
-            <div className="relative h-40 rounded-tl-[4rem] bg-gradient-to-r from-violet-200 to-fuchsia-200 ">
-                <div className="w-28 rounded-full bg-white h-28 left-12 top-32 absolute ">
-                    <img
-                        src={blankProfile}
-                        className="w-36 h-28 rounded-full"
-                        alt="Profile photo"
+            <form onSubmit={handleSubmit(submitForm)}>
+                <div className="relative h-40 rounded-tl-[4rem] bg-gradient-to-r from-violet-200 to-fuchsia-200 ">
+                    <div className="w-28 rounded-full bg-white h-28 left-12 top-32 absolute ">
+                        <img
+                            src={blankProfile}
+                            className="w-36 h-28 rounded-full"
+                            alt="Profile photo"
 
-                    />
+                        />
+                    </div>
                 </div>
-            </div>
-            <div className="ml-44 mt-4 flex justify-between ">
-                <div>
-                    <h1 className="text-lg font-medium">{user?.name}</h1>
-                    {edit ? (
-                        <h1>Update your photo and personal details</h1>
-                    ) : (
-                        <>
-                            <h1 className="">{user?.mobile}</h1>
-                            <h1 className="">{user?.email}</h1>
-                        </>
-                    )}
-                </div>
-                <div>
-                    {!edit ? (
-                        <button
-                            onClick={() => setEdit(true)}
-                            className="bg-gradient-to-b hover:bg-gradient-to-t from-gray-400 rounded-md to-black text-white py-1 px-5"
-                        >
-                            <FontAwesomeIcon className="text-base" icon={faPen} /> Edit
-                        </button>
-                    ) : (
-                        <>
+                <div className="ml-44 mt-4 flex justify-between ">
+                    <div>
+                        <h1 className="text-lg font-medium">{user?.name}</h1>
+                        {edit ? (
+                            <h1>Update your photo and personal details</h1>
+                        ) : (
+                            <>
+                                <h1 className="">{user?.mobile}</h1>
+                                <h1 className="">{user?.email}</h1>
+                            </>
+                        )}
+                    </div>
+                    <div>
+                        {!edit ? (
                             <button
-                                onClick={() => setEdit(false)}
-                                className="mr-3 border-2 border-gray-300 rounded-md py-1 px-3 hover:bg-gray-300 "
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={() => setEdit(false)}
+                                onClick={() => setEdit(true)}
                                 className="bg-gradient-to-b hover:bg-gradient-to-t from-gray-400 rounded-md to-black text-white py-1 px-5"
                             >
-                                Save
+                                <FontAwesomeIcon className="text-base" icon={faPen} /> Edit
                             </button>
-                        </>
-                    )}
+                        ) : (
+                            <>
+                                <button
+                                    onClick={() => setEdit(false)}
+                                    className="mr-3 border-2 border-gray-300 rounded-md py-1 px-3 hover:bg-gray-300 "
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="bg-gradient-to-b hover:bg-gradient-to-t from-gray-400 rounded-md to-black text-white py-1 px-5"
+                                >
+                                    Save
+                                </button>
+                            </>
+                        )}
+                    </div>
                 </div>
-            </div>
-            {edit &&
-                <div>
-                    <form onSubmit={handleSubmit(submitForm)}>
+                {edit &&
+                    <div>
                         <div className="flex flex-wrap justify-center" >
                             <div className="flex jusify-center items-center mt-16 ml-16 gap-10">
                                 <label htmlFor="name">Name : </label>
@@ -182,8 +183,8 @@ const Profile = () => {
                                 Save
                             </button> */}
                         </div>
-                    </form>
-                </div>}
+                    </div>}
+            </form>
         </section>
     );
 };

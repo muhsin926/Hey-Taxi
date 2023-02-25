@@ -30,14 +30,12 @@ export const register: RequestHandler = async (req, res) => {
         .save()
         .then((user: any) => {
           const token = generateToken(user);
-          res
-            .status(201)
-            .send({
-              msg: "User Register Successfully",
-              status: true,
-              token,
-              user: user._id,
-            });
+          res.status(201).send({
+            msg: "User Register Successfully",
+            status: true,
+            token,
+            user: user._id,
+          });
         })
         .catch((error) => res.status(200).send({ error, status: false }));
     }

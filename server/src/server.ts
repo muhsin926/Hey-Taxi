@@ -9,7 +9,7 @@ import adminRouter from "./router/admin/adminRouter";
 import cors from "cors";
 import { Server, Socket } from "socket.io";
 import { DefaultEventsMap } from "socket.io/dist/typed-events";
-import morgan from 'morgan' 
+import morgan from "morgan";
 
 const app = express();
 const server = http.createServer(app);
@@ -82,4 +82,3 @@ try {
 } catch (error) {
   console.log(error);
 }
-

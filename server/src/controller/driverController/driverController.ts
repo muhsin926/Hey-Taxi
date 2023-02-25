@@ -51,7 +51,6 @@ export const addVehicle: RequestHandler = async (req, res) => {
   }
 };
 
-
 export const available: RequestHandler = async (req, res) => {
   const { userId } = res.locals.decodedToken;
   const driver = await driverModel.findOne({ _id: userId });
