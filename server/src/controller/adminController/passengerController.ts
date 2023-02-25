@@ -13,3 +13,12 @@ export const deletePass: RequestHandler = async (req, res) => {
   await passengerModel.deleteOne({ _id: id });
   return res.status(200).json({ status: true });
 };
+
+export const updatePass : RequestHandler = async (req,res) => {
+  const { id } = req.query;
+  const currentUser = await passengerModel.findOne({_id:id})
+  await passengerModel.updateOne({_id:id},{
+    block : !currentUser?.block
+  })
+  res.status(200).json({status: true})
+}

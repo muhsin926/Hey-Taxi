@@ -20,7 +20,6 @@ const Dashboard = () => {
 
 
   socket &&  socket.on("request-receive",(data) => {
-    debugger
       setNotification(data.messsage)
       console.log(data.message);
       console.log(data);
@@ -77,7 +76,7 @@ const Dashboard = () => {
                 : "underline underline-offset-[2rem] decoration-yellow-400 decoration-2"
               }`}
           >
-            Up Coming Trips
+            Upcoming Trips
           </h1>
         </div>
         <div className="md:block hidden col-span-7 ">

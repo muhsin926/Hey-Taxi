@@ -8,7 +8,7 @@ interface Driver extends Document {
   profile: string;
   license: string;
   available: boolean;
-  vehicle: mongoose.Types.ObjectId;
+  vehicles: mongoose.Types.ObjectId;
 }
 
 const driverSchema = new Schema(
@@ -29,7 +29,7 @@ const driverSchema = new Schema(
     mobile: { type: Number },
     profile: { type: String },
     license: {type: String},
-    vehicle: [{
+    vehicles: [{
         type: mongoose.Types.ObjectId,
         ref: 'Vehicle'
     }],

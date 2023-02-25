@@ -19,6 +19,7 @@ const passengerSchema = new Schema(
     profile: { 
       type: String, 
     },
+    block: { type: Boolean, default: false}
   },
   { timestamps: true }
 );

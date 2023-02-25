@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, ObjectId, Schema } from "mongoose";
 
 interface Vehicle extends Document {
   id: string;
@@ -8,7 +8,7 @@ interface Vehicle extends Document {
   reg_no: string;
   category: string;
   insurance: string;
-  driverId: string;
+  driverId: ObjectId;
 }
 
 const vehicleSchema = new Schema(
@@ -19,10 +19,10 @@ const vehicleSchema = new Schema(
         reg_no: {type: String},
         category: {type: String},
         insurance: {type: String},
-        driverId: [{
+        driverId: {
             type: mongoose.Types.ObjectId,
-            ref: 'driver'
-        }],
+            ref: 'Driver'
+        },
         
     },
     { timestamps: true }

@@ -33,7 +33,7 @@ export const addCategory: RequestHandler = async(req,res) => {
 }
 
 export const getVehicles: RequestHandler = async (req, res) => {
-    const allVehicle = await vehicleModel.find({});
+    const allVehicle = await vehicleModel.find({}).populate('driverId');
     if (allVehicle) {
       return res.status(200).json({ vehicles: allVehicle });
     }

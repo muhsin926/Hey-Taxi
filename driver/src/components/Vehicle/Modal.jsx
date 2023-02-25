@@ -5,13 +5,19 @@ import * as yup from "yup";
 import axios from "axios";
 import url from "../../api/Api";
 import { useDispatch } from "react-redux";
-import { setUnShowModal } from "../../redux/slices/ModalSlice";
+import { setShowModal, setUnShowModal } from "../../redux/slices/ModalSlice";
 import { toast, Toaster } from "react-hot-toast";
 
 const schema = yup.object().shape({
   category: yup.string().required(),
-  model: yup.string().required().matches(/^\s*\S.*$/, 'Whitespace is not allowed'),
-  reg_no: yup.string().required(),
+  model: yup
+    .string()
+    .required()
+    .matches(/^\s*\S.*$/, "Whitespace is not allowed"),
+  reg_no: yup
+    .string()
+    .required()
+    .matches(/^\s*\S.*$/, "Whitespace is not allowed"),
   RC: yup.mixed().test("required", "please select a file", (value) => {
     return value && value.length;
   }),
@@ -20,10 +26,9 @@ const schema = yup.object().shape({
   }),
 });
 
-const Modal = ({ edit }) => {
+const Modal = ({ edit, loading, setLoading }) => {
   const [category, setCategory] = useState();
   const [img, setImg] = useState([]);
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const {
     register,
@@ -41,20 +46,46 @@ const Modal = ({ edit }) => {
     };
     fileReader.readAsDataURL(file);
   };
-
+  edit.category ? console.log("hev") : console.log("not");
   const submitForm = async (values) => {
     (await values.RC.length) > 0 && convert2Base64(values.RC[0]);
     (await values.insurance.length) > 0 && convert2Base64(values.insurance[0]);
-    setLoading(true);
-    if (img.length > 1) {
-      const { data } = await axios.post(`${url}/api/driver/add-vehicle`, {
-        values,
-        img,
-      });
-      setLoading(false);
-      data.status
-        ? toast.success("Vehicle Added")
-        : toast.error("somthing wrong please try again");
+    const token = localStorage.getItem("token");
+    if (edit.category) {
+      if (img.length > 1) {
+        setLoading(true);
+        const { data } = await axios.patch(
+          `${url}/api/driver/vehicle?vehicleId=${edit._id}`,
+          {
+            values,
+            img,
+          }
+        );
+        setLoading(false);
+        data.status
+          ? toast.success("Vehicle Deltails Updated")
+          : toast.error("somthing wrong please try again");
+        edit = {};
+        dispatch(setUnShowModal());
+      }
+    } else {
+      if (img.length > 1) {
+        const { data } = await axios.post(
+          `${url}/api/driver/vehicle`,
+          {
+            values,
+            img,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setLoading(false);
+        data.status
+          ? toast.success("Vehicle Added")
+          : toast.error("somthing wrong please try again");
+        dispatch(setUnShowModal());
+      }
     }
   };
 
@@ -139,7 +170,7 @@ const Modal = ({ edit }) => {
                       className="w-full pl-3 py-2 border border-gray-300 rounded-lg mb-4"
                       id="RC"
                       name="RC"
-                      value={edit?.RC}
+                      // value={edit?.RC}
                       {...register("RC")}
                     />
                     <p className="mb-4 text-red-600">{errors.RC?.message}</p>
@@ -150,7 +181,7 @@ const Modal = ({ edit }) => {
                       className="w-full pl-3 py-2 border border-gray-300 rounded-lg"
                       id="insurance"
                       name="insurance"
-                      value={edit?.insurance}
+                      // value={edit?.insurance}
                       {...register("insurance")}
                     />
                     <p className=" text-red-600">{errors.insurance?.message}</p>

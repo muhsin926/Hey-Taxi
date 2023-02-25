@@ -150,7 +150,7 @@ const Vehicle = () => {
                                                                 {vehicle.reg_no}
                                                             </td>
                                                             <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                                                                {vehicle.driverId.name}
+                                                                {vehicle.driverId?.name}
                                                             </td>
                                                             <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                                                 <a

@@ -17,6 +17,7 @@ router
 router
   .route("/passenger")
   .get(passengerController.getPassenger)
+  .patch(passengerController.updatePass)
   .delete(passengerController.deletePass);
 router
   .route("/vehicle_category")
