@@ -166,7 +166,20 @@ export const getBookedTrips: RequestHandler = async (req, res) => {
   try {
     const { userId } =  res.locals.decodedToken
     const requests = await requestModel
-      .find({ receiver : { $eq: userId } })
+      .find({ receiver : { $eq: userId }, schedule : { $ne : 'Ride now'} })
+      .sort("-1")
+      .populate("sender");
+    res.status(200).json({ requests });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getRideNow: RequestHandler = async (req, res) => {
+  try {
+    const { userId } =  res.locals.decodedToken
+    const requests = await requestModel
+      .find({ receiver : { $eq: userId }, schedule : { $eq : "Ride now"} })
       .sort("-1")
       .populate("sender");
     res.status(200).json({ requests });
