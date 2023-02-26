@@ -6,7 +6,15 @@
 @tailwind components;
 @tailwind utilities;
 
-
+.parent:hover > .hidden-child{
+  display: block;
+}
+.parent:hover  .hidden-child{
+  display: block;
+}
+.outer:hover > .show-child{
+  visibility: hidden;
+}
 
 .arc:before {
   -webkit-animation: spin 0.5s infinite linear;

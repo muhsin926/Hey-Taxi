@@ -11,6 +11,8 @@ import url from '../../api/Api'
 const Paypal = ({ fare }) => {
   const { userId } = useSelector((state) => state.auth)
   const { startPoint, endPoint } = useSelector((state) => state.locationSlice);
+  const { startingCoordinates, destinationCoordinates } =
+    useContext(LocationContext);
   const [orderId, setOrderId] = useState()
   const { distance } = useContext(LocationContext);
   const dispatch = useDispatch()
@@ -19,7 +21,7 @@ const Paypal = ({ fare }) => {
     const token = localStorage.getItem("token");
     await axios.post(
       `${url}/api/passenger/ride-request`,
-      { pickup: startPoint, dropOff: endPoint, userId },
+      { pickup: startPoint, dropOff: endPoint, userId, latitude: startingCoordinates, longitude: destinationCoordinates },
       { headers: { Authorization: `Bearer ${token}` } }
     );
     dispatch(setPayment())

@@ -60,7 +60,7 @@ const PendigRequest = () => {
                     </table>
                 </div>
             ) : (
-                <div className="ml-4 mt-2 text-xl font-simibold">Pending requests is empty..</div>
+                <div className="ml-4 mt-2 text-lg font-simibold text-red-500 text-center    ">Pending requests is empty..</div>
             )}
         </>
     );

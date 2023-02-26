@@ -61,7 +61,7 @@ const TripsBooked = () => {
                         ))}
                     </tbody>
                 </table>
-                : <div className="ml-4 mt-2 text-xl font-simibold">Booked trips is empty..</div>
+                : <div className="ml-4 mt-2 text-lg font-simibold text-red-500 text-center">Booked trips is empty..</div>
             }
         </div>
     );

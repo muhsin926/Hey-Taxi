@@ -13,7 +13,10 @@ const requestSchema = new Schema(
     sender: { type: mongoose.Types.ObjectId, ref: 'passenger' },
     receiver: { type: mongoose.Types.ObjectId, ref: 'Driver' },
     accepted: { type: Boolean, default: false },
-    schedule: { type: String, default: "Ride now"}
+    schedule: { type: String, default: "Ride now"},
+    latitude : [],
+    longitude : [],
+    finished: {type: Boolean,default: false},
   },
   { timestamps: true }
 );

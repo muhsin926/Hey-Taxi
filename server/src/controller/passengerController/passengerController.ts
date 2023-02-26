@@ -37,13 +37,15 @@ export const sendRequest: RequestHandler = async (req, res) => {
   console.log("requested");
 
   try {
-    const { pickup, dropOff, userId } = req.body;
+    const { pickup, dropOff, userId, longitude, latitude } = req.body;
     // const { userId } = res.locals.decodedToken;
 
     await new requestModel({
       pickupLocation: pickup,
       destination: dropOff,
       sender: userId,
+      longitude,
+      latitude,
     }).save();
     res.status(200).json({ status: true });
   } catch (err) {

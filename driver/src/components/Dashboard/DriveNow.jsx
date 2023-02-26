@@ -3,22 +3,31 @@ import React, { useEffect, useState } from 'react'
 import url from '../../api/Api'
 import { faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDispatch } from 'react-redux';
+import { setRideDetails } from '../../redux/slices/RideDetails';
+import { useNavigate } from 'react-router';
 
-const DriveNow = ({ setShowMap }) => {
-    const [rideNow,setRideNow] = useState([])
+const DriveNow = () => {
+    const dispatch= useDispatch()
+    const [rideNow, setRideNow] = useState({})
+    const navigate = useNavigate()
 
     const getRideNow = async () => {
         const token = localStorage.getItem("token");
         const { data } = await axios.get(`${url}/api/driver/ride-now`, {
             headers: { Authorization: `Bearer ${token}` },
         });
-        setRideNow(data.requests);
+       dispatch(setRideNow(data.requests));
     };
 
     useEffect(() => {
         getRideNow();
     }, []);
 
+    const showMap = (trip) => {
+        navigate('/driving')
+        dispatch(setRideDetails(trip))
+    }
   return (
     <div class="relative overflow-x-auto">
     {rideNow.length > 0 ?
@@ -55,7 +64,7 @@ const DriveNow = ({ setShowMap }) => {
                         <td class="px-6 py-4">{trip?.pickupLocation}</td>
                         <td class="px-6 py-4">{trip?.destination}</td>
                         <td class="px-6 py-4">
-                            <button onClick={()=>setShowMap(true)} className='bg-green-500 text-white hover:bg-green-600  rounded-full'>
+                            <button onClick={()=>showMap(trip)} className='bg-green-500 text-white hover:bg-green-600  rounded-full'>
                                 <FontAwesomeIcon icon={faPowerOff} />
                             </button>
                         </td>
@@ -63,7 +72,7 @@ const DriveNow = ({ setShowMap }) => {
                 ))}
             </tbody>
         </table>
-        : <div className="ml-4 mt-2 text-xl font-simibold">There is no ride..</div>
+        : <div className="ml-4 mt-2 text-lg font-simibold text-red-500 text-center">There is no ride..</div>
     }
 </div>
   )

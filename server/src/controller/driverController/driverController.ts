@@ -57,8 +57,10 @@ export const available: RequestHandler = async (req, res) => {
   const driver = await driverModel.findOne({ _id: userId });
   driver &&
     (await driverModel.updateOne(
-      { _id: userId },
-      { available: !driver.available }
+      { _id: userId },{
+        $set:
+        { available: !driver.available }
+      }
     ));
   res.status(200).json({ status: true });
 };
@@ -166,7 +168,7 @@ export const getBookedTrips: RequestHandler = async (req, res) => {
   try {
     const { userId } =  res.locals.decodedToken
     const requests = await requestModel
-      .find({ receiver : { $eq: userId }, schedule : { $ne : 'Ride now'} })
+      .find({ receiver : { $eq: userId }, schedule : { $ne : 'Ride now'}, finished: { $eq: true} })
       .sort("-1")
       .populate("sender");
     res.status(200).json({ requests });
@@ -179,7 +181,7 @@ export const getRideNow: RequestHandler = async (req, res) => {
   try {
     const { userId } =  res.locals.decodedToken
     const requests = await requestModel
-      .find({ receiver : { $eq: userId }, schedule : { $eq : "Ride now"} })
+      .find({ receiver : { $eq: userId }, schedule : { $eq : "Ride now"}, finished: { $ne: true} })
       .sort("-1")
       .populate("sender");
     res.status(200).json({ requests });
@@ -187,3 +189,17 @@ export const getRideNow: RequestHandler = async (req, res) => {
     console.log(err);
   }
 };
+
+export const finishedRide: RequestHandler = async (req, res) => {
+  try {
+    const { requestId } = req.body;
+    await requestModel.findOneAndUpdate(
+      { _id: requestId },
+      { $set: { finished: true } }
+    );
+    res.status(200).json({ status: true });
+  } catch (err) {
+    console.log(err);
+  }
+};
+

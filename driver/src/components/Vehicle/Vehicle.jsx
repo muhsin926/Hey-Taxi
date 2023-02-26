@@ -52,8 +52,9 @@ const Vehicle = () => {
           <div className=" arc"></div>
         </div>
       ) : (
-        <section>
+        <section className={`${vehicles.length <= 0 && 'flex justify-center items-center w-full h-32'}`}>
           <div className="relative overflow-x-auto">
+            {vehicles.length > 0 ? (
             <table className="w-full text-sm text-left">
               <thead className="text-xs uppercase">
                 <tr>
@@ -107,6 +108,9 @@ const Vehicle = () => {
                 ))}
               </tbody>
             </table>
+            ):(
+              <div className="text-red-500">No vehicle please add </div>
+            )}
           </div>
         </section>
       )}

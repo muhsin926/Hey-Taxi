@@ -21,6 +21,6 @@ router
   .post(authCheck, driverController.requestAccept);
 
   router.route('/trips-booked').get(authCheck,driverController.getBookedTrips)
-  router.route('/ride-now').get(authCheck,driverController.getRideNow)
+  router.route('/ride-now').get(authCheck,driverController.getRideNow).patch(driverController.finishedRide)
 
 export default router;

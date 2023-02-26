@@ -157,7 +157,7 @@ const DriverManage = () => {
                         {driver.email}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                        {driver.vehicle.length}
+                        {driver.vehicle?.length}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
                         {driver.available ? "Available" : "Unavailable"}

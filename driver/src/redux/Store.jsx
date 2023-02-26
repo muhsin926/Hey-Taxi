@@ -3,13 +3,14 @@ import docReducer from './slices/DocumentsSlice'
 import modal from './slices/ModalSlice'
 import socket from './slices/SocketSlice'
 import auth from './slices/AuthSlice'
-
+import rideDetails from './slices/RideDetails'
 
 export default  configureStore({
     reducer: {
         vehicleInformations : docReducer,
         modal: modal,
         socket: socket,
-        auth: auth
+        auth: auth,
+        rideDetails: rideDetails
     }
 })
