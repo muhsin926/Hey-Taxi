@@ -136,13 +136,41 @@ export const updateVehicle: RequestHandler = async (req, res) => {
   }
 };
 
-
-export const getRequest : RequestHandler = async( req, res ) => {
-  try{
-    const requests = await requestModel.find({}).populate("sender")
-    res.status(200).json({requests})
-  }catch(err){
+export const getRequest: RequestHandler = async (req, res) => {
+  try {
+    const requests = await requestModel
+      .find({ accepted: { $ne: true } })
+      .sort("-1")
+      .populate("sender");
+    res.status(200).json({ requests });
+  } catch (err) {
     console.log(err);
-    
-  } 
-}
+  }
+};
+
+export const requestAccept: RequestHandler = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const { userId } = res.locals.decodedToken;
+    await requestModel.findOneAndUpdate(
+      { _id: id },
+      { $set: { accepted: true, receiver: userId } }
+    );
+    res.status(200).json({ status: true });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getBookedTrips: RequestHandler = async (req, res) => {
+  try {
+    const { userId } =  res.locals.decodedToken
+    const requests = await requestModel
+      .find({ receiver : { $eq: userId } })
+      .sort("-1")
+      .populate("sender");
+    res.status(200).json({ requests });
+  } catch (err) {
+    console.log(err);
+  }
+};

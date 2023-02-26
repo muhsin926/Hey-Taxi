@@ -11,8 +11,9 @@ const requestSchema = new Schema(
       required: [true, "Please provide a destination"],
     },
     sender: { type: mongoose.Types.ObjectId, ref: 'passenger' },
-    receiver: { type: mongoose.Types.ObjectId },
+    receiver: { type: mongoose.Types.ObjectId, ref: 'Driver' },
     accepted: { type: Boolean, default: false },
+    schedule: { type: String, default: "Ride now"}
   },
   { timestamps: true }
 );

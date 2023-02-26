@@ -5,6 +5,9 @@ import { blankProfile, logo1 } from "../../assets";
 import { Link } from "react-router-dom";
 import useAuth from "../../customHooks/useAuth";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import url from '../../api/Api'
+import NotificationModal from "./NotificationModal";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -12,11 +15,7 @@ const navigation = [
   { name: "Drive", href: "#", current: false },
 ];
 
-const demmi = [
-  { profile: "", name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut' },
-  { profile: "", name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut' },
-  { profile: "", name: "Joel Mannuel", pickup: 'pattambi', droppoff: 'calicut' },
-]
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -27,9 +26,28 @@ const handleSignOut = () => {
 };
 
 export default function Navbar() {
-  const [notification, setNotification] = useState(demmi)
+  const [notification, setNotification] = useState([])
+  const [showModal,setShowModal] = useState(false)
+  const [details, setDetails] = useState()
   const { socket } = useSelector((state) => state.socket)
   const auth = useAuth()
+
+  const getNotification = async () => {
+    const token = localStorage.getItem('token')
+    const { data } = await axios.get(`${url}/api/passenger/ride-request`,{
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    setNotification(data.requests)
+  }
+
+  useEffect(() => {
+    getNotification()
+  }, [])
+
+  const showDetails = (details) => {
+    setDetails(details)
+    setShowModal(true)
+  }
 
   useEffect(() => {
     socket && socket.on("ride-accept", (data) => {
@@ -42,6 +60,7 @@ export default function Navbar() {
     <Disclosure as="nav" className="bg-black ">
       {({ open }) => (
         <>
+        {showModal && <NotificationModal setShowModal={setShowModal} details={details} />}
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="flex flex-shrink-0 items-center">
@@ -76,6 +95,7 @@ export default function Navbar() {
                     <div>
                       <Menu.Button className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="sr-only">View notifications</span>
+                        {notification.length > 0 && <div className="bg-red-500 w-4 h-4 rounded-full absolute text-white text-center text-xs left-5 top-5">{notification.length}</div>}
                         <BellIcon className="h-6 w-6" aria-hidden="true" />
                       </Menu.Button>
                     </div>
@@ -89,7 +109,7 @@ export default function Navbar() {
                       leaveTo="transform opacity-0 scale-95"
                     >
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-96 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        {notification.map((d) => (
+                        {notification.map((noti) => (
                           <Menu.Item>
                             {({ active }) => (
                               <Link
@@ -99,18 +119,24 @@ export default function Navbar() {
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
                               >
-                                <div className="flex py-3">
-                                  <img className="w-10 h-10" src={blankProfile} alt="" />
-                                  <div>
-                                    <h1>{d.name}</h1>
-                                    <h1>{d.pickup}</h1>
-                                    <h1>{d.droppoff}</h1>
-                                  </div>
-                                  <div>
-                                    <button className="bg-green-100 ">Accept</button>
-
+                                {notification.length > 0 ? (
+                                <div className="flex py-3 border-b border-gray-100">
+                                  <img className="w-14 h-14 rounded-full" src={blankProfile} alt="profile" />
+                                  <div className="flex justify-between">
+                                    <div className="flex flex-col">
+                                      <h1 className="text-lg ml-1 font-medium">{noti.receiver?.name}</h1>
+                                      <div className="ml-1 flex ">
+                                        <h1>Accepted your {noti.destination.split(',')[0]} ride</h1>
+                                      </div>
+                                    </div>
+                                    <div className="flex  items-center">
+                                      <button onClick={() => showDetails(noti)} className="cursor-pointer rounded hover:bg-green-500 font-semibold  px-3 text-base bg-green-400 text-white py-1 ml-4">Show</button>
+                                    </div>
                                   </div>
                                 </div>
+                              ) : (
+                                <div className="">No Notifications</div>
+                              )}
                               </Link>
                             )}
                           </Menu.Item>

@@ -3,7 +3,6 @@ import fileUploader from "../../cloudinery/fileUploader";
 import passengerModel from "../../model/passenger/passengerModel";
 import requestModel from "../../model/passenger/requestModel";
 
-
 export const getPassenger: RequestHandler = async (req, res) => {
   try {
     const { userId } = res.locals.decodedToken;
@@ -36,7 +35,7 @@ export const patchPassenger: RequestHandler = async (req, res) => {
 
 export const sendRequest: RequestHandler = async (req, res) => {
   console.log("requested");
-  
+
   try {
     const { pickup, dropOff, userId } = req.body;
     // const { userId } = res.locals.decodedToken;
@@ -47,6 +46,19 @@ export const sendRequest: RequestHandler = async (req, res) => {
       sender: userId,
     }).save();
     res.status(200).json({ status: true });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getAcceptedRequest: RequestHandler = async (req, res) => {
+  try {
+    const { userId } = res.locals.decodedToken;
+    const requests = await requestModel
+      .find({ sender: { $eq: userId }, accepted: { $eq: true } })
+      .sort("-1")
+      .populate("receiver");
+    res.status(200).json({ requests });
   } catch (err) {
     console.log(err);
   }

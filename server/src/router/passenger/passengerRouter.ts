@@ -12,6 +12,6 @@ router
   .get(authCheck, passController.getPassenger)
   .patch(authCheck, passController.patchPassenger);
 
-router.route("/ride-request").post( passController.sendRequest);
+router.route("/ride-request").get(authCheck,passController.getAcceptedRequest).post( passController.sendRequest)
 
 export default router;

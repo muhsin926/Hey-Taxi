@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import url from '../../api/Api'
+import toast, { Toaster } from "react-hot-toast";
 
 
 const navigation = [
@@ -37,6 +38,14 @@ export default function Navbar() {
     getNotification()
   }, [])
 
+  const accepted = async (id) => {
+    const token = localStorage.getItem('token')
+    const { data } = await axios.post(`${url}/api/driver/requests`, { id }, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    data.status && toast.success("Request accepted")
+  }
+
   useEffect(() => {
     socket && socket.on("send-request", (data) => {
       console.log(data);
@@ -55,8 +64,10 @@ export default function Navbar() {
   }
   return (
     <Disclosure as="nav" className="bg-black ">
+
       {({ open }) => (
         <>
+          <Toaster />
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="flex flex-shrink-0 items-center">
@@ -71,6 +82,7 @@ export default function Navbar() {
                   <div>
                     <Menu.Button className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="sr-only">View notifications</span>
+                      {notification.length > 0 && <div className="bg-red-500 w-4 h-4 rounded-full absolute text-white text-center text-xs left-5 top-5">{notification.length}</div>}
                       <BellIcon className="h-6 w-6" aria-hidden="true" />
                     </Menu.Button>
                   </div>
@@ -94,22 +106,27 @@ export default function Navbar() {
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
-                              <div className="flex py-3 border-b border-gray-100">
-                                <img className="w-14 h-14 rounded-full" src={blankProfile} alt="profile" />
-                                <div className="flex justify-between">
-                                  <div className="flex flex-col">
-                                    <h1 className="text-lg ml-1 font-medium">{noti.sender.name}</h1>
-                                    <div className="mx-2 flex ">
-                                      <h1>{noti.pickupLocation.split(',')[0]}</h1>
-                                      <h1 className="mx-3">to</h1>
-                                      <h1>{noti.destination.split(',')[0]}</h1>
+                              {notification.length > 0 ? (
+                                <div className="flex py-3 border-b border-gray-100">
+                                  <img className="w-14 h-14 rounded-full" src={blankProfile} alt="profile" />
+                                  <div className="flex justify-between">
+                                    <div className="flex flex-col">
+                                      <h1 className="text-lg ml-1 font-medium">{noti.sender.name}</h1>
+                                      <div className="ml-1 flex ">
+                                        <h1>{noti.pickupLocation.split(',')[0]}</h1>
+                                        <h1 className="mx-3">to</h1>
+                                        <h1>{noti.destination.split(',')[0]}</h1>
+                                      </div>
+                                    </div>
+                                    <div className="flex  items-center">
+                                      <button onClick={() => accepted(noti._id)} className="rounded hover:bg-green-500 font-semibold  px-3 text-base bg-green-400 text-white py-1 ml-4">Accept</button>
                                     </div>
                                   </div>
-                                  <div className="flex  items-center">
-                                    <button onClick={() => socketCall()} className="rounded  font-semibold  px-3 text-base bg-green-400 text-white py-1 ml-4">Accept</button>
-                                  </div>
                                 </div>
-                              </div>
+                              ) : (
+                                <div className="">No Notifications</div>
+                              )}
+
                             </Link>
                           )}
                         </Menu.Item>

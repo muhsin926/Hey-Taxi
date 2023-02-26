@@ -18,15 +18,15 @@ const App = () => {
   const { userId } = useSelector((state) => state.auth)
   const { socket } = useSelector((state) => state.socket)
   const dispatch = useDispatch()
-  useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"));
-    const decoded = jwt_decode(token);
-    dispatch(setUserId(decoded.userId))
-    const data = io(import.meta.env.VITE_SERVER_DOMAIN)
-    dispatch(setSocket(data))
-    console.log(userId);
-    socket && socket.emit("addDriver", userId);
-  }, [])
+  // useEffect(() => {
+  //   const token = JSON.parse(localStorage.getItem("token"));
+  //   const decoded = jwt_decode(token);
+  //   dispatch(setUserId(decoded.userId))
+  //   const data = io(import.meta.env.VITE_SERVER_DOMAIN)
+  //   dispatch(setSocket(data))
+  //   console.log(userId);
+  //   socket && socket.emit("addDriver", userId);
+  // }, [])
   return (
     <>
       <Router>
