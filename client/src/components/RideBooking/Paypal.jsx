@@ -51,9 +51,8 @@ const Paypal = ({ fare }) => {
   const onApprove = async (data, actions) => {
     return await actions.order.capture().then((details) => {
       const { payer } = details
-      console.log(payer);
       sendRequest()
-      toast.success(`Transaction completed by ${payer}`);
+      toast.success(`Transaction completed by ${payer.name.given_name}`);
     });
   }
 
