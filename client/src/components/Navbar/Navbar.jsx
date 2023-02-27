@@ -23,6 +23,7 @@ function classNames(...classes) {
 
 const handleSignOut = () => {
   localStorage.removeItem("token");
+  window.location.reload()
 };
 
 export default function Navbar() {

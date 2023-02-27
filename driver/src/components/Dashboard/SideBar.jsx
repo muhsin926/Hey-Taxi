@@ -6,7 +6,7 @@ const navigation = [
   { name: "Dashboard", href: "/", current: false },
   { name: "Vehicles", href: "/vehicles", current: false },
   { name: "Inbox", href: "#", current: false },
-  { name: "Earnings", href: "#", current: false },
+  { name: "Earnings", href: "/earnings", current: false },
   { name: "Trip Management", href: "#", current: false },
 ];
 

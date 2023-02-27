@@ -30,7 +30,7 @@ const Dashboard = () => {
         console.log(data);
       });
   }, [socket]);
-  const handleAvailable = async() => {
+  const handleAvailable = async () => {
     const token = localStorage.getItem("token");
     await axios
       .post(
@@ -44,6 +44,18 @@ const Dashboard = () => {
         setAvailable(!available);
       });
   };
+
+  const driverAvailable = async () => {
+    const token = localStorage.getItem("token");
+    const { data } = await axios.get(`${url}/api/driver/available`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    setAvailable(data.driver.available);
+  }
+
+  useEffect(() => {
+    driverAvailable()
+  }, [])
 
   return (
     <>
@@ -101,7 +113,7 @@ const Dashboard = () => {
           </div>
         ) : underline == 'drive' ? (
           <div className="col-span-12 mt-12">
-            <DriveNow  />
+            <DriveNow />
           </div>
         ) : (
           <div className="col-span-12 mt-12">

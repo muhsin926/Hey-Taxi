@@ -34,18 +34,16 @@ export const patchPassenger: RequestHandler = async (req, res) => {
 };
 
 export const sendRequest: RequestHandler = async (req, res) => {
-  console.log("requested");
-
   try {
-    const { pickup, dropOff, userId, longitude, latitude } = req.body;
-    // const { userId } = res.locals.decodedToken;
-
+    const { pickup, dropOff, userId, longitude, latitude, fare, paymentId } = req.body;
     await new requestModel({
       pickupLocation: pickup,
       destination: dropOff,
       sender: userId,
       longitude,
       latitude,
+      fare,
+      paymentId,
     }).save();
     res.status(200).json({ status: true });
   } catch (err) {

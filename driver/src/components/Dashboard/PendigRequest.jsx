@@ -12,6 +12,14 @@ const PendigRequest = () => {
         setNotification(data.requests);
     };
 
+    const accepted = async (id) => {
+        const token = localStorage.getItem('token')
+        const { data } = await axios.post(`${url}/api/driver/requests`, { id }, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        data.status && toast.success("Request accepted")
+      }
+
     useEffect(() => {
         getNotification();
     }, []);
@@ -50,7 +58,7 @@ const PendigRequest = () => {
                                         {noti?.destination.split(",")[0]}
                                     </td>
                                     <td class="px-6 py-6 whitespace-nowrap">
-                                        <button className="bg-green-500 py-1 px-3 rounded text-base text-white">
+                                        <button onClick={() => accepted(noti._id)} className="bg-green-500 py-1 px-3 rounded text-base text-white">
                                             Accept
                                         </button>
                                     </td>

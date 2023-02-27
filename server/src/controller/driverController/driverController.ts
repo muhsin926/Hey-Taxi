@@ -3,6 +3,7 @@ import driverModel from "../../model/driver/driverModel";
 import { RequestHandler } from "express";
 import fileUploader from "../../cloudinery/fileUploader";
 import requestModel from "../../model/passenger/requestModel";
+import mongoose from "mongoose";
 
 export const addVehicle: RequestHandler = async (req, res) => {
   const { image, index, vehicleCategory, model, reg } = req.body;
@@ -57,12 +58,18 @@ export const available: RequestHandler = async (req, res) => {
   const driver = await driverModel.findOne({ _id: userId });
   driver &&
     (await driverModel.updateOne(
-      { _id: userId },{
-        $set:
-        { available: !driver.available }
+      { _id: userId },
+      {
+        $set: { available: !driver.available },
       }
     ));
   res.status(200).json({ status: true });
+};
+
+export const getDriver: RequestHandler = async (req, res) => {
+  const { userId } = res.locals.decodedToken;
+  const driver = await driverModel.findOne({ _id: userId });
+  driver && res.status(200).json({ driver: driver });
 };
 
 export const getVehicles: RequestHandler = async (req, res) => {
@@ -166,9 +173,13 @@ export const requestAccept: RequestHandler = async (req, res) => {
 
 export const getBookedTrips: RequestHandler = async (req, res) => {
   try {
-    const { userId } =  res.locals.decodedToken
+    const { userId } = res.locals.decodedToken;
     const requests = await requestModel
-      .find({ receiver : { $eq: userId }, schedule : { $ne : 'Ride now'}, finished: { $eq: true} })
+      .find({
+        receiver: { $eq: userId },
+        schedule: { $ne: "Ride now" },
+        finished: { $eq: true },
+      })
       .sort("-1")
       .populate("sender");
     res.status(200).json({ requests });
@@ -179,9 +190,13 @@ export const getBookedTrips: RequestHandler = async (req, res) => {
 
 export const getRideNow: RequestHandler = async (req, res) => {
   try {
-    const { userId } =  res.locals.decodedToken
+    const { userId } = res.locals.decodedToken;
     const requests = await requestModel
-      .find({ receiver : { $eq: userId }, schedule : { $eq : "Ride now"}, finished: { $ne: true} })
+      .find({
+        receiver: { $eq: userId },
+        schedule: { $eq: "Ride now" },
+        finished: { $ne: true },
+      })
       .sort("-1")
       .populate("sender");
     res.status(200).json({ requests });
@@ -203,3 +218,35 @@ export const finishedRide: RequestHandler = async (req, res) => {
   }
 };
 
+export const getEarnings: RequestHandler = async (req, res) => {
+  try {
+    const { userId } = res.locals.decodedToken;
+    console.log(userId);
+
+    const earnings = await requestModel.aggregate([
+      {
+        $match: {
+          receiver: new mongoose.Types.ObjectId(userId),
+          finished: true,
+        },
+      },
+      {
+        $group: {
+          _id:  {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$updatedAt"
+            }
+          },
+          data: { $push: "$$ROOT" },
+          total_fare: { $sum: "$fare" },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    if(earnings) res.status(200).json({getEarnings:earnings})
+  } catch (err) {
+    console.log(err);
+    res.status(400)
+  }
+};

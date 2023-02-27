@@ -14,6 +14,7 @@ import { setSocket } from "./redux/slices/SocketSlice";
 import jwt_decode from "jwt-decode";
 import { setUserId } from "./redux/slices/AuthSlice";
 import DrivingPage from "./pages/DrivingPage";
+import EarnigsPage from "./pages/EarnigsPage";
 
 const App = () => {
   const { userId } = useSelector((state) => state.auth)
@@ -39,6 +40,7 @@ const App = () => {
               <Route path="/requirements/docUpload" element={<DocUploaderPage />} />
               <Route path="/vehicles" element={<VehiclesPage />} />
               <Route path="/driving" element={<DrivingPage />} />
+              <Route path="/earnings" element={<EarnigsPage />} />
             </Routes>
       </Router>
     </>

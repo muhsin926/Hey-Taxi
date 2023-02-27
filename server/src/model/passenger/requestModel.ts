@@ -17,6 +17,8 @@ const requestSchema = new Schema(
     latitude : [],
     longitude : [],
     finished: {type: Boolean,default: false},
+    fare: {type: Number},
+    paymentId: {type: String}
   },
   { timestamps: true }
 );
