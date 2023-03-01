@@ -18,7 +18,7 @@ export const Table = ({ row }) => {
                     Driver
                   </th>
                   <th scope="col" class="px-6 py-3">
-                    Vehicle Number
+                    Vehicle Name
                   </th>
                   <th scope="col" class="px-6 py-3">
                     Pickup Location
@@ -53,7 +53,7 @@ export const Table = ({ row }) => {
                     </td>
                   
                       <td class="px-6 py-4">
-                        {data.receiver.vehicles?.reg_no}
+                        {data.category?.name}
                       </td>
                 
                     <td class="px-6 py-4">{data?.pickupLocation}</td>

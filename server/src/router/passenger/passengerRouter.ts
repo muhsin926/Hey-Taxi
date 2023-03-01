@@ -12,7 +12,7 @@ router
   .get(authCheck, passController.getPassenger)
   .patch(authCheck, passController.patchPassenger);
 
-router.route("/ride-request").get(authCheck,passController.getAcceptedRequest).post( passController.sendRequest)
+router.route("/ride-request").get(authCheck,passController.getAcceptedRequest).post( passController.sendRequest).patch(authCheck, passController.updateShowNoti)
 router.route('/getScheduledRides').get(authCheck, passController.getScheduledRides)
 router.route('/getRideHistory').get(authCheck, passController.getRideHistory)
 

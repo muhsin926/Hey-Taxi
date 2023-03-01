@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { setFare, setShowModal } from '../../redux/slices/ModalSlice';
+import { setCategoryId, setFare, setShowModal } from '../../redux/slices/ModalSlice';
 import url from "../../api/Api";
 import { LocationContext } from '../../context/LocationContext';
 
@@ -19,29 +19,32 @@ const TaxiCategories = () => {
         getCategory();
     }, [getCategory])
 
+    const clickhandler = (car) => {
+        dispatch(setShowModal())
+        dispatch(setFare(car.rate))
+        dispatch(setCategoryId(car._id))
+    }
+
     return (
         <div>
             <div className="max-h-52 scrollbar-hide overflow-y-auto">
                 {
-                    category.map((car) => (
+                    category?.map((car) => (
                         <div
-                            onClick={() => {
-                                dispatch(setShowModal())
-                                dispatch(setFare(car.rate))
-                            }}
+                            onClick={() => clickhandler(car)}
                             className="grid grid-cols-12 border border-gray-300 rounded-md my-1 cursor-pointer"
                         >
                             <div className="col-span-4">
                                 <img
                                     className="w-full object-cover"
-                                    src={car.image}
+                                    src={car?.image}
                                     alt="car image"
                                 />
                             </div>
                             <div className="col-span-8 flex flex-col pt-2 ">
                                 <div className="flex  ">
                                     <div className="flex ">
-                                        <h1 className="font-medium">{car.name}</h1>
+                                        <h1 className="font-medium">{car?.name}</h1>
                                         <svg
                                             width="20"
                                             height="20"
@@ -60,12 +63,12 @@ const TaxiCategories = () => {
                                                 fill="black"
                                             />
                                         </svg>
-                                        <h1>{car.capacity}</h1>
+                                        <h1>{car?.capacity}</h1>
                                         {/* {setFare(car.rate * distance)} */}
-                                        <h1 className="ml-5">₹{car.rate * distance}</h1>
+                                        <h1 className="ml-5">₹{car?.rate * distance}</h1>
                                     </div>
                                 </div>
-                                <p className="text-base text-zinc-500">{car.discription}</p>
+                                <p className="text-base text-zinc-500">{car?.discription}</p>
                             </div>
                         </div>
                     ))}

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import useAuth from "../../customHooks/useAuth";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import url from '../../api/Api'
+import url from "../../api/Api";
 import NotificationModal from "./NotificationModal";
 
 const navigation = [
@@ -16,52 +16,58 @@ const navigation = [
   { name: "Schedule Ride", href: "/schedule_ride", current: false },
 ];
 
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const handleSignOut = () => {
   localStorage.removeItem("token");
-  window.location.reload()
+  window.location.reload();
 };
 
 export default function Navbar() {
-  const [notification, setNotification] = useState([])
-  const [showModal,setShowModal] = useState(false)
-  const [details, setDetails] = useState()
-  const { socket } = useSelector((state) => state.socket)
-  const auth = useAuth()
+  const [notification, setNotification] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [details, setDetails] = useState();
+  const { socket } = useSelector((state) => state.socket);
+  const auth = useAuth();
 
   const getNotification = async () => {
-    const token = localStorage.getItem('token')
-    const { data } = await axios.get(`${url}/api/passenger/ride-request`,{
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    setNotification(data.requests)
-  }
+    const token = localStorage.getItem("token");
+    const { data } = await axios.get(`${url}/api/passenger/ride-request`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setNotification(data.requests);
+  };
 
   useEffect(() => {
-    getNotification()
-  }, [])
+    getNotification();
+  }, []);
 
-  const showDetails = (details) => {
-    setDetails(details)
-    setShowModal(true)
-  }
+  const showDetails = async(details) => {
+    setDetails(details);
+    setShowModal(true);
+    const token = localStorage.getItem("token");
+     await axios.patch(`${url}/api/passenger/ride-request`,{id:details._id}, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  };
 
   useEffect(() => {
-    socket && socket.on("ride-accept", (data) => {
-      console.log(data);
-      setNotification(data)
-    })
-  }, [socket])
+    socket &&
+      socket.on("ride-accept", (data) => {
+        console.log(data);
+        setNotification(data);
+      });
+  }, [socket]);
 
   return (
     <Disclosure as="nav" className="bg-black ">
       {({ open }) => (
         <>
-        {showModal && <NotificationModal setShowModal={setShowModal} details={details} />}
+          {showModal && (
+            <NotificationModal setShowModal={setShowModal} details={details} />
+          )}
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="flex flex-shrink-0 items-center">
@@ -79,13 +85,23 @@ export default function Navbar() {
                         key={item.name}
                         to={item.href}
                         className={classNames(
-                          `${auth ? item.name == 'Drive'? 'hidden': 'block' : 'block'}`,
+                          `${
+                            auth
+                              ? item.name == "Drive"
+                                ? "hidden"
+                                : "block"
+                              : "block"
+                          }`,
                           "text-gray-300 hover:bg-gray-700 hover:text-white",
                           "px-3 py-2 rounded-md text-sm font-medium"
                         )}
                         aria-current={item.current ? "page" : undefined}
                       >
-                        {auth ? item.name == 'Drive'? null: item.name : item.name}
+                        {auth
+                          ? item.name == "Drive"
+                            ? null
+                            : item.name
+                          : item.name}
                       </Link>
                     ))}
                   </div>
@@ -97,7 +113,11 @@ export default function Navbar() {
                     <div>
                       <Menu.Button className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="sr-only">View notifications</span>
-                        {notification.length > 0 && <div className="bg-red-500 w-4 h-4 rounded-full absolute text-white text-center text-xs left-5 top-5">{notification.length}</div>}
+                        {notification.length > 0 && (
+                          <div className="bg-red-500 w-4 h-4 rounded-full absolute text-white text-center text-xs left-5 top-5">
+                            {notification.length}
+                          </div>
+                        )}
                         <BellIcon className="h-6 w-6" aria-hidden="true" />
                       </Menu.Button>
                     </div>
@@ -115,35 +135,49 @@ export default function Navbar() {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
-                                to={'#'}
+                                to={"#"}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
                               >
                                 {notification.length > 0 ? (
-                                <div className="flex py-3 border-b border-gray-100">
-                                  <img className="w-14 h-14 rounded-full" src={blankProfile} alt="profile" />
-                                  <div className="flex justify-between">
-                                    <div className="flex flex-col">
-                                      <h1 className="text-lg ml-1 font-medium">{noti.receiver?.name}</h1>
-                                      <div className="ml-1 flex ">
-                                        <h1>Accepted your {noti.destination.split(',')[0]} ride</h1>
+                                  <div className="flex py-3 border-b border-gray-100">
+                                    <img
+                                      className="w-14 h-14 rounded-full"
+                                      src={blankProfile}
+                                      alt="profile"
+                                    />
+                                    <div className="flex justify-between">
+                                      <div className="flex flex-col">
+                                        <h1 className="text-lg ml-1 font-medium">
+                                          {noti.receiver?.name}
+                                        </h1>
+                                        <div className="ml-1 flex ">
+                                          <h1>
+                                            Accepted your{" "}
+                                            {noti.destination.split(",")[0]}{" "}
+                                            ride
+                                          </h1>
+                                        </div>
+                                      </div>
+                                      <div className="flex  items-center">
+                                        <button
+                                          onClick={() => showDetails(noti)}
+                                          className="cursor-pointer rounded hover:bg-green-500 font-semibold  px-3 text-base bg-green-400 text-white py-1 ml-4"
+                                        >
+                                          Show
+                                        </button>
                                       </div>
                                     </div>
-                                    <div className="flex  items-center">
-                                      <button onClick={() => showDetails(noti)} className="cursor-pointer rounded hover:bg-green-500 font-semibold  px-3 text-base bg-green-400 text-white py-1 ml-4">Show</button>
-                                    </div>
                                   </div>
-                                </div>
-                              ) : (
-                                <div className="">No Notifications</div>
-                              )}
+                                ) : (
+                                  <div className="">No Notifications</div>
+                                )}
                               </Link>
                             )}
                           </Menu.Item>
                         ))}
-
                       </Menu.Items>
                     </Transition>
                   </Menu>
@@ -173,7 +207,7 @@ export default function Navbar() {
                         <Menu.Item>
                           {({ active }) => (
                             <Link
-                              to={'/profile'}
+                              to={"/profile"}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
@@ -215,9 +249,11 @@ export default function Navbar() {
                 </div>
               ) : (
                 <Link
-                  to={'/login'}
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                  Sign In</Link>
+                  to={"/login"}
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Sign In
+                </Link>
               )}
               <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
@@ -241,21 +277,25 @@ export default function Navbar() {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    `${auth ? item.name == 'Drive'? 'hidden': 'block' : 'block'}`,
+                    `${
+                      auth
+                        ? item.name == "Drive"
+                          ? "hidden"
+                          : "block"
+                        : "block"
+                    }`,
                     "text-gray-300 hover:bg-gray-700 hover:text-white",
                     "block px-3 py-2 rounded-md text-base font-medium"
                   )}
                   aria-current={item.current ? "page" : undefined}
                 >
-                  {auth ? item.name == 'Drive'? null: item.name : item.name}
+                  {auth ? (item.name == "Drive" ? null : item.name) : item.name}
                 </Disclosure.Button>
               ))}
             </div>
           </Disclosure.Panel>
         </>
-      )
-      }
-    </Disclosure >
+      )}
+    </Disclosure>
   );
 }
-

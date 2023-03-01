@@ -35,15 +35,19 @@ export const patchPassenger: RequestHandler = async (req, res) => {
 
 export const sendRequest: RequestHandler = async (req, res) => {
   try {
-    const { pickup, dropOff, userId, longitude, latitude, fare, paymentId, scheduleDate, scheduleTime } =
-      req.body;
-      // let schedule = false ;
-
-      // if(scheduleDate){
-      //   console.log("hdfkjasdjf");
-        
-      //   schedule = true
-      // }
+    const {
+      pickup,
+      dropOff,
+      userId,
+      longitude,
+      latitude,
+      fare,
+      paymentId,
+      scheduleDate,
+      scheduleTime,
+      categoryId,
+    } = req.body;
+  
     await new requestModel({
       pickupLocation: pickup,
       destination: dropOff,
@@ -52,11 +56,26 @@ export const sendRequest: RequestHandler = async (req, res) => {
       latitude,
       fare,
       paymentId,
-      "schedule.date":scheduleDate,
+      category: categoryId,
+      "schedule.date": scheduleDate,
       "schedule.time": scheduleTime,
-      "schedule.scheduled": scheduleDate ? true : false
+      "schedule.scheduled": scheduleDate ? true : false,
     }).save();
+
     res.status(200).json({ status: true });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateShowNoti: RequestHandler = async (req, res) => {
+  try {
+    const { id } = req.body
+    await requestModel
+      .findOneAndUpdate({_id: id},{
+        $set: {senderViewed: true}
+      })
+    res.status(200);
   } catch (err) {
     console.log(err);
   }
@@ -66,7 +85,7 @@ export const getAcceptedRequest: RequestHandler = async (req, res) => {
   try {
     const { userId } = res.locals.decodedToken;
     const requests = await requestModel
-      .find({ sender: { $eq: userId }, accepted: { $eq: true } })
+      .find({ sender: { $eq: userId }, accepted: { $eq: true }, senderViewed: {$eq: false} })
       .sort("-1")
       .populate("receiver");
     res.status(200).json({ requests });
@@ -81,31 +100,30 @@ export const getScheduledRides: RequestHandler = async (req, res) => {
     console.log(userId);
 
     const rides = await requestModel
-      .find({sender: userId },
-        {schedule: { $ne: "Ride now" },
-        finished: { $eq: false },
-      })
+      .find(
+        { sender: userId },
+        { schedule: { $ne: "Ride now" }, finished: { $eq: false } }
+      )
       .populate("receiver");
-    res.status(200).json({rides:rides});
+    res.status(200).json({ rides: rides });
   } catch (err) {
     console.log(err);
     res.status(400);
   }
 };
 
-
 export const getRideHistory: RequestHandler = async (req, res) => {
   try {
     const { userId } = res.locals.decodedToken;
     console.log(userId);
-    
+
     const rides = await requestModel
       .find({
         sender: { $eq: userId },
         finished: { $eq: true },
       })
-      .populate("receiver");
-    res.status(200).json({rides:rides});
+      .populate("receiver").populate('category')
+    res.status(200).json({ rides: rides });
   } catch (err) {
     console.log(err);
     res.status(400);

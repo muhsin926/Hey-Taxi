@@ -4,6 +4,7 @@ const initialState = {
     showModal: false,
     fare: '',
     payment: false,
+    categoryId: null
 };
 
 const modalSlice = createSlice({
@@ -21,9 +22,12 @@ const modalSlice = createSlice({
     },
     setPayment: (state) => {
       state.payment = true
-    }
+    },
+    setCategoryId: (state, data) => {
+      state.categoryId = data.payload
+    },
   },
 });
 
-export const { setShowModal,setUnShowModal, setFare, setPayment } = modalSlice.actions;
+export const { setShowModal,setUnShowModal, setFare, setPayment,setCategoryId } = modalSlice.actions;
 export default modalSlice.reducer;

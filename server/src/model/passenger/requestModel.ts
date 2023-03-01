@@ -12,6 +12,7 @@ const requestSchema = new Schema(
     },
     sender: { type: mongoose.Types.ObjectId, ref: 'passenger' },
     receiver: { type: mongoose.Types.ObjectId, ref: 'Driver' },
+    senderViewed: { type: Boolean, default: false },
     accepted: { type: Boolean, default: false },
     schedule: { 
       date: {type: String},
@@ -23,7 +24,8 @@ const requestSchema = new Schema(
     longitude : [],
     finished: {type: Boolean,default: false},
     fare: {type: Number},
-    paymentId: {type: String}
+    paymentId: {type: String},
+    category: { type: mongoose.Types.ObjectId, ref: 'Vehicle_category' },
   },
   { timestamps: true }
 );

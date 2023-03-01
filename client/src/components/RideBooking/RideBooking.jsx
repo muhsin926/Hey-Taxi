@@ -79,16 +79,6 @@ const RideBooking = () => {
     setEndSuggestion([]);
   };
 
-  const getCategory = useCallback(async () => {
-    const response = await axios.get(`${url}/api/passenger/carCategory`);
-    setCategory(response.data.cat);
-  }, [])
-  useEffect(() => {
-    getCategory()
-  }, [getCategory])
-
-
-
   return (
     <>
       <motion.div

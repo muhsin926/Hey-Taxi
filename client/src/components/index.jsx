@@ -12,6 +12,7 @@ import Sidebar from "./Profile/Sidebar";
 import Profile from "./Profile/Profile";
 import ScheduledRides from "./ScheduledRides/ScheduledRides";
 import RideHistory from "./RideHistory/RideHistory";
+import Dropdown from "./Profile/Dropdown";
 
 export {
   Signup,
@@ -28,4 +29,5 @@ export {
   Profile,
   ScheduledRides,
   RideHistory,
+  Dropdown,
 };
