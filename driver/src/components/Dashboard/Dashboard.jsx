@@ -73,7 +73,7 @@ const Dashboard = () => {
         <div className="col-span-12 md:col-span-8 p-3 justify-between flex  ">
           <h1
             onClick={() => setUnderline("drive")}
-            className={`cursor-pointer text-semibold hover:text-gray-400  text-xs sm:text-base md:text-lg ${underline == "drive"
+            className={`md:text-xl  font-mono text-gray-600 font-semibold cursor-pointer text-semibold hover:text-gray-400  text-xs sm:text-base  ${underline == "drive"
               ? "underline underline-offset-[1.4rem] decoration-yellow-400 decoration-2"
               : ""}`}
           >
@@ -81,7 +81,7 @@ const Dashboard = () => {
           </h1>
           <h1
             onClick={() => setUnderline("request")}
-            className={`cursor-pointer text-semibold hover:text-gray-400  text-xs sm:text-base md:text-lg ${underline == "request"
+            className={`md:text-xl  font-mono text-gray-600 font-semibold cursor-pointer text-semibold hover:text-gray-400  text-xs sm:text-base ${underline == "request"
               ? "underline underline-offset-[1.4rem] decoration-yellow-400 decoration-2"
               : ""}`}
           >
@@ -89,7 +89,7 @@ const Dashboard = () => {
           </h1>
           <h1
             onClick={() => setUnderline("trip")}
-            className={`cursor-pointer text-semibold hover:text-gray-400 text-xs sm:text-base md:text-lg ${underline == "trip"
+            className={`md:text-xl  font-mono text-gray-600 font-semibold cursor-pointer text-semibold hover:text-gray-400  text-xs sm:text-base ${underline == "trip"
               ? "underline underline-offset-[1.4rem] decoration-yellow-400 decoration-2"
               : ""}`}
           >
@@ -106,7 +106,8 @@ const Dashboard = () => {
             </button>
           </div>
         </div>
-      </div><div className="grid grid-cols-12">
+      </div>
+      <div className="grid grid-cols-12">
         {underline == "request" ? (
           <div className="col-span-12 mt-12">
             <PendigRequest />

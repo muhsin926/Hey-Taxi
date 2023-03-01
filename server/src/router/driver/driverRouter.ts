@@ -28,5 +28,7 @@ router
   .get(authCheck, driverController.getRideNow)
   .patch(driverController.finishedRide);
 router.route("/earnings").get(authCheck,driverController.getEarnings)
+router.route("/trip-history").get(authCheck, driverController.getTripHistory)
+router.route("/profile").get(authCheck,driverController.getDriver).patch(authCheck,driverController.updateDriver)
 
 export default router;

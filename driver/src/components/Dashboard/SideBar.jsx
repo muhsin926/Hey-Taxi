@@ -7,7 +7,8 @@ const navigation = [
   { name: "Vehicles", href: "/vehicles", current: false },
   { name: "Inbox", href: "#", current: false },
   { name: "Earnings", href: "/earnings", current: false },
-  { name: "Trip Management", href: "#", current: false },
+  { name: "Trip Management", href: "/trip_manage", current: false },
+  { name: "Account Setting", href: "/profile", current: false },
 ];
 
 const SideBar = () => {

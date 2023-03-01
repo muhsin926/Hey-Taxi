@@ -10,6 +10,8 @@ import Map from "./Map/Map";
 import ScheduleRide from "./ScheduleRide/ScheduleRide";
 import Sidebar from "./Profile/Sidebar";
 import Profile from "./Profile/Profile";
+import ScheduledRides from "./ScheduledRides/ScheduledRides";
+import RideHistory from "./RideHistory/RideHistory";
 
 export {
   Signup,
@@ -24,4 +26,6 @@ export {
   ScheduleRide,
   Sidebar,
   Profile,
+  ScheduledRides,
+  RideHistory,
 };

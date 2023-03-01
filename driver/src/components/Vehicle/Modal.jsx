@@ -46,7 +46,7 @@ const Modal = ({ edit, loading, setLoading }) => {
     };
     fileReader.readAsDataURL(file);
   };
-  edit.category ? console.log("hev") : console.log("not");
+
   const submitForm = async (values) => {
     (await values.RC.length) > 0 && convert2Base64(values.RC[0]);
     (await values.insurance.length) > 0 && convert2Base64(values.insurance[0]);
@@ -67,8 +67,8 @@ const Modal = ({ edit, loading, setLoading }) => {
           : toast.error("somthing wrong please try again");
         edit = {};
         dispatch(setUnShowModal());
+      } else {
       }
-    } else {
       if (img.length > 1) {
         const { data } = await axios.post(
           `${url}/api/driver/vehicle`,

@@ -37,25 +37,9 @@ const Hero = () => {
           transition={{ type: "spring", stiffness: 60, delay: 0.6 }}
           className="flex justify-center align-middle mt-10"
         >
-          <h1 className="text-3xl font-semibold">Request a ride now</h1>
+          <h1 className="text-3xl font-semibold mb-7">Request a ride now</h1>
         </motion.div>
-        <motion.div
-          initial={{ y: "-10vw", opacity: 0 }}
-          animate={{ y: 1, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 60, delay: 0.9 }}
-          className="mt-10"
-        >
-          <input
-            type="text"
-            className=" border border-grey bg-slate-200 w-full p-3 rounded mb-4"
-            placeholder="Enter you start in location"
-          />
-          <input
-            type="text"
-            className=" border border-grey bg-slate-200 w-full p-3 rounded mb-4"
-            placeholder="Enter your destination"
-          />
-        </motion.div>
+        
         <motion.div
           initial={{ y: "-10vw", opacity: 0 }}
           animate={{ y: 1, opacity: 1 }}

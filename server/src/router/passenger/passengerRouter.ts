@@ -13,5 +13,7 @@ router
   .patch(authCheck, passController.patchPassenger);
 
 router.route("/ride-request").get(authCheck,passController.getAcceptedRequest).post( passController.sendRequest)
+router.route('/getScheduledRides').get(authCheck, passController.getScheduledRides)
+router.route('/getRideHistory').get(authCheck, passController.getRideHistory)
 
 export default router;

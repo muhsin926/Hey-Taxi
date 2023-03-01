@@ -11,7 +11,7 @@ const useAuth = () => {
     const token = JSON.parse(localStorage.getItem("token"));
     if (!token) {
 
-      return;
+      return authenticated
     }
     const decoded = jwt_decode(token);
     dispatch(setUserId(decoded.userId))

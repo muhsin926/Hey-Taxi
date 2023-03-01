@@ -11,6 +11,7 @@ import TaxiCategories from "./TaxiCategories";
 import axios from "axios";
 import url from "../../api/Api"
 import { setEndPoint, setStartPoint } from "../../redux/slices/BookingLocationsSlice";
+import dateFormat, { masks } from "dateformat";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
@@ -165,7 +166,7 @@ const RideBooking = () => {
                   " text-center py-1 px-3 rounded bg-gray-900 text-white mb-3 my-1 text-base"
                 }
                 title={`${scheduleDate && scheduleTime
-                    ? "scheduled for " + scheduleDate + "," + scheduleTime
+                    ? "Scheduled for " + dateFormat(scheduleDate + "," + scheduleTime, 'mm,d,yyyy')
                     : "Schdule for later"
                   }`}
                 handleClick={handleClick}

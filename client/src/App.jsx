@@ -6,6 +6,8 @@ import { io } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
 import { setSocket } from "./redux/slices/SocketSlice";
 import ProfilePage from "./pages/ProfilePage";
+import ScheduledRidePage from "./pages/scheduledRidePage";
+import RideHistoryPage from "./pages/RideHistoryPage";
 
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
         <Route path="/ride" element={<RideBookingPage />} />
         <Route path="/schedule_ride" element={<RideSchedulePage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/scheduled-rides" element={<ScheduledRidePage />} />
+        <Route path="/ride-history" element={<RideHistoryPage />} />
       </Routes>
     </div>
   );

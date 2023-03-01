@@ -2,7 +2,7 @@ import { DocumentPlusIcon } from "@heroicons/react/24/outline";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Dashboard, Navbar, SideBar, Vehicle } from "./components";
+import { Dashboard, Navbar, SideBar, TripManage, Vehicle } from "./components";
 import DashboardPage from "./pages/DashboardPage";
 import DocUploaderPage from "./pages/DocUploaderPage";
 import Loginpage from "./pages/Loginpage";
@@ -15,6 +15,8 @@ import jwt_decode from "jwt-decode";
 import { setUserId } from "./redux/slices/AuthSlice";
 import DrivingPage from "./pages/DrivingPage";
 import EarnigsPage from "./pages/EarnigsPage";
+import TripManagePage from "./pages/TripManagePage";
+import ProfilePage from "./pages/ProfilePage";
 
 const App = () => {
   const { userId } = useSelector((state) => state.auth)
@@ -41,6 +43,8 @@ const App = () => {
               <Route path="/vehicles" element={<VehiclesPage />} />
               <Route path="/driving" element={<DrivingPage />} />
               <Route path="/earnings" element={<EarnigsPage />} />
+              <Route path="/trip_manage" element={<TripManagePage />} />
+              <Route path="/profile" element={<ProfilePage />} />
             </Routes>
       </Router>
     </>

@@ -7,5 +7,6 @@ import SideBar from "./Dashboard/SideBar";
 import Dashboard from "./Dashboard/Dashboard";
 import Vehicle from "./Vehicle/Vehicle";
 import Earnings from "./Earnings/Earnings";
-
-export { Navbar, Login, Signup, DocUploader, Requirements, SideBar, Dashboard, Vehicle, Earnings };
+import TripManage from "./TripManage/TripManage";
+import Profile from "./Profile/profile";
+export { Navbar, Login, Signup, DocUploader, Requirements, SideBar, Dashboard, Vehicle, Earnings, TripManage, Profile };

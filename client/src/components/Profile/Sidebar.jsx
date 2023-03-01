@@ -1,12 +1,30 @@
 import React from 'react'
+import Button from './Button';
 
+
+const navigation = [
+  { name: "Profile Setting", href: "/profile",},
+  { name: "Scheduled Rides", href: "/scheduled-rides",},
+  { name: "Rides History", href: "/ride-history",},
+];
 const Sidbar = () => {
   return (
-    <div className='flex flex-col gap-4'>
-      <h1>Profile Setting</h1>
-      <h1>Scheduled Rides</h1>
-      <h1>Ride History</h1>
-    </div>
+    <div>
+    {navigation.map((data) => (
+      <Button
+        style={
+          "rounded-md p-2 w-full text-base text-start text-gray-500 font-medium hover:bg-slate-200 hover:text-black "
+        }
+        title={data.name}
+        bg={
+          location.pathname == data.href &&
+          "text-black rounded-md p-2 w-full text-start font-semibold hover:bg-slate-200 text-base font-medium "
+        }
+        onclick={data.href}
+        key={data.name}
+      />
+    ))}
+  </div>
   )
 }
 

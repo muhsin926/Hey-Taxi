@@ -35,7 +35,15 @@ export const patchPassenger: RequestHandler = async (req, res) => {
 
 export const sendRequest: RequestHandler = async (req, res) => {
   try {
-    const { pickup, dropOff, userId, longitude, latitude, fare, paymentId } = req.body;
+    const { pickup, dropOff, userId, longitude, latitude, fare, paymentId, scheduleDate, scheduleTime } =
+      req.body;
+      // let schedule = false ;
+
+      // if(scheduleDate){
+      //   console.log("hdfkjasdjf");
+        
+      //   schedule = true
+      // }
     await new requestModel({
       pickupLocation: pickup,
       destination: dropOff,
@@ -44,6 +52,9 @@ export const sendRequest: RequestHandler = async (req, res) => {
       latitude,
       fare,
       paymentId,
+      "schedule.date":scheduleDate,
+      "schedule.time": scheduleTime,
+      "schedule.scheduled": scheduleDate ? true : false
     }).save();
     res.status(200).json({ status: true });
   } catch (err) {
@@ -61,5 +72,42 @@ export const getAcceptedRequest: RequestHandler = async (req, res) => {
     res.status(200).json({ requests });
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const getScheduledRides: RequestHandler = async (req, res) => {
+  try {
+    const { userId } = res.locals.decodedToken;
+    console.log(userId);
+
+    const rides = await requestModel
+      .find({sender: userId },
+        {schedule: { $ne: "Ride now" },
+        finished: { $eq: false },
+      })
+      .populate("receiver");
+    res.status(200).json({rides:rides});
+  } catch (err) {
+    console.log(err);
+    res.status(400);
+  }
+};
+
+
+export const getRideHistory: RequestHandler = async (req, res) => {
+  try {
+    const { userId } = res.locals.decodedToken;
+    console.log(userId);
+    
+    const rides = await requestModel
+      .find({
+        sender: { $eq: userId },
+        finished: { $eq: true },
+      })
+      .populate("receiver");
+    res.status(200).json({rides:rides});
+  } catch (err) {
+    console.log(err);
+    res.status(400);
   }
 };

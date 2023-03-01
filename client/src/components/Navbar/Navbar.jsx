@@ -13,8 +13,8 @@ const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "Ride", href: "/ride", current: false },
   { name: "Drive", href: "#", current: false },
+  { name: "Schedule Ride", href: "/schedule_ride", current: false },
 ];
-
 
 
 function classNames(...classes) {
@@ -79,12 +79,13 @@ export default function Navbar() {
                         key={item.name}
                         to={item.href}
                         className={classNames(
+                          `${auth ? item.name == 'Drive'? 'hidden': 'block' : 'block'}`,
                           "text-gray-300 hover:bg-gray-700 hover:text-white",
                           "px-3 py-2 rounded-md text-sm font-medium"
                         )}
                         aria-current={item.current ? "page" : undefined}
                       >
-                        {item.name}
+                        {auth ? item.name == 'Drive'? null: item.name : item.name}
                       </Link>
                     ))}
                   </div>
@@ -240,12 +241,13 @@ export default function Navbar() {
                   as="a"
                   href={item.href}
                   className={classNames(
+                    `${auth ? item.name == 'Drive'? 'hidden': 'block' : 'block'}`,
                     "text-gray-300 hover:bg-gray-700 hover:text-white",
                     "block px-3 py-2 rounded-md text-base font-medium"
                   )}
                   aria-current={item.current ? "page" : undefined}
                 >
-                  {item.name}
+                  {auth ? item.name == 'Drive'? null: item.name : item.name}
                 </Disclosure.Button>
               ))}
             </div>

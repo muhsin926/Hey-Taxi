@@ -29,8 +29,9 @@ const DriveNow = () => {
         dispatch(setRideDetails(trip))
     }
   return (
-    <div class="relative overflow-x-auto">
-    {rideNow.length > 0 ?
+    <>
+    {rideNow.length > 0 ? (
+    <div class="relative overflow-x-auto bg-black rounded-xl text-white">
         <table class="w-full text-sm text-left">
             <thead class="text-xs uppercase">
                 <tr>
@@ -50,7 +51,7 @@ const DriveNow = () => {
             </thead>
             <tbody>
                 {rideNow.map((trip) => (
-                    <tr class="bg-white border-b" key={trip._id}>
+                    <tr class="text-black border-b hover:bg-gray-200 bg-gray-100" key={trip._id}>
                         <td class="px-6 py-4">
                             {trip.sender?.name}
                             <a
@@ -72,9 +73,10 @@ const DriveNow = () => {
                 ))}
             </tbody>
         </table>
-        : <div className="ml-4 mt-2 text-lg font-simibold text-red-500 text-center">There is no ride..</div>
+        </div>
+     ) : <div className="ml-4 mt-2 text-lg font-simibold text-red-500 text-center">There is no ride..</div>
     }
-</div>
+    </>
   )
 }
 

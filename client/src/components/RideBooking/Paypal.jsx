@@ -9,6 +9,7 @@ import url from "../../api/Api";
 
 const Paypal = ({ fare }) => {
   const { userId } = useSelector((state) => state.auth);
+  const { scheduleDate, scheduleTime } = useSelector((state)=> state.scheduleRide)
   const { startPoint, endPoint } = useSelector((state) => state.locationSlice);
   const { startingCoordinates, destinationCoordinates } =
     useContext(LocationContext);
@@ -29,6 +30,8 @@ const Paypal = ({ fare }) => {
         longitude: destinationCoordinates,
         fare: setFare,
         paymentId: orderId,
+        scheduleDate,
+        scheduleTime,
       },
       { headers: { Authorization: `Bearer ${token}` } }
     );

@@ -8,9 +8,11 @@ const ScheduleRide = () => {
     const dispatch = useDispatch();
     const { scheduleDate, scheduleTime } = useSelector((state) => state.scheduleRide)
     const navigate = useNavigate();
+
     const today = new Date();
     const date = today.setDate(today.getDate());
-    const defaultValue = new Date(date).toISOString().split('T')[0]
+    const defaultValue = new Date(date).toISOString().split('T')[0];
+    const maxDate = new Date(Date.now() + 20 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
     const currentTime = new Date(),
         time = currentTime.getHours() + ':' + (currentTime.getMinutes() + 20)
@@ -48,6 +50,8 @@ const ScheduleRide = () => {
                     placeholder=""
                     defaultValue={defaultValue}
                     value={scheduleDate}
+                    min={defaultValue}
+                    max={maxDate}
                     onChange={e => dispatch(setScheduleDate(e.target.value))}
                 />
                 <input

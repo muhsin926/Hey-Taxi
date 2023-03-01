@@ -72,6 +72,31 @@ export const getDriver: RequestHandler = async (req, res) => {
   driver && res.status(200).json({ driver: driver });
 };
 
+export const updateDriver: RequestHandler = async (req, res) => {
+  try {
+    const { userId } = res.locals.decodedToken;
+    const { name, email, mob } = req.body.values;
+    const { dp } = req.body;
+    console.log(dp);
+    
+    await driverModel.findOneAndUpdate(
+      { _id: userId },
+      {
+        $set: {
+          name,
+          email,
+          mobile: mob,
+          profile: dp,
+        },
+      }
+    );
+    res.status(200).json({ status: true });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ err });
+  }
+};
+
 export const getVehicles: RequestHandler = async (req, res) => {
   const vehicles = await vehicleModel.find({});
   return res.status(200).json({ vehicles: vehicles });
@@ -178,7 +203,7 @@ export const getBookedTrips: RequestHandler = async (req, res) => {
       .find({
         receiver: { $eq: userId },
         schedule: { $ne: "Ride now" },
-        finished: { $eq: true },
+        finished: { $ne: true },
       })
       .sort("-1")
       .populate("sender");
@@ -232,11 +257,11 @@ export const getEarnings: RequestHandler = async (req, res) => {
       },
       {
         $group: {
-          _id:  {
+          _id: {
             $dateToString: {
               format: "%Y-%m-%d",
-              date: "$updatedAt"
-            }
+              date: "$updatedAt",
+            },
           },
           data: { $push: "$$ROOT" },
           total_fare: { $sum: "$fare" },
@@ -244,9 +269,26 @@ export const getEarnings: RequestHandler = async (req, res) => {
         },
       },
     ]);
-    if(earnings) res.status(200).json({getEarnings:earnings})
+    if (earnings) res.status(200).json({ getEarnings: earnings });
   } catch (err) {
     console.log(err);
-    res.status(400)
+    res.status(400);
+  }
+};
+
+export const getTripHistory: RequestHandler = async (req, res) => {
+  try {
+    const { userId } = res.locals.decodedToken;
+    const requests = await requestModel
+      .find({
+        receiver: { $eq: userId },
+        finished: { $eq: true },
+      })
+      .sort("-1")
+      .populate("sender");
+    res.status(200).json({ res: requests });
+  } catch (err) {
+    console.log(err);
+    res.status(500);
   }
 };

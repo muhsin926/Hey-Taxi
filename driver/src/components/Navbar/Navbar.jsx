@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { blankProfile, logo1 } from "../../assets";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import url from '../../api/Api'
@@ -28,6 +28,7 @@ const handleSignOut = () => {
 export default function Navbar() {
   const [notification, setNotification] = useState([])
   const { socket } = useSelector((state) => state.socket)
+  const navigate = useNavigate()
 
   const getNotification = async () => {
     const { data } = await axios.get(`${url}/api/driver/requests`)
@@ -96,7 +97,7 @@ export default function Navbar() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-96 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      {notification.map((noti) => (
+                          {notification.map((noti) => (
                         <Menu.Item>
                           {({ active }) => (
                             <Link
@@ -106,7 +107,7 @@ export default function Navbar() {
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
-                              {notification.length > 0 ? (
+                  
                                 <div className="flex py-3 border-b border-gray-100">
                                   <img className="w-14 h-14 rounded-full" src={blankProfile} alt="profile" />
                                   <div className="flex justify-between">
@@ -123,9 +124,9 @@ export default function Navbar() {
                                     </div>
                                   </div>
                                 </div>
-                              ) : (
-                                <div className="">No Notifications</div>
-                              )}
+                  
+                              {notification.length == 0 && <div className="text-black">No Notifications</div> }
+          
 
                             </Link>
                           )}
@@ -160,33 +161,22 @@ export default function Navbar() {
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="#"
+                          <Link
+                            to={'/profile'}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
                             Your Profile
-                          </a>
+                          </Link>
                         )}
                       </Menu.Item>
+                      
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <h1
+                          <Link
+                           to={'/login'}
                             onClick={handleSignOut}
                             className={classNames(
                               active ? "bg-gray-100" : "",
@@ -194,7 +184,7 @@ export default function Navbar() {
                             )}
                           >
                             Sign out
-                          </h1>
+                          </Link>
                         )}
                       </Menu.Item>
                     </Menu.Items>

@@ -56,7 +56,7 @@ const Earnings = () => {
                   </th>
                   <td className="px-6 py-4">{earn?.count}</td>
                   <td className="px-6 py-4">{earn?.total_fare}</td>
-                  <td className="px-6 py-4">{earn?.total_fare}</td>
+                  <td className="px-6 py-4">{Math.floor((earn?.total_fare) * 80 / 100)}</td>
                 </tr>
               ))}
             </tbody>
