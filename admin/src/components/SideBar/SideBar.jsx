@@ -8,7 +8,7 @@ const navigation = [
   { name: "User Manage", href: "/passenger", current: false },
   { name: "Vehicles", href: "/vehicle", current: true },
   { name: "Vehicle Category", href: "/vehicle_category", current: false },
-  { name: "Earnings", href: "#", current: false },
+  { name: "Earnings", href: "/earnings", current: false },
 ];
 
 const SideBar = () => {
