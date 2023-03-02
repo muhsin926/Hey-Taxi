@@ -6,6 +6,7 @@ const navigation = [
   { name: "Profile Setting", href: "/profile",},
   { name: "Scheduled Rides", href: "/scheduled-rides",},
   { name: "Rides History", href: "/ride-history",},
+  { name: "Chat Inbox", href: "/inbox",},
 ];
 const Sidbar = () => {
   return (

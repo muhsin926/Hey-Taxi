@@ -8,6 +8,7 @@ import { setSocket } from "./redux/slices/SocketSlice";
 import ProfilePage from "./pages/ProfilePage";
 import ScheduledRidePage from "./pages/scheduledRidePage";
 import RideHistoryPage from "./pages/RideHistoryPage";
+import InboxPage from "./pages/InboxPage";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/scheduled-rides" element={<ScheduledRidePage />} />
         <Route path="/ride-history" element={<RideHistoryPage />} />
+        <Route path="/inbox" element={<InboxPage />} />
       </Routes>
     </div>
   );
