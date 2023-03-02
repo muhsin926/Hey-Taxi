@@ -48,7 +48,7 @@ const Profile = () => {
         const data = new FormData()
         data.append('file', file)
         data.append("upload_preset", 'fpcyvcwq')
-        await axios.post(`https://api.cloudinary.com/v1_1/dqthrkxov/image/upload`,data).then(async (res) => {
+        await axios.post(`https://api.cloudinary.com/v1_1/dqthrkxov/image/upload`, data).then(async (res) => {
             setDp(res.data.secure_url)
         }).catch((err) => toast.error(err.message))
     }
@@ -71,31 +71,37 @@ const Profile = () => {
     return (
         <section>
 
-            <div className="relative h-40 rounded-tl-[4rem] bg-gradient-to-r from-violet-200 to-fuchsia-200 ">
-                <div className="w-28 rounded-full bg-white h-28 left-12 top-32 absolute ">
+            <div className="hidden md:block relative h-40 rounded-tl-[4rem] bg-gradient-to-r from-violet-200 to-fuchsia-200 ">
+                <div className="w-24 rounded-full bg-white h-28 left-12 top-32 absolute ">
                     <img
                         src={blankProfile}
-                        className="w-36 h-28 rounded-full"
+                        className="w-24 h-24 rounded-full"
                         alt="Profile photo"
 
                     />
                 </div>
             </div>
-            <div className="ml-44 mt-4 flex justify-between ">
-                <div>
-                    <div className="flex gap-3  items-center">
+            <div className="md:ml-44   mt-4 flex justify-between ">
+                <div >
+                    <div className="flex items-center">
+                        <img
+                            src={blankProfile}
+                            className="md:hidden w-16 h-26 rounded-full"
+                            alt="Profile photo"
+
+                        />
                         <h1 className="text-lg font-medium">{driver?.name}</h1>
-                        {!edit && <h1 className="">{driver?.mobile}</h1>}
                     </div>
                     {edit ? (
                         <h1>Update your photo and personal details</h1>
                     ) : (
                         <>
+                            <h1 className="">{driver?.mobile}</h1>
                             <h1 className="">{driver?.email}</h1>
                         </>
                     )}
                 </div>
-                <div>
+                <div className="flex items-start">
                     {!edit ? (
                         <button
                             onClick={() => setEdit(true)}
@@ -111,7 +117,7 @@ const Profile = () => {
                             >
                                 Cancel
                             </button>
-    
+
                         </>
                     )}
                 </div>
@@ -119,8 +125,8 @@ const Profile = () => {
             {edit &&
                 <form onSubmit={handleSubmit(submitForm)}>
                     <div>
-                        <div className="flex flex-wrap justify-center" >
-                            <div className="flex jusify-center  flex-col items-center mt-16 ml-16 gap-10">
+                        <div className="justify-center grid grid-cols-12" >
+                            <div className="flex jusify-center col-span-12 md:col-span-6  flex-col items-center mt-16  gap-10">
                                 <div>
                                     <label htmlFor="name">Name : </label>
                                     <input
@@ -134,7 +140,7 @@ const Profile = () => {
                                 </div>
                                 <p className=" text-red-600">{errors.name?.message}</p>
                             </div>
-                            <div className="flex jusify-center flex-col items-center mt-16 ml-16 gap-10">
+                            <div className="col-span-12 md:col-span-6  flex jusify-center flex-col items-center md:mt-16  gap-10">
                                 <div>
                                     <label htmlFor="email">Email : </label>
                                     <input
@@ -149,7 +155,7 @@ const Profile = () => {
                                 <p className=" text-red-600">{errors.email?.message}</p>
                             </div>
 
-                            <div className="flex jusify-center flex-col items-center mt-8 gap-10">
+                            <div className="col-span-12 md:col-span-6 flex jusify-center flex-col items-center md:mt-8 gap-10">
                                 <div>
                                     <label htmlFor="mob">Mobile : </label>
                                     <input
@@ -163,7 +169,7 @@ const Profile = () => {
                                 </div>
                                 <p className=" text-red-600">{errors.mob?.message}</p>
                             </div>
-                            <div className="flex justify-center items-center mt-6 ml-16 gap-2   ">
+                            <div className="col-span-12 md:col-span-6 flex justify-center items-center md:mt-6  mb-5 gap-2   ">
                                 <label htmlFor="profile">
 
                                     <img
@@ -173,15 +179,17 @@ const Profile = () => {
                                     />
 
                                 </label>
-                                <label htmlFor="profile">{driver.profile ? "Update your profile photo" : 'Add profile photo'}</label>
+                                <label htmlFor="profile">{driver?.profile ? "Update your profile photo" : 'Add profile photo'}</label>
                             </div>
                             <input type="file" className="hidden" onChange={e => fileUpload(e)} name="profile" id='profile' />
-                            <button
-                                type="submit"
-                                className="w-3/6 bg-gradient-to-b hover:bg-gradient-to-t from-gray-500 rounded-md to-black text-white py-1 px-5"
-                            >
-                                Save
-                            </button>
+                            <div className="col-span-12 flex justify-center">
+                                <button
+                                    type="submit"
+                                    className=" w-5/6 bg-gradient-to-b hover:bg-gradient-to-t from-gray-500 rounded-md to-black text-white py-1 px-5"
+                                >
+                                    Save
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </form>

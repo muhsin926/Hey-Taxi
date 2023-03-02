@@ -12,9 +12,10 @@ import toast, { Toaster } from "react-hot-toast";
 const navigation = [
   { name: "Dashboard", href: "/", current: true },
   { name: "Vehicles", href: "/vehicles", current: false },
-  { name: "Inbox", href: "#", current: false },
-  { name: "Earnings", href: "#", current: false },
-  { name: "Trip Management", href: "#", current: false },
+  { name: "Inbox", href: "/inbox", current: false },
+  { name: "Earnings", href: "/earnings", current: false },
+  { name: "Trip Management", href: "/trip_manage", current: false },
+  { name: "Accoount Setting", href: "/profile", current: false },
 ];
 
 

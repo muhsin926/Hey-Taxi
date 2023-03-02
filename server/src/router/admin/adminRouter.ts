@@ -1,4 +1,5 @@
 import express from "express";
+import * as dashboardController from "../../controller/adminController/dashboardController";
 import * as driverController from "../../controller/adminController/driverController";
 import * as passengerController from "../../controller/adminController/passengerController";
 import * as vehicleCategory from "../../controller/adminController/vehicleCategoryController";
@@ -23,5 +24,7 @@ router
   .route("/vehicle_category")
   .get(vehicleCategory.getCategory)
   .delete(vehicleCategory.deleteCategory);
+
+  router.route('/getShortInfo').get(dashboardController.getShortInfo)
 
 export default router;

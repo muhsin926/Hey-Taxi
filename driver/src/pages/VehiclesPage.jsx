@@ -9,7 +9,7 @@ const VehiclesPage = () => {
         <aside className='hidden md:block col-span-2 ml-7 border shadow-lg  w-full p-8 rounded-lg'>
           <SideBar />
         </aside>
-        <section className='md:col-span-10 col-span-12 mx-4 md:ml-12 sm:w-11/12 p-10 border shadow-lg rounded-xl '>
+        <section className='md:col-span-10 col-span-12 md:mx-4 mx-2 md:ml-12 sm:w-11/12 md:p-10 p-2 border shadow-lg rounded-xl '>
           <Vehicle />
         </section>
       </main>

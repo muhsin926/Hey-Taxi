@@ -80,112 +80,131 @@ const Profile = () => {
 
     return (
         <section>
-            <form onSubmit={handleSubmit(submitForm)}>
-                <div className="relative h-40 rounded-tl-[4rem] bg-gradient-to-r from-violet-200 to-fuchsia-200 ">
-                    <div className="w-28 rounded-full bg-white h-28 left-12 top-32 absolute ">
+
+            <div className="hidden md:block relative h-40 rounded-tl-[4rem] bg-gradient-to-r from-violet-200 to-fuchsia-200 ">
+                <div className="w-24 rounded-full bg-white h-28 left-12 top-32 absolute ">
+                    <img
+                        src={blankProfile}
+                        className="w-24 h-24 rounded-full"
+                        alt="Profile photo"
+
+                    />
+                </div>
+            </div>
+            <div className="md:ml-44   mt-4 flex justify-between ">
+                <div >
+                    <div className="flex items-center">
                         <img
                             src={blankProfile}
-                            className="w-36 h-28 rounded-full"
+                            className="md:hidden w-16 h-26 rounded-full"
                             alt="Profile photo"
 
                         />
-                    </div>
-                </div>
-                <div className="ml-44 mt-4 flex justify-between ">
-                    <div>
                         <h1 className="text-lg font-medium">{user?.name}</h1>
-                        {edit ? (
-                            <h1>Update your photo and personal details</h1>
-                        ) : (
-                            <>
-                                <h1 className="">{user?.mobile}</h1>
-                                <h1 className="">{user?.email}</h1>
-                            </>
-                        )}
                     </div>
-                    <div>
-                        {!edit ? (
-                            <button
-                                onClick={() => setEdit(true)}
-                                className="bg-gradient-to-b hover:bg-gradient-to-t from-gray-400 rounded-md to-black text-white py-1 px-5"
-                            >
-                                <FontAwesomeIcon className="text-base" icon={faPen} /> Edit
-                            </button>
-                        ) : (
-                            <>
-                                <button
-                                    onClick={() => setEdit(false)}
-                                    className="mr-3 border-2 border-gray-300 rounded-md py-1 px-3 hover:bg-gray-300 "
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="bg-gradient-to-b hover:bg-gradient-to-t from-gray-400 rounded-md to-black text-white py-1 px-5"
-                                >
-                                    Save
-                                </button>
-                            </>
-                        )}
-                    </div>
+                    {edit ? (
+                        <h1>Update your photo and personal details</h1>
+                    ) : (
+                        <>
+                            <h1 className="">{user?.mobile}</h1>
+                            <h1 className="">{user?.email}</h1>
+                        </>
+                    )}
                 </div>
-                {edit &&
+                <div className="flex items-start">
+                    {!edit ? (
+                        <button
+                            onClick={() => setEdit(true)}
+                            className="bg-gradient-to-b hover:bg-gradient-to-t from-gray-400 rounded-md to-black text-white py-1 px-5"
+                        >
+                            <FontAwesomeIcon className="text-base" icon={faPen} /> Edit
+                        </button>
+                    ) : (
+                        <>
+                            <button
+                                onClick={() => setEdit(false)}
+                                className="mr-3 border-2 border-gray-300 rounded-md py-1 px-3 hover:bg-gray-300 "
+                            >
+                                Cancel
+                            </button>
+                           
+                        </>
+                    )}
+                </div>
+            </div>
+            {edit &&
+                <form onSubmit={handleSubmit(submitForm)}>
                     <div>
-                        <div className="flex flex-wrap justify-center" >
-                            <div className="flex jusify-center items-center mt-16 ml-16 gap-10">
-                                <label htmlFor="name">Name : </label>
-                                <input
-                                    type="text"
+                        <div className="justify-center grid grid-cols-12" >
+                            <div className="flex jusify-center col-span-12 md:col-span-6  flex-col items-center mt-16  gap-10">
+                                <div>
+                                    <label htmlFor="name">Name : </label>
+                                    <input
+                                        defaultValue={user?.name}
+                                        type="text"
+                                        {...register("name")}
+                                        name="name"
+                                        id="name"
+                                        className=" py-3 pl-3 border border-gray-300 hover:shadow-lg rounded-lg"
+                                    />
+                                </div>
+                                <p className=" text-red-600">{errors.name?.message}</p>
+                            </div>
+                            <div className="col-span-12 md:col-span-6  flex jusify-center flex-col items-center md:mt-16  gap-10">
+                                <div>
+                                    <label htmlFor="email">Email : </label>
+                                    <input
+                                        type="text"
+                                        defaultValue={user?.email}
+                                        {...register("email")}
+                                        name="email"
+                                        id="email"
+                                        className=" py-3 pl-3 border border-gray-300 hover:shadow-lg rounded-lg"
+                                    />
+                                </div>
+                                <p className=" text-red-600">{errors.email?.message}</p>
+                            </div>
 
-                                    {...register("name")}
-                                    name="name"
-                                    id="name"
-                                    className=" py-3 pl-3 border border-gray-300 hover:shadow-lg rounded-lg"
-                                />
+                            <div className="col-span-12 md:col-span-6 flex jusify-center flex-col items-center md:mt-8 gap-10">
+                                <div>
+                                    <label htmlFor="mob">Mobile : </label>
+                                    <input
+                                        type="number"
+                                        defaultValue={user?.mobile}
+                                        {...register("mob")}
+                                        name="mob"
+                                        id="mob"
+                                        className=" py-3 pl-3 border border-gray-300 hover:shadow-lg rounded-lg"
+                                    />
+                                </div>
+                                <p className=" text-red-600">{errors.mob?.message}</p>
                             </div>
-                            <div className="flex jusify-center items-center mt-16 ml-16 gap-10">
-                                <label htmlFor="email">Email : </label>
-                                <input
-                                    type="text"
-                                    {...register("email")}
-                                    name="email"
-                                    id="email"
-                                    className=" py-3 pl-3 border border-gray-300 hover:shadow-lg rounded-lg"
-                                />
-                            </div>
-                            <div className="flex jusify-center items-center mt-8 -ml-6 gap-10">
-                                <label htmlFor="mob">Mobile : </label>
-                                <input
-                                    type="number"
-                                    {...register("mob")}
-                                    name="mob"
-                                    id="mob"
-                                    className=" py-3 pl-3 border border-gray-300 hover:shadow-lg rounded-lg"
-                                />
-                            </div>
-                            <div className="flex justify-center items-center mt-6 ml-16 gap-2   ">
+                            <div className="col-span-12 md:col-span-6 flex justify-center items-center md:mt-6  mb-5 gap-2   ">
                                 <label htmlFor="profile">
 
                                     <img
-                                        src={user.profile ? user.profile : blankProfile}
-                                        className="w-16 h-16 rounded-full"
+                                        src={dp ? dp : blankProfile}
+                                        className="w-12 h-12 rounded-full object-cover"
                                         alt="Profile photo"
                                     />
 
                                 </label>
-                                <label htmlFor="profile">{user.profile ? "Update your profile photo" : 'Add profile photo'}</label>
+                                <label htmlFor="profile">{user?.profile ? "Update your profile photo" : 'Add profile photo'}</label>
                             </div>
                             <input type="file" className="hidden" onChange={e => fileUpload(e)} name="profile" id='profile' />
-                            {/* <button
-                        type="submit"
-                                className="bg-gradient-to-b hover:bg-gradient-to-t from-gray-400 rounded-md to-black text-white py-1 px-5"
+                           <div className="col-span-12 flex justify-center">
+                           <button
+                                type="submit"
+                                className=" w-5/6 bg-gradient-to-b hover:bg-gradient-to-t from-gray-500 rounded-md to-black text-white py-1 px-5"
                             >
                                 Save
-                            </button> */}
+                            </button>
+                           </div>
                         </div>
-                    </div>}
-            </form>
-        </section>
+                    </div>
+                </form>
+            }
+        </section >
     );
 };
 

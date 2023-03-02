@@ -3,26 +3,32 @@ import { Link } from 'react-router-dom';
 
 function Dropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const [currentList, setCurrentList] = useState("Profile Setting")
   const dropList = [
-    { id:1, name: "Profile Setting", href: "/profile",},
-    { id:1, name: "Scheduled Rides", href: "/scheduled-rides",},
-    { id:1, name: "Rides History", href: "/ride-history",},
+    { id: 1, name: "Profile Setting", href: "/profile", },
+    { id: 1, name: "Scheduled Rides", href: "/scheduled-rides", },
+    { id: 1, name: "Rides History", href: "/ride-history", },
   ];
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleClick = (list) => {
+    setIsOpen(false)
+    setCurrentList(list)
+  }
+
   return (
     <>
       <button
         id="dropdownDefaultButton"
         data-dropdown-toggle="dropdown"
-        className="focus:ring-2 flex justify-between focus:ring-gray-400 border-gray-200 border w-4/6 font-poppins font-medium rounded-lg text-sm px-4 py-2.5 text-center  items-center"
+        className="focus:ring-2 flex justify-between focus:ring-gray-400 border-gray-200 border w-full font-poppins font-medium rounded-lg text-sm px-4 py-2.5 text-center  items-center"
         type="button"
         onClick={toggleDropdown}
       >
-        Dropdown button
+        {currentList}
         <svg
           className="w-4 h-4 ml-2 "
           aria-hidden="true"
@@ -41,12 +47,13 @@ function Dropdown() {
       </button>
       <div
         id="dropdown"
-        className={`z-10 ${isOpen ? '' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow mt-3 w-4/6`}
+        className={`z-10 ${isOpen ? '' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow mt-3 w-full`}
       >
         <ul className="py-2 text-sm text-black " aria-labelledby="dropdownDefaultButton">
           {dropList.map((list) => (
-            <li key={list.id}>
+            <li key={list.id} onClick={() => handleClick(list.name)}>
               <Link
+                
                 to={list.href}
                 className="block px-4 py-2 hover:bg-gray-100 "
               >

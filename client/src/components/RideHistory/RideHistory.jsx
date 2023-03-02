@@ -10,7 +10,6 @@ const RideHistory = () => {
         const { data } = await axios.get(`${import.meta.env.VITE_SERVER_DOMAIN}/api/passenger/getRideHistory`,{
             headers: { Authorization: `Bearer ${token}`}
         })
-        debugger
         setHistory(data?.rides)
     }
 

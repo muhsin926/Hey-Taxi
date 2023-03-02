@@ -50,7 +50,8 @@ export const register: RequestHandler = async (req, res) => {
 
 export const login: RequestHandler = async (req, res) => {
   const { email, password } = req.body;
-
+ console.log(password);
+ 
   try {
     passengerModel
       .findOne({ email })
