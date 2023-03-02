@@ -8,6 +8,17 @@ export const getDrivers: RequestHandler = async (req, res) => {
   }
 };
 
+export const updateDriver : RequestHandler = async (req,res) => {
+  console.log('adfasd');
+  
+  const { id, block } = req.query;
+  await driverModel.updateOne({_id:id},{
+    block : !block,
+})
+  res.status(200).json({status: true})
+}
+
+
 export const deleteDriver: RequestHandler =async (req,res) => {
   try{
       const { id } = req.query;

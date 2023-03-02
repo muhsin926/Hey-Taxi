@@ -41,6 +41,7 @@ const VehicleCategory = () => {
       </button>
 
       <div className="flex flex-col">
+        {categories?.length > 0 ? 
         <div className="overflow-x-auto">
           <div className="flex justify-between py-3 pl-2">
             <div className="relative max-w-xs">
@@ -181,6 +182,7 @@ const VehicleCategory = () => {
             </>
           )}
         </div>
+        : <div className="text-red-500 text-center">There is no data</div>}
       </div>
     </section>
   );

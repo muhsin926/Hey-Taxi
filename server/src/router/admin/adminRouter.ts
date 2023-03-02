@@ -14,6 +14,7 @@ router
 router
   .route("/driver")
   .get(driverController.getDrivers)
+  .patch(driverController.updateDriver)
   .delete(driverController.deleteDriver);
 router
   .route("/passenger")

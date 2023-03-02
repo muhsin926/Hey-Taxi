@@ -27,7 +27,7 @@ const Passenger = () => {
     setIsLoading(true);
     const { data } = await axios.delete(`${url}/api/admin/passenger?id=${id}`);
     setIsLoading(false);
-    data.status && alert("successfully deleted");
+    data.status && toast.success("successfully deleted");
   };
 
   return (
@@ -91,7 +91,7 @@ const Passenger = () => {
             <div className="flex justify-center items-center">
               <div className=" arc"></div>
             </div>
-          ) : (
+          ) : passengers.length > 0 ? (
             <>
               <div className="p-1.5 w-full inline-block align-middle">
                 <div className="overflow-auto border rounded-lg">
@@ -160,7 +160,7 @@ const Passenger = () => {
                                   : "text-green-500"
                               }`}
                             >
-                              {passenger.block ? "Blocked" : "Active"}
+                              {passenger.block ? "Inactive" : "Active"}
                             </h1>
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
@@ -188,6 +188,8 @@ const Passenger = () => {
                 </div>
               </div>
             </>
+          ) : (
+            <div className="text-red-500 text-center">There is no data</div>
           )}
         </div>
       </div>

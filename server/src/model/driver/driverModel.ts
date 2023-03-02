@@ -33,7 +33,8 @@ const driverSchema = new Schema(
         type: mongoose.Types.ObjectId,
         ref: 'Vehicle'
     }],
-    available: {type: Boolean, default: false}
+    available: {type: Boolean, default: false},
+    block: { type: Boolean, default: false}
   },
   { timestamps: true }
 );
