@@ -1,8 +1,13 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Axios from "axios";
-import url from "../../api/Api";
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
+import { auth } from "../../utility/firebase";
+import { googleIcon } from "../../assets";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -24,17 +29,27 @@ const Login = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    Axios.post(`${url}/api/passenger/login`, { email, password })
-      .then((response) => {
-        const result = response.data;
-        if (result.status) {
-          localStorage.setItem("token", JSON.stringify(result.token));
-          navigate("/");
-        } else {
-          setErrmessage(result.error);
-        }
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        navigate("/");
       })
-      .catch(() => setErrmessage("Server not found"));
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage);
+      });
+  };
+  const provider = new GoogleAuthProvider();
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log(result);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <section className="flex flex-col h-screen justify-center items-center ">
@@ -70,12 +85,23 @@ const Login = () => {
               <button
                 disabled={!formIsValid}
                 type="submit"
-                className="w-1/3 text-center py-2 rounded bg-yellow-400  my-1 font-semibold"
+                className="w-full text-center py-2 rounded bg-yellow-400  my-1 font-semibold"
               >
                 Sign In
               </button>
             </div>
+            <div className="w-full text-center py-5 text-xl">OR</div>
           </form>
+          <div className="w-full flex justify-between items-center">
+            <button
+              onClick={signInWithGoogle}
+              type="button"
+              className="w-full flex justify-center  border border-slate-400 text-center py-2 rounded  font-medium"
+            >
+              <img src={googleIcon} alt="google-icon" className="w-6 mr-5" />
+              Sign in with google
+            </button>
+          </div>
         </div>
       </div>
     </section>
