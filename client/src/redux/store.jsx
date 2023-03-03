@@ -4,6 +4,7 @@ import scheduleRide from './slices/ScheduleSlice';
 import modal from './slices/ModalSlice';
 import socket from './slices/SocketSlice';
 import locationSlice from './slices/BookingLocationsSlice'
+import chatSlice from './slices/ChatSlice'
 
 export default configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
     scheduleRide: scheduleRide,
     modal: modal,
     socket: socket,
-    locationSlice: locationSlice
+    locationSlice: locationSlice,
+    chatSlice: chatSlice
   },
 });

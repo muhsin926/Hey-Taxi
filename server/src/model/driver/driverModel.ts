@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-interface Driver extends Document {
+export interface Driver extends Document {
   name: string;
   email: string;
   password:string;
