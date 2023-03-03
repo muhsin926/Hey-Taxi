@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { faCircleArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useLocation } from "react-router-dom";
@@ -70,23 +70,30 @@ const DocUploader = () => {
       toast.error(errors.join("\n"));
     } else {
       setFile(selectedFile);
-      const base64 = await convertBase64(file);
+      const base64 = await convertBase64(selectedFile);
+      const token = localStorage.getItem('token')
+      setLoading(true)
       axios
-        .post(`${url}/api/driver/docUpload`, { image: base64, index })
+        .post(`${url}/api/driver/docUpload`, { image: base64, index }, {
+          headers: { Authorization: `Bearer ${token}`}
+        })
         .then((response) => {
           if (index == 0) {
-            dispatch(setDL);
+            dispatch(setDL());
           } else if (index == 1) {
-            dispatch(setRC);
+            dispatch(setRC());
           } else if (index == 2) {
-            dispatch(setInsurance);
-          } else {
-            dispatch(setOther);
+            dispatch(setInsurance());
+          } else if (index == 3) {
+            alert('fddsf')
+            dispatch(setOther());
           }
           toast.success("succesful uploaded");
+          setLoading(false)
         })
         .catch((err) => {
           toast.error(err);
+          setLoading(false)
         });
     }
   };
@@ -94,15 +101,21 @@ const DocUploader = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true)
+      const token = localStorage.getItem('token')
       const res = await axios.post(`${url}/api/driver/docUpload`, {
         vehicleCategory,
         model,
         reg,
         index,
-      });
-      res.data.status && toast.success("succesful upload");
+      },{ headers: {Authorization: `Bearer ${token}`}});
+      res.data.status ? toast.success("succesful upload") : toast.error(res.data.msg)
+      res.data.status && dispatch(setOther());
+      setLoading(false)
+      
     } catch (err) {
       toast.error(err);
+      setLoading(false)
     }
   };
 
@@ -111,10 +124,15 @@ const DocUploader = () => {
     setCategory(response.data.cat);
   };
 
-  getCategory();
+  useEffect(() => {
+    getCategory();
+  }, [])
 
   return (
     <div className="flex items-center h-screen justify-center scrollbar-hide overflow-y-auto ">
+      {loading ?  <div className="flex justify-center items-center">
+                    <div className=" arc"></div>
+                  </div> : 
       <div className="md:w-2/5 sm:w-3/5 w-11/12 border-2 ">
         <div className="bg-black p-3 ">
           <Link to={"/requirements"}>
@@ -146,8 +164,12 @@ const DocUploader = () => {
                 type="text"
                 className="w-full pl-3 focus:shadow-lg shadow-black focus:border-gray-400  py-4 border border-gray-300 rounded-lg mb-5"
                 placeholder="model name"
+                pattern="/^\s*\S.*$/" 
+                title="Please valid model name"
+                maxLength={10}
                 id="model"
               />
+              <p className="text-red-500 text-base mb-3 ">{model.length == 10 && 'Model name should not longer'}</p>
               <label htmlFor="reg.no">Registration Number</label>
               <input
                 value={reg}
@@ -196,6 +218,7 @@ const DocUploader = () => {
           </>
         )}
       </div>
+}
       <Toaster />
     </div>
   );

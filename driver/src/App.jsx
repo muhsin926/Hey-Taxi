@@ -18,6 +18,7 @@ import EarnigsPage from "./pages/EarnigsPage";
 import TripManagePage from "./pages/TripManagePage";
 import ProfilePage from "./pages/ProfilePage";
 import InboxPage from "./pages/InboxPage";
+import NotVerifiedPage from "./pages/NotVerifiedPage";
 
 const App = () => {
   const { userId } = useSelector((state) => state.auth)
@@ -47,6 +48,7 @@ const App = () => {
               <Route path="/trip_manage" element={<TripManagePage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/chat" element={<InboxPage />} />
+              <Route path="/not_verified" element={<NotVerifiedPage />} />
             </Routes>
       </Router>
     </>

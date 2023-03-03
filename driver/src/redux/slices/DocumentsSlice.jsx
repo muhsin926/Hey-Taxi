@@ -4,7 +4,7 @@ const initialState = {
     DL: false,
     RC: false,
     insurance: false,
-    ohters: false
+    others: false
 }
 
 const docSlice = createSlice({
@@ -21,7 +21,7 @@ const docSlice = createSlice({
             state.insurance = true;
         },
         setOther: (state) => {
-            state.other = true;
+            state.others = true;
         },
     }
 })

@@ -4,6 +4,7 @@ import RC from './doc/RC.png'
 import insurance from './doc/Insurance+Document.jpg'
 import permit from './doc/permit.png'
 import blankProfile from './images/blanck profile.jfif'
+import backgroundImg from './images/dropSplash.png'
 
 export{
     logo1,
@@ -11,5 +12,6 @@ export{
     RC,
     insurance,
     permit,
-    blankProfile
+    blankProfile,
+    backgroundImg
 }

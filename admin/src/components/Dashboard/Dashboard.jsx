@@ -29,7 +29,7 @@ const Dashboard = () => {
     <>
       <div className="grid grid-cols-12 p-5 gap-3">
         {briefInfo.map((info, i) => (
-          <div className="sm:col-span-6 col-span-12 md:col-span-3 bg-gradient-to-r  from-zinc-700 hover:shadow-xl to-black  p-3 rounded-md text-white">
+          <div className="sm:col-span-6 col-span-12 md:col-span-3 hover:bg-gradient-to-l bg-gradient-to-r  from-zinc-700 hover:shadow-xl to-black  p-3 rounded-md text-white">
             <div className="flex justify-between">
               <h1 className="text-xl font-semibold text-gray-400">
                 {info.title}

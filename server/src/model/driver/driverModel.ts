@@ -15,7 +15,7 @@ const driverSchema = new Schema(
   {
     name: {
       type: String,
-      required: [ true, "Please provide a name" ]
+      required: [ true, "Please provide a name" ],
     },
     email: {
       type: String,
@@ -34,7 +34,8 @@ const driverSchema = new Schema(
         ref: 'Vehicle'
     }],
     available: {type: Boolean, default: false},
-    block: { type: Boolean, default: false}
+    block: { type: Boolean, default: false},
+    verify: { type: Boolean, default: false }
   },
   { timestamps: true }
 );

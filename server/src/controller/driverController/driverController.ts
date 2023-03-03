@@ -7,11 +7,13 @@ import mongoose from "mongoose";
 
 export const addVehicle: RequestHandler = async (req, res) => {
   const { image, index, vehicleCategory, model, reg } = req.body;
+  const { userId } = res.locals.decodedToken;
   if (index == 0) {
     fileUploader(image)
       .then(async (image) => {
-        const updated = await driverModel.updateOne({
+        const updated = await driverModel.updateOne({_id:userId},{
           license: image,
+          
         });
         updated && res.status(200).json({ status: true });
       })
@@ -22,9 +24,10 @@ export const addVehicle: RequestHandler = async (req, res) => {
   } else if (index == 1) {
     fileUploader(image)
       .then(async (image) => {
-        const updated = await vehicleModel.updateOne({
+        const updated = await new vehicleModel({
           RC: image,
-        });
+          driverId:userId
+        }).save()
         updated && res.status(200).json({ status: true });
       })
       .catch((error) => {
@@ -34,9 +37,11 @@ export const addVehicle: RequestHandler = async (req, res) => {
   } else if (index == 2) {
     fileUploader(image)
       .then(async (image) => {
-        const updated = await vehicleModel.updateOne({
-          insurence: image,
-        });
+        console.log("ethi");
+        
+        const updated = await vehicleModel.updateOne({driverId:userId},{
+          insurance: image,
+      });
         updated && res.status(200).json({ status: true });
       })
       .catch((error) => {
@@ -44,11 +49,13 @@ export const addVehicle: RequestHandler = async (req, res) => {
         res.status(400).json({ status: false });
       });
   } else {
-    const updated = await vehicleModel.updateOne({
+    const exist = await vehicleModel.findOne({driverId: userId})
+    if(exist && exist.reg_no == reg) return res.status(200).json({msg: "Registration number already have another vehicle"})
+    const updated = await vehicleModel.updateOne({driverId:userId},{$set:{
       category: vehicleCategory,
       model,
       reg_no: reg,
-    });
+  }});
     updated && res.status(200).json({ status: true });
   }
 };

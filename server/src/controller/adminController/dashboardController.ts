@@ -59,6 +59,23 @@ export const getNewUsers: RequestHandler = async (req, res) => {
   }
 };
 
+export const verifyDriver: RequestHandler = async (req, res) => {
+  try {
+    const { id } = req.query;
+    await driverModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          verify: true,
+        },
+      }
+    );
+    res.status(200).json({ status: true });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
 export const getData: RequestHandler = async (req, res) => {
   try {
     const earnings = await requestModel.aggregate([

@@ -29,8 +29,12 @@ router
   .get(vehicleCategory.getCategory)
   .delete(vehicleCategory.deleteCategory);
 
+router
+  .route("/getNewUsers")
+  .get(dashboardController.getNewUsers)
+  .patch(dashboardController.verifyDriver);
+  
 router.route("/getShortInfo").get(dashboardController.getShortInfo);
-router.route("/getNewUsers").get(dashboardController.getNewUsers);
 router.route("/getEarnings").get(dashboardController.getData);
 
 export default router;

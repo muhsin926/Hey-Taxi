@@ -42,6 +42,6 @@ router.route("/earnings").get(authCheck, driverController.getEarnings);
 router.route("/trip-history").get(authCheck, driverController.getTripHistory);
 router.post("/register", driverAuthController.register);
 router.post("/login", driverAuthController.login);
-router.post("/docUpload", driverController.addVehicle);
+router.post("/docUpload", authCheck, driverController.addVehicle);
 router.route("/trips-booked").get(authCheck, driverController.getBookedTrips);
 export default router;
