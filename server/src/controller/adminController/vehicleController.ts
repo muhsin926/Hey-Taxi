@@ -15,8 +15,6 @@ export const addCategory: RequestHandler = async (req, res) => {
           rate,
           image,
         }).save();
-        console.log(categories);
-
         if (categories) {
           return res.status(200).json({ status: true });
         } else {

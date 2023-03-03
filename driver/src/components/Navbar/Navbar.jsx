@@ -12,7 +12,7 @@ import toast, { Toaster } from "react-hot-toast";
 const navigation = [
   { name: "Dashboard", href: "/", current: true },
   { name: "Vehicles", href: "/vehicles", current: false },
-  { name: "Inbox", href: "/inbox", current: false },
+  { name: "Inbox", href: "/chat", current: false },
   { name: "Earnings", href: "/earnings", current: false },
   { name: "Trip Management", href: "/trip_manage", current: false },
   { name: "Accoount Setting", href: "/profile", current: false },
@@ -97,7 +97,7 @@ export default function Navbar() {
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-96 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute right-0 z-10 mt-2  origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-y-auto h-96 scrollbar-hide">
                           {notification.map((noti) => (
                         <Menu.Item>
                           {({ active }) => (

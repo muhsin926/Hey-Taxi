@@ -11,23 +11,26 @@ router
   .post(vehicleController.addCategory)
   .get(vehicleController.getVehicles)
   .delete(vehicleController.deleteVehicle);
+
 router
   .route("/driver")
   .get(driverController.getDrivers)
   .patch(driverController.updateDriver)
   .delete(driverController.deleteDriver);
+
 router
   .route("/passenger")
   .get(passengerController.getPassenger)
   .patch(passengerController.updatePass)
   .delete(passengerController.deletePass);
+
 router
   .route("/vehicle_category")
   .get(vehicleCategory.getCategory)
   .delete(vehicleCategory.deleteCategory);
 
-  router.route('/getShortInfo').get(dashboardController.getShortInfo)
-  router.route('/getNewUsers').get(dashboardController.getNewUsers)
-  router.route('/getEarnings').get(dashboardController.getData)
+router.route("/getShortInfo").get(dashboardController.getShortInfo);
+router.route("/getNewUsers").get(dashboardController.getNewUsers);
+router.route("/getEarnings").get(dashboardController.getData);
 
 export default router;

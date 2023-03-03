@@ -15,7 +15,6 @@ const generateToken = (user: { _id: ObjectId; name: string }) => {
 export const register: RequestHandler = async (req, res) => {
   try {
     const { user, email, pwd, mob } = req.body;
-
     const passenger = await passengerModel.findOne({ email });
     if (passenger) {
       return res.status(200).send({ error: "Email already taken" });
@@ -50,8 +49,6 @@ export const register: RequestHandler = async (req, res) => {
 
 export const login: RequestHandler = async (req, res) => {
   const { email, password } = req.body;
- console.log(password);
- 
   try {
     passengerModel
       .findOne({ email })
@@ -63,9 +60,7 @@ export const login: RequestHandler = async (req, res) => {
               return res
                 .status(400)
                 .send({ status: false, error: "Password does not match" });
-
             const token = generateToken(user);
-
             return res.status(200).send({
               msg: " Login Successful...!",
               userName: user.name,

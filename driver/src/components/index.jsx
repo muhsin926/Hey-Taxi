@@ -9,4 +9,5 @@ import Vehicle from "./Vehicle/Vehicle";
 import Earnings from "./Earnings/Earnings";
 import TripManage from "./TripManage/TripManage";
 import Profile from "./Profile/profile";
-export { Navbar, Login, Signup, DocUploader, Requirements, SideBar, Dashboard, Vehicle, Earnings, TripManage, Profile };
+import Chat from "./Chat/Chat";
+export { Navbar, Login, Signup, DocUploader, Requirements, SideBar, Dashboard, Vehicle, Earnings, TripManage, Profile, Chat };

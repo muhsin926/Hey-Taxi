@@ -78,7 +78,7 @@ export const updateDriver: RequestHandler = async (req, res) => {
     const { name, email, mob } = req.body.values;
     const { dp } = req.body;
     console.log(dp);
-    
+
     await driverModel.findOneAndUpdate(
       { _id: userId },
       {
@@ -219,10 +219,10 @@ export const getRideNow: RequestHandler = async (req, res) => {
     const requests = await requestModel
       .find({
         receiver: { $eq: userId },
-        schedule: { $eq: "Ride now" },
+        "schedule.scheduled": { $eq: false },
         finished: { $ne: true },
       })
-      .sort("-1")
+      .sort({ updatedAt: -1 })
       .populate("sender");
     res.status(200).json({ requests });
   } catch (err) {
@@ -246,8 +246,6 @@ export const finishedRide: RequestHandler = async (req, res) => {
 export const getEarnings: RequestHandler = async (req, res) => {
   try {
     const { userId } = res.locals.decodedToken;
-    console.log(userId);
-
     const earnings = await requestModel.aggregate([
       {
         $match: {

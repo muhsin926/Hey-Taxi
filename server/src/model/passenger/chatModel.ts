@@ -8,7 +8,7 @@ const chatSchema = new Schema(
     },
     receiver: {
       type: Types.ObjectId,
-    //   required: true,
+      required: true,
     },
     message: {
       type: String,

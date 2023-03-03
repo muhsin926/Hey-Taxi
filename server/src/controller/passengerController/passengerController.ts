@@ -47,7 +47,7 @@ export const sendRequest: RequestHandler = async (req, res) => {
       scheduleTime,
       categoryId,
     } = req.body;
-  
+
     await new requestModel({
       pickupLocation: pickup,
       destination: dropOff,
@@ -70,11 +70,13 @@ export const sendRequest: RequestHandler = async (req, res) => {
 
 export const updateShowNoti: RequestHandler = async (req, res) => {
   try {
-    const { id } = req.body
-    await requestModel
-      .findOneAndUpdate({_id: id},{
-        $set: {senderViewed: true}
-      })
+    const { id } = req.body;
+    await requestModel.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: { senderViewed: true },
+      }
+    );
     res.status(200);
   } catch (err) {
     console.log(err);
@@ -85,7 +87,11 @@ export const getAcceptedRequest: RequestHandler = async (req, res) => {
   try {
     const { userId } = res.locals.decodedToken;
     const requests = await requestModel
-      .find({ sender: { $eq: userId }, accepted: { $eq: true }, senderViewed: {$eq: false} })
+      .find({
+        sender: { $eq: userId },
+        accepted: { $eq: true },
+        senderViewed: { $eq: false },
+      })
       .sort("-1")
       .populate("receiver");
     res.status(200).json({ requests });
@@ -122,7 +128,8 @@ export const getRideHistory: RequestHandler = async (req, res) => {
         sender: { $eq: userId },
         finished: { $eq: true },
       })
-      .populate("receiver").populate('category')
+      .populate("receiver")
+      .populate("category");
     res.status(200).json({ rides: rides });
   } catch (err) {
     console.log(err);

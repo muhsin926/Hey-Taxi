@@ -9,8 +9,6 @@ export const getDrivers: RequestHandler = async (req, res) => {
 };
 
 export const updateDriver : RequestHandler = async (req,res) => {
-  console.log('adfasd');
-  
   const { id, block } = req.query;
   await driverModel.updateOne({_id:id},{
     block : !block,

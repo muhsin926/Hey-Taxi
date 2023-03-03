@@ -49,7 +49,7 @@ const PendigRequest = () => {
                                             </a>
                                         </td>
                                     </td>
-                                    <td class="px-6 py-6 whitespace-nowrap">{noti?.schedule}</td>
+                                    <td class="px-6 py-6 whitespace-nowrap">{noti?.schedule?.date}</td>
                                     <td class="px-6 py-6 whitespace-nowrap">
                                         {noti?.pickupLocation.split(",")[0]}
                                     </td>
@@ -68,7 +68,7 @@ const PendigRequest = () => {
                     </table>
                 </div>
             ) : (
-                <div className="ml-4 mt-2 text-lg font-simibold text-red-500 text-center    ">Pending requests is empty..</div>
+                <div className="ml-4 mt-2 text-lg font-simibold text-red-500 text-center">Pending requests is empty..</div>
             )}
         </>
     );

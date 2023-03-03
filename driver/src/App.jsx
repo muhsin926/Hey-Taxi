@@ -17,6 +17,7 @@ import DrivingPage from "./pages/DrivingPage";
 import EarnigsPage from "./pages/EarnigsPage";
 import TripManagePage from "./pages/TripManagePage";
 import ProfilePage from "./pages/ProfilePage";
+import InboxPage from "./pages/InboxPage";
 
 const App = () => {
   const { userId } = useSelector((state) => state.auth)
@@ -45,6 +46,7 @@ const App = () => {
               <Route path="/earnings" element={<EarnigsPage />} />
               <Route path="/trip_manage" element={<TripManagePage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/chat" element={<InboxPage />} />
             </Routes>
       </Router>
     </>

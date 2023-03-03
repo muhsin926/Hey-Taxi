@@ -47,7 +47,7 @@ export const getShortInfo: RequestHandler = async (req, res) => {
   const trip = await allTrip();
   const profit = await getProfit();
   if (users && drivers && trip) {
-    res.status(200).json([users, drivers, trip, profit*20/100]);
+    res.status(200).json([users, drivers, trip, (profit * 20) / 100]);
   }
 };
 
@@ -59,30 +59,30 @@ export const getNewUsers: RequestHandler = async (req, res) => {
   }
 };
 
-export const getData: RequestHandler = async(req,res) => {
-    try {
-        const earnings = await requestModel.aggregate([
-          {
-            $match: {
-              finished: true,
+export const getData: RequestHandler = async (req, res) => {
+  try {
+    const earnings = await requestModel.aggregate([
+      {
+        $match: {
+          finished: true,
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$updatedAt",
             },
           },
-          {
-            $group: {
-              _id: {
-                $dateToString: {
-                  format: "%Y-%m-%d",
-                  date: "$updatedAt",
-                },
-              },
-              total_fare: { $sum: "$fare" },
-              count: { $sum: 1 },
-            },
-          },
-        ]);
-        if (earnings) res.status(200).json({ getEarnings: earnings });
-      } catch (err) {
-        console.log(err);
-        res.status(400);
-      }
-}
+          total_fare: { $sum: "$fare" },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    if (earnings) res.status(200).json({ getEarnings: earnings });
+  } catch (err) {
+    console.log(err);
+    res.status(400);
+  }
+};

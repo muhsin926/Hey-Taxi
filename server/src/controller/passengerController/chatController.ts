@@ -1,7 +1,6 @@
 import { RequestHandler } from "express";
-import driverModel, { Driver } from "../../model/driver/driverModel";
+import driverModel from "../../model/driver/driverModel";
 import chatModel from "../../model/passenger/chatModel";
-import requestModel from "../../model/passenger/requestModel";
 
 export const sendMsg: RequestHandler = async (req, res) => {
   const { userId } = res.locals.decodedToken;

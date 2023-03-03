@@ -43,7 +43,7 @@ const TripsBooked = () => {
                         {booked.map((trip) => (
                             <tr class="bg-white border-b" key={trip._id}>
                                 <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
-                                    {trip?.schedule}
+                                    {trip?.schedule?.date}
                                 </th>
                                 <td class="px-6 py-4">
                                     {trip.sender?.name}

@@ -29,13 +29,11 @@ export const register: RequestHandler = async (req, res) => {
         .save()
         .then((user) => {
           const token = generateToken(user);
-          res
-            .status(200)
-            .json({
-              status: true,
-              msg: "User registration successfully",
-              token,
-            });
+          res.status(200).json({
+            status: true,
+            msg: "User registration successfully",
+            token,
+          });
         })
         .catch((error) => res.status(500).json({ error, status: false }));
     }
@@ -57,14 +55,12 @@ export const login: RequestHandler = async (req, res) => {
         .status(500)
         .send({ status: false, msg: "Password does not match" });
     const token = generateToken(exist);
-    return res
-      .status(200)
-      .json({
-        status: true,
-        msg: "Login successful",
-        token,
-        userName: exist.name,
-      });
+    return res.status(200).json({
+      status: true,
+      msg: "Login successful",
+      token,
+      userName: exist.name,
+    });
   } catch (error) {
     res.json(error);
   }
