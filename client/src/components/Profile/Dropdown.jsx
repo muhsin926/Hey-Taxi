@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Dropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentList, setCurrentList] = useState("Profile Setting")
+  const [currentList, setCurrentList] = useState("Profile Setting");
   const dropList = [
-    { id: 1, name: "Profile Setting", href: "/profile", },
-    { id: 1, name: "Scheduled Rides", href: "/scheduled-rides", },
-    { id: 1, name: "Rides History", href: "/ride-history", },
+    { id: 1, name: "Profile Setting", href: "/profile" },
+    { id: 1, name: "Scheduled Rides", href: "/scheduled-rides" },
+    { id: 1, name: "Rides History", href: "/ride-history" },
   ];
 
   const toggleDropdown = () => {
@@ -15,9 +15,9 @@ function Dropdown() {
   };
 
   const handleClick = (list) => {
-    setIsOpen(false)
-    setCurrentList(list)
-  }
+    setIsOpen(false);
+    setCurrentList(list);
+  };
 
   return (
     <>
@@ -47,13 +47,17 @@ function Dropdown() {
       </button>
       <div
         id="dropdown"
-        className={`z-10 ${isOpen ? '' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow mt-3 w-full`}
+        className={`z-10 ${
+          isOpen ? "" : "hidden"
+        } absolute bg-white divide-y divide-gray-100 rounded-lg shadow mt-3 w-full`}
       >
-        <ul className="py-2 text-sm text-black " aria-labelledby="dropdownDefaultButton">
+        <ul
+          className="py-2 text-sm text-black "
+          aria-labelledby="dropdownDefaultButton"
+        >
           {dropList.map((list) => (
             <li key={list.id} onClick={() => handleClick(list.name)}>
               <Link
-                
                 to={list.href}
                 className="block px-4 py-2 hover:bg-gray-100 "
               >
@@ -67,4 +71,4 @@ function Dropdown() {
   );
 }
 
-export default Dropdown
+export default Dropdown;

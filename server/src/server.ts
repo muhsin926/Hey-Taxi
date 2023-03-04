@@ -48,7 +48,7 @@ let passengerSocket: Socket<
 io.on("connection", (socket) => {
   // add user to onlineUsers if not already exist
   socket.on("addUser", (id) => {
-    console.log("passenger");
+    console.log("passenger", id);
     !onlineUsers.get(id) && onlineUsers.set(id, socket.id);
   });
 
@@ -56,6 +56,12 @@ io.on("connection", (socket) => {
     console.log("driver");
 
     !onlineDriver.get(id) && onlineDriver.set(id, socket.id);
+  });
+
+  socket.on("send_msg", (data) => {
+    console.log(data);
+    const sendDriverSocket = onlineDriver.get(data.to);
+    socket.to(sendDriverSocket).emit("receive_msg", data);
   });
 
   // send message to the client

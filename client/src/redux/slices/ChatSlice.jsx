@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  toDriverId: null
+  toDriverId: ''
 };
 
 const chatSlice = createSlice({
@@ -9,7 +9,7 @@ const chatSlice = createSlice({
   initialState,
   reducers: {
     setToDriverId: (state, data) => {
-      state.scheduleDate = data.payload;
+      state.toDriverId = data.payload;
     },
   
   },
