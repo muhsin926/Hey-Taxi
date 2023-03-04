@@ -48,13 +48,13 @@ export default function Navbar() {
     data.status && toast.success("Request accepted")
   }
 
-  const getDriver = async () => {
-    const token = localStorage.getItem('token')
-    const { data } = await axios.get(`${url}/api/driver/available`,{
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    data?.driver?.verify ? navigate('/')  : navigate('/not_verified')
-  }
+  // const getDriver = async () => {
+  //   const token = localStorage.getItem('token')
+  //   const { data } = await axios.get(`${url}/api/driver/available`,{
+  //     headers: { Authorization: `Bearer ${token}` }
+  //   })
+  //   data?.driver?.verify ? navigate('/')  : navigate('/not_verified')
+  // }
 
   useEffect(() => {
     socket && socket.on("send-request", (data) => {
@@ -64,9 +64,9 @@ export default function Navbar() {
     })
   }, [socket])
 
-  useEffect(()=>{
-     getDriver()
-  },[])
+  // useEffect(()=>{
+  //    getDriver()
+  // },[])
 
   const socketCall = () => {
     socket.emit("send-request", {

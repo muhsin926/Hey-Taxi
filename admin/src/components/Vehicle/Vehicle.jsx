@@ -1,11 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import ReactPaginate from "react-paginate";
 import url from "../../api/Api";
 
 const Vehicle = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [vehicles, setVehicles] = useState([]);
+  const [pageNumber, setPageNumber] = useState(0)
 
   const getVehicles = async () => {
     const { data } = await axios.get(`${url}/api/admin/vehicle`);
@@ -22,6 +24,43 @@ const Vehicle = () => {
     setIsLoading(false);
     data.status && toast.success("successfully deleted");
   };
+
+
+  const usersPerPage = 5;
+  const pageVisited = pageNumber * usersPerPage;
+  const pageCount = Math.ceil(vehicles.length / usersPerPage)
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  }
+
+  const displayRows = vehicles?.slice(pageVisited, pageNumber + usersPerPage)
+    .map((vehicle) => {
+      return (
+        <tr className="hover:bg-gray-900">
+          <td className="px-6 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
+            {vehicle.category}
+          </td>
+          <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+            {vehicle.model}
+          </td>
+          <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+            {vehicle.reg_no}
+          </td>
+          <td className="px-6 py-4 text-sm text-center text-gray-200 whitespace-nowrap">
+            {vehicle.driverId?.name}
+          </td>
+          <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+            <a
+              className="text-red-500 hover:text-red-700"
+              href="#"
+              onClick={() => deleteAcc(vehicle._id)}
+            >
+              Delete
+            </a>
+          </td>
+        </tr>
+      )
+    })
 
   return (
     <div>
@@ -101,35 +140,22 @@ const Vehicle = () => {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-black">
-                          {vehicles?.map((vehicle) => (
-                            <tr className="hover:bg-gray-900">
-                              <td className="px-6 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                                {vehicle.category}
-                              </td>
-                              <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                                {vehicle.model}
-                              </td>
-                              <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                                {vehicle.reg_no}
-                              </td>
-                              <td className="px-6 py-4 text-sm text-center text-gray-200 whitespace-nowrap">
-                                {vehicle.driverId?.name}
-                              </td>
-                              <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                                <a
-                                  className="text-red-500 hover:text-red-700"
-                                  href="#"
-                                  onClick={() => deleteAcc(vehicle._id)}
-                                >
-                                  Delete
-                                </a>
-                              </td>
-                            </tr>
-                          ))}
+                          {displayRows}
                         </tbody>
                       </table>
                     </div>
                   </div>
+                  <ReactPaginate
+                    previousLabel={"Previous"}
+                    nextLabel={"Next"}
+                    pageCount={pageCount}
+                    onPageChange={changePage}
+                    containerClassName={"paginationBttns"}
+                    previousLinkClassName={"previousBttn"}
+                    nextLinkClassName={"nextBttn"}
+                    disabledClassName={"paginationDisabled"}
+                    activeClassName={"paginationActive"}
+                  />
                 </>
               )}
             </div>

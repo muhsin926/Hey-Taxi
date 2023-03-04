@@ -5,6 +5,37 @@
 @tailwind components;
 @tailwind utilities;
 
+.paginationBttns {
+  height: 40px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+.paginationBttns a {
+  padding:  5px 10px ;
+  border-radius: 3px;
+  border: 1px solid orange;
+  color: white;
+  cursor: pointer;
+}
+
+.paginationBttns a:hover {
+  color: white;
+  background-color: orange;
+}
+
+.paginationActive a {
+  color: white;
+  background-color: orange;
+}
+
+.paginationDisabled a {
+  display: none;
+}
+
 
 .arc:before {
   -webkit-animation: spin 0.5s infinite linear;

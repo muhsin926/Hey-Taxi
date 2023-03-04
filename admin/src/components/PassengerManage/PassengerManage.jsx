@@ -3,11 +3,67 @@ import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import url from "../../api/Api";
 import ReactPaginate from "react-paginate";
+import { ChevronDoubleRightIcon } from "@heroicons/react/24/outline";
 
 const Passenger = () => {
   const [passengers, setPassengers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [pageNumber, setPageNumber] = useState(0)
   const [search, setSearch] = useState('')
+
+  const usersPerPage = 5;
+  const pageVisited = pageNumber * usersPerPage;
+  const pageCount = Math.ceil(passengers.length / usersPerPage)
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  }
+
+  const displayRows = passengers?.slice(pageVisited, pageNumber + usersPerPage)
+    .map((passenger) => {
+      return (
+        <tr className="hover:bg-gray-900">
+          <td className="px-6 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
+            {passenger.name}
+          </td>
+          <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+            {passenger.mobile}
+          </td>
+          <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+            {passenger.email}
+          </td>
+          <td
+            className={`px-6 py-4 text-sm  whitespace-nowrap`}
+          >
+            <h1
+              className={`${passenger.block
+                ? "text-red-500"
+                : "text-green-500"
+                }`}
+            >
+              {passenger.block ? "Inactive" : "Active"}
+            </h1>
+          </td>
+          <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+            <h1
+              onClick={() =>
+                updateUser(passenger._id, passenger.block)
+              }
+            >
+              {passenger.block ? "Unblock" : "Block"}
+            </h1>
+          </td>
+          <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+            <a
+              className="text-red-500 hover:text-red-700"
+              href="#"
+              onClick={() => deleteAcc(passenger._id)}
+            >
+              Delete
+            </a>
+          </td>
+        </tr>
+      )
+    })
 
   const getPassengers = async () => {
     const { data } = await axios.get(`${url}/api/admin/passenger`);
@@ -15,22 +71,22 @@ const Passenger = () => {
   };
 
   useEffect(() => {
-    if(search == ''){
-      }
+    if (search == '') {
+    }
     getPassengers();
   }, [isLoading]);
 
-const searching = ()=> {
-  const data = passengers.filter((info) => info.name.includes(search))
-  setPassengers(data)
-}
-
-useEffect(()=> {
-  searching()
-  if(search == ''){
-    getPassengers()
+  const searching = () => {
+    const data = passengers.filter((info) => info.name.includes(search))
+    setPassengers(data)
   }
-},[search])
+
+  useEffect(() => {
+    searching()
+    if (search == '') {
+      getPassengers()
+    }
+  }, [search])
 
   const updateUser = async (id, block) => {
     setIsLoading(true);
@@ -131,54 +187,22 @@ useEffect(()=> {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-black">
-                      {passengers.map((passenger) => (
-                        <tr className="hover:bg-gray-900">
-                          <td className="px-6 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                            {passenger.name}
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                            {passenger.mobile}
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                            {passenger.email}
-                          </td>
-                          <td
-                            className={`px-6 py-4 text-sm  whitespace-nowrap`}
-                          >
-                            <h1
-                              className={`${
-                                passenger.block
-                                  ? "text-red-500"
-                                  : "text-green-500"
-                              }`}
-                            >
-                              {passenger.block ? "Inactive" : "Active"}
-                            </h1>
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                            <h1
-                              onClick={() =>
-                                updateUser(passenger._id, passenger.block)
-                              }
-                            >
-                              {passenger.block ? "Unblock" : "Block"}
-                            </h1>
-                          </td>
-                          <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                            <a
-                              className="text-red-500 hover:text-red-700"
-                              href="#"
-                              onClick={() => deleteAcc(passenger._id)}
-                            >
-                              Delete
-                            </a>
-                          </td>
-                        </tr>
-                      ))}
+                     {displayRows}
                     </tbody>
                   </table>
                 </div>
               </div>
+              <ReactPaginate
+                previousLabel={"Previous"}
+                nextLabel={"Next"}
+                pageCount={pageCount}
+                onPageChange={changePage}
+                containerClassName={"paginationBttns"}
+                previousLinkClassName={"previousBttn"}
+                nextLinkClassName={"nextBttn"}
+                disabledClassName={"paginationDisabled"}
+                activeClassName={"paginationActive"}
+              />
             </>
           ) : (
             <div className="text-red-500 text-center">There is no data</div>

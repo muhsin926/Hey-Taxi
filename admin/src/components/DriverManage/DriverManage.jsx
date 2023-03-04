@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import url from "../../api/Api";
 import { setShowModal } from "../../redux/Slices/ModalSlice";
 import Modal from "./Modal";
+import ReactPaginate from "react-paginate";
 
 const DriverManage = () => {
   const dispatch = useDispatch();
   const { showModal } = useSelector((state) => state.modal);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [pageNumber, setPageNumber] = useState(0)
   const [drivers, setDrivers] = useState([]);
   const [driver, setDriver] = useState({});
 
@@ -22,6 +23,13 @@ const DriverManage = () => {
   useEffect(() => {
     getDrivers();
   }, []);
+
+  const usersPerPage = 5;
+  const pageVisited = pageNumber * usersPerPage;
+  const pageCount = Math.ceil(drivers.length / usersPerPage)
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  }
 
   const onClickHandler = (driver) => {
     dispatch(setShowModal());
@@ -41,6 +49,53 @@ const DriverManage = () => {
     data.status && toast.success("successfully deleted");
     setIsLoading(false);
   };
+
+  const displayRows = drivers?.slice(pageVisited, pageNumber + usersPerPage)
+    .map((driver) => {
+      return (
+        <tr
+          className="hover:bg-gray-900"
+        // onClick={() => onClickHandler(driver)}
+        >
+          <td className="px-6 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
+            {driver.name}
+          </td>
+          <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+            {driver.mobile}
+          </td>
+          <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+            {driver.email}
+          </td>
+          <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+            {driver.available ? "Available" : "Unavailable"}
+          </td>
+          <td className={`px-6 py-4 text-sm  whitespace-nowrap`}>
+            <h1
+              className={`${driver.block ? "text-red-500" : "text-green-500"
+                }`}
+            >
+              {driver?.block ? "Inactive" : "Active"}
+            </h1>
+          </td>
+          <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
+            <h1
+              onClick={() => updateUser(driver._id, driver.block)}
+            >
+              {driver?.block ? "Unblock" : "Block"}
+            </h1>
+          </td>
+          <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+            <a
+              className="text-red-500 hover:text-red-700"
+              href="#"
+              onClick={() => deleteAcc(driver._id)}
+            >
+              Delete
+            </a>
+          </td>
+        </tr>
+      )
+    })
 
   return (
     <section>
@@ -156,54 +211,22 @@ const DriverManage = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-black">
-                    {drivers.map((driver) => (
-                      <tr
-                        className="hover:bg-gray-900"
-                        // onClick={() => onClickHandler(driver)}
-                      >
-                        <td className="px-6 py-4 text-sm font-medium text-gray-200 whitespace-nowrap">
-                          {driver.name}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                          {driver.mobile}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                          {driver.email}
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                          {driver.available ? "Available" : "Unavailable"}
-                        </td>
-                        <td className={`px-6 py-4 text-sm  whitespace-nowrap`}>
-                          <h1
-                            className={`${
-                              driver.block ? "text-red-500" : "text-green-500"
-                            }`}
-                          >
-                            {driver?.block ? "Inactive" : "Active"}
-                          </h1>
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-200 whitespace-nowrap">
-                          <h1
-                            onClick={() => updateUser(driver._id, driver.block)}
-                          >
-                            {driver?.block ? "Unblock" : "Block"}
-                          </h1>
-                        </td>
-                        <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                          <a
-                            className="text-red-500 hover:text-red-700"
-                            href="#"
-                            onClick={() => deleteAcc(driver._id)}
-                          >
-                            Delete
-                          </a>
-                        </td>
-                      </tr>
-                    ))}
+                    {displayRows}
                   </tbody>
                 </table>
               </div>
             </div>
+            <ReactPaginate
+              previousLabel={"Previous"}
+              nextLabel={"Next"}
+              pageCount={pageCount}
+              onPageChange={changePage}
+              containerClassName={"paginationBttns"}
+              previousLinkClassName={"previousBttn"}
+              nextLinkClassName={"nextBttn"}
+              disabledClassName={"paginationDisabled"}
+              activeClassName={"paginationActive"}
+            />
           </div>
         ) : (
           <div className="text-red-500 text-center">There is no data</div>
